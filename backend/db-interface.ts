@@ -200,7 +200,7 @@ export default class DBInterface {
     }
 
     public async getRepositoryByContactPersonId(_id: number): Promise<Array<Repository>> {
-        const _query: string = "SELECT * FROM repository";
+        const _query: string = "SELECT * FROM repository WHERE contact_person_id = $1";
         const _values: Array<number> = [_id];
 
         const res: QueryResult = await this.client.query(_query, _values);
