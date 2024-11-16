@@ -23,7 +23,7 @@
     },
     "/api/person/": {
       "get": {
-        "description": "",
+        "description": "Get all people in the database",
         "responses": {
           "200": {
             "description": "OK"
@@ -103,6 +103,24 @@
         }
       }
     },
+    "/api/person/phone-number/{phoneNumber}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "phoneNumber",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/person/{id}": {
       "get": {
         "description": "",
@@ -124,6 +142,60 @@
     "/api/location/": {
       "get": {
         "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/location/location-city/{city}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/location/location-region/{region}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/location/location-country/{country}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

@@ -12,7 +12,10 @@ router.use(cors());
 //Initialize db interface
 const _db = new DBInterface();
 
-router.get("/", (req, res) => getAllPeople(req, res));
+router.get("/", async (req, res) => {
+    await getAllPeople(req, res)
+// #swagger.description = 'Get all people in the database'
+});
 router.get("/first-name/:firstName", (req, res) => getPeopleByFirstName(req, res));
 router.get("/last-name/:lastName", (req, res) => getPeopleByLastName(req, res));
 router.get("/email/:email", (req, res) => getPeopleByEmail(req, res));
