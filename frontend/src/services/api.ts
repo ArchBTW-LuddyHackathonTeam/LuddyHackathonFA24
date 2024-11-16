@@ -41,6 +41,14 @@ mock.onGet('/search').reply(200, [
     location: 'Lucerne, CH',
     title: 'Security API Developer',
   },
+  {
+    firstName: 'Alice',
+    lastName: 'Smith',
+    email: 'alicesmith@example.com',
+    chatUserName: 'alice',
+    location: 'New York, NY',
+    title: 'Product Manager',
+  },
 ]);
 
 // Export the API functions using Axios

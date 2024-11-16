@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../providers/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-import './Home.css'; // Import the CSS file
+import './Home.css';
 
 const Home: React.FC = () => {
   const { setSessionToken } = useAuth();
