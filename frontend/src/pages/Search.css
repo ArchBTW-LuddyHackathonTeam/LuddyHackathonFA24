@@ -74,7 +74,7 @@ body {
 }
 
 .search-input-container input:focus {
-  border-color: #3498db;
+  border-color: rgba(255, 165, 0, 1);
 }
 
 .search-input-container button {
@@ -165,4 +165,9 @@ body {
 
 .projects li {
   margin-bottom: 0.5rem;
+}
+
+.search-input-container {
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.6);
+  border-radius: 8px;
 }
