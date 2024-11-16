@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { search, User } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import './Search.css';
+import Person from '@backend/db-interface';
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState('');
