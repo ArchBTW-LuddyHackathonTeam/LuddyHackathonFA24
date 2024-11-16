@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
-import { search, User } from '../services/api';
+import { search } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import './Search.css';
-import Person from '@backend/db-interface';
+import { PersonSearchResult } from '@backend/db-types';
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<User[]>([]);
+  const [results, setResults] = useState<PersonSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false); // New state variable
+  const [hasSearched, setHasSearched] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = async () => {
     if (!query.trim()) return;
     setIsLoading(true);
     try {
-      const users = await search({ productName: query, repositoryName: query });
-      setResults(users);
+      const searchResults = await search({ productName: query, repositoryName: query });
+      setResults(searchResults);
     } catch (error) {
       console.error('Search failed:', error);
       setResults([]);
     }
     setIsLoading(false);
-    setHasSearched(true); // Set hasSearched to true after search
+    setHasSearched(true);
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -56,7 +56,7 @@ const Search: React.FC = () => {
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
-              setHasSearched(false); // Reset hasSearched when query changes
+              setHasSearched(false);
             }}
             onKeyDown={handleKeyPress}
             placeholder="Enter product or repository name..."
@@ -69,24 +69,36 @@ const Search: React.FC = () => {
 
       <div className="results">
         {results.length > 0 ? (
-          results.map((user, index) => (
+          results.map((result, index) => (
             <div className="result-card" key={index}>
               <h2>
-                {user.firstName} {user.lastName}
+                {result.person.firstName} {result.person.lastName}
               </h2>
               <p>
-                <strong>Title:</strong> {user.title}
+                <strong>Title:</strong> {result.person.title}
               </p>
               <p>
-                <strong>Location:</strong> {user.location}
+                <strong>Location:</strong> {result.location.city}, {result.location.region}
               </p>
               <p>
                 <strong>Email:</strong>{' '}
-                <a href={`mailto:${user.email}`}>{user.email}</a>
+                <a href={`mailto:${result.person.email}`}>{result.person.email}</a>
               </p>
               <p>
-                <strong>Username:</strong> {user.chatUserName}
+                <strong>Username:</strong> {result.person.username}
               </p>
+              {result.projects && result.projects.length > 0 && (
+                <div className="projects">
+                  <strong>Projects:</strong>
+                  <ul>
+                    {result.projects.map((project) => (
+                      <li key={project.id}>
+                        {project.name} - {project.description}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           ))
         ) : (
