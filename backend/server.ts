@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 
 // Test route
-app.get('/api/test', (req, res) => {
+app.get('/api/test', (_req, res) => {
   res.json({ message: 'Hello from the backend!' });
 });
 
