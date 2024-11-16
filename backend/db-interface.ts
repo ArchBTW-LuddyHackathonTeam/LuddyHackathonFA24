@@ -207,4 +207,24 @@ export default class DBInterface {
 
         return res.rows as Array<Repository>;
     }
+
+    //User Functions
+
+    public async getUserByUsernameAndPasswordHash(_username: string, _passwordHash: string){
+        const _query: string = "SELECT * FROM person WHERE person_username = $1 AND person_password_hash = $2";
+        const _values: Array<string> = [_username, _passwordHash];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Person>;
+    }
+
+    public async getUserByEmailAndPasswordHash(_email: string, _passwordHash: string){
+        const _query: string = "SELECT * FROM person WHERE person_email = $1 AND person_password_hash = $2";
+        const _values: Array<String> = [_email, _passwordHash];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Person>;
+    }
 }
