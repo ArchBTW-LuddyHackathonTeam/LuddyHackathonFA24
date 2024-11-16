@@ -17,6 +17,7 @@ router.get("/first-name/:firstName", (req, res) => getPeopleByFirstName(req, res
 router.get("/last-name/:lastName", (req, res) => getPeopleByLastName(req, res));
 router.get("/email/:email", (req, res) => getPeopleByEmail(req, res));
 router.get("/username/:username", (req, res) => getPeopleByUsername(req, res));
+router.get("/phone-number/:phoneNumber", (req, res) => getPeopleByPhoneNumber(req, res));
 router.get("/:id", (req, res) => getPeopleById(req, res));
 
 async function getAllPeople(_req: Request, res: Response) {
@@ -88,6 +89,21 @@ async function getPeopleByUsername(_req: Request, res: Response){
     }
 
     res.send(_rows[0]);
+}
+
+async function getPeopleByPhoneNumber(_req: Request, res: Response){
+    const _phoneNumber: string = _req.params.phoneNumber as any as string;
+
+    console.log("Decoded Phone Number:", _phoneNumber);
+
+    const _rows: Array<Person> = await _db.getPeopleByPhoneNumber(_phoneNumber);
+
+    if(_rows.length == 0){
+        res.status(404).send(`No such person with phone number: ${_phoneNumber}`)
+        return;
+    }
+
+    res.send(_rows);
 }
 
 export default router;
