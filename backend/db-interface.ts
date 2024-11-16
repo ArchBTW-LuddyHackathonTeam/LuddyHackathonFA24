@@ -86,7 +86,7 @@ export default class DBInterface {
 
     public async getPeopleByPhoneNumber(_phoneNumber: string): Promise<Array<Person>> {
         const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
-            "person_phone_number, location_id, person_title FROM person WHERE person_username = $1;";
+            "person_phone_number, location_id, person_title FROM person WHERE person_phone_number = $1;";
         const _values: Array<string> = [_phoneNumber];
 
         const res: QueryResult = await this.client.query(_query, _values);
