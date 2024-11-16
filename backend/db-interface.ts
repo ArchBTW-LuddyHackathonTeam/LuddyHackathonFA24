@@ -34,7 +34,7 @@ export default class DBInterface {
         return (res.rows as Array<Person>);
     }
 
-    public async getPeopleByID(_id: number): Promise<Array<Person>> {
+    public async getPeopleById(_id: number): Promise<Array<Person>> {
         const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
             " location_id, person_title FROM person WHERE person_id = $1;";
         const _values: Array<number> = [_id];
