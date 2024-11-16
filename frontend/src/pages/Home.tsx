@@ -51,7 +51,7 @@ const Home: React.FC = () => {
         </section>
       </main>
       <footer className="home-footer">
-        <p>&copy; {new Date().getFullYear()} SC 1701-D. All rights reserved.</p>
+        <p style={{color: 'white'}}>&copy; {new Date().getFullYear()} SC 1701-D. All rights reserved.</p>
       </footer>
     </div>
   );
