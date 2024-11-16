@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api'; // Adjust as needed
+const API_URL = 'http://localhost:5000/api';
 
 export const getPointOfContact = async (query: string) => {
   try {
