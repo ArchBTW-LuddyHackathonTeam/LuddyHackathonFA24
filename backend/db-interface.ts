@@ -29,14 +29,14 @@ export default class DBInterface {
 
     public async getAllPeople(): Promise<Array<Person>> {
         const res: QueryResult = await this.client.query("SELECT person_id, person_first_name, person_last_name," +
-            " person_email, person_username, location_id, person_title FROM person;")
+            " person_email, person_username, person_phone_number, location_id, person_title FROM person;")
 
         return res.rows as Array<Person>;
     }
 
     public async getPeopleById(_id: number): Promise<Array<Person>> {
         const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
-            " location_id, person_title FROM person WHERE person_id = $1;";
+            "person_phone_number, location_id, person_title FROM person WHERE person_id = $1;";
         const _values: Array<number> = [_id];
 
         const res: QueryResult = await this.client.query(_query, _values);
@@ -46,7 +46,7 @@ export default class DBInterface {
 
     public async getPeopleByFirstName(_firstName: string): Promise<Array<Person>> {
         const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
-            " location_id, person_title FROM person WHERE person_first_name = $1;";
+            "person_phone_number, location_id, person_title FROM person WHERE person_first_name = $1;";
         const _values: Array<string> = [_firstName];
 
         const res: QueryResult = await this.client.query(_query, _values);
@@ -56,7 +56,7 @@ export default class DBInterface {
 
     public async getPeopleByLastName(_lastName: string): Promise<Array<Person>> {
         const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
-            " location_id, person_title FROM person WHERE person_last_name = $1;";
+            "person_phone_number, location_id, person_title FROM person WHERE person_last_name = $1;";
         const _values: Array<string> = [_lastName];
 
         const res: QueryResult = await this.client.query(_query, _values);
@@ -66,7 +66,7 @@ export default class DBInterface {
 
     public async getPeopleByEmail(_email: string): Promise<Array<Person>> {
         const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
-            " location_id, person_title FROM person WHERE person_email = $1;";
+            "person_phone_number, location_id, person_title FROM person WHERE person_email = $1;";
         const _values: Array<string> = [_email];
 
         const res: QueryResult = await this.client.query(_query, _values);
@@ -76,8 +76,18 @@ export default class DBInterface {
 
     public async getPeopleByUsername(_username: string): Promise<Array<Person>> {
         const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
-            " location_id, person_title FROM person WHERE person_username = $1;";
+            "person_phone_number, location_id, person_title FROM person WHERE person_username = $1;";
         const _values: Array<string> = [_username];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Person>;
+    }
+
+    public async getPeopleByPhoneNumber(_phoneNumber: string): Promise<Array<Person>> {
+        const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
+            "person_phone_number, location_id, person_title FROM person WHERE person_username = $1;";
+        const _values: Array<string> = [_phoneNumber];
 
         const res: QueryResult = await this.client.query(_query, _values);
 
