@@ -44,6 +44,16 @@ export default class DBInterface {
         return (res.rows as Array<Person>);
     }
 
+    public async getPeopleByFirstName(_firstName: string): Promise<Array<Person>> {
+        const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
+            " location_id, person_title FROM person WHERE person_first_name = $1;";
+        const _values: Array<string> = [_firstName];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return (res.rows as Array<Person>);
+    }
+
     // Location Functions
 
     public async getAllLocations(): Promise<Array<Location>> {
