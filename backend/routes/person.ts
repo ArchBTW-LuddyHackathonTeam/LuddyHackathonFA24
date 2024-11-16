@@ -30,7 +30,7 @@ async function getPeopleById(_req: Request, res: Response){
     const _rows: Array<Person> = await _db.getPeopleById(_id);
 
     if(_rows.length == 0){
-        res.status(404).send(`No such person with id ${_id}}`)
+        res.status(404).send(`No such person with id ${_id}`)
         return;
     }
 
