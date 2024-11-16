@@ -54,6 +54,36 @@ export default class DBInterface {
         return res.rows as Array<Person>;
     }
 
+    public async getPeopleByLastName(_lastName: string): Promise<Array<Person>> {
+        const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
+            " location_id, person_title FROM person WHERE person_last_name = $1;";
+        const _values: Array<string> = [_lastName];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Person>;
+    }
+
+    public async getPeopleByEmail(_email: string): Promise<Array<Person>> {
+        const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
+            " location_id, person_title FROM person WHERE person_email = $1;";
+        const _values: Array<string> = [_email];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Person>;
+    }
+
+    public async getPeopleByUsername(_username: string): Promise<Array<Person>> {
+        const _query: string = "SELECT person_id, person_first_name, person_last_name, person_email, person_username," +
+            " location_id, person_title FROM person WHERE person_username = $1;";
+        const _values: Array<string> = [_username];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Person>;
+    }
+
     // Location Functions
 
     public async getAllLocations(): Promise<Array<Location>> {
@@ -62,13 +92,40 @@ export default class DBInterface {
         return res.rows as Array<Location>;
     }
 
+    public async getLocationByCity(_city: string): Promise<Array<Location>> {
+        const _query: string = "SELECT * FROM location WHERE location_city = $1";
+        const _values: Array<string> = [_city];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Location>
+    }
+
     public async getLocationById(_id: number): Promise<Array<Location>> {
         const _query: string = "SELECT * FROM location WHERE location_id = $1";
         const _values: Array<number> = [_id];
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return res.rows as Array<Location>;
+    }
+
+    public async getLocationByRegion(_region: string): Promise<Array<Location>> {
+        const _query: string = "SELECT * FROM location WHERE location_region = $1";
+        const _values: Array<string> = [_region];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Location>
+    }
+
+    public async getLocationByCountry(_country: string): Promise<Array<Location>> {
+        const _query: string = "SELECT * FROM location WHERE location_country = $1";
+        const _values: Array<string> = [_country];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Location>
     }
 
     //Product Functions
@@ -88,6 +145,24 @@ export default class DBInterface {
         return res.rows as Array<Product>;
     }
 
+    public async getProductByName(_name: string): Promise<Array<Product>> {
+        const _query: string = "SELECT * FROM product WHERE product_id = $1";
+        const _values: Array<string> = [_name];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Product>;
+    }
+
+    public async getProductByContactPersonId(_id: number): Promise<Array<Product>> {
+        const _query: string = "SELECT * FROM product WHERE contact_person_id = $1";
+        const _values: Array<number> = [_id];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Product>;
+    }
+
     //Repository Functions
 
     public async getAllRepositories(): Promise<Array<Repository>> {
@@ -98,6 +173,24 @@ export default class DBInterface {
 
     public async getRepositoryById(_id: number): Promise<Array<Repository>> {
         const _query: string = "SELECT * FROM repository where repository_id = $1";
+        const _values: Array<number> = [_id];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Repository>;
+    }
+
+    public async getRepositoryByName(_name: string): Promise<Array<Repository>> {
+        const _query: string = "SELECT * FROM repository WHERE repository_name = $1";
+        const _values: Array<string> = [_name];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows as Array<Repository>;
+    }
+
+    public async getRepositoryByContactPersonId(_id: number): Promise<Array<Repository>> {
+        const _query: string = "SELECT * FROM repository";
         const _values: Array<number> = [_id];
 
         const res: QueryResult = await this.client.query(_query, _values);
