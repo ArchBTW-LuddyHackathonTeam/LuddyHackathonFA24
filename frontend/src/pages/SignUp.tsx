@@ -17,6 +17,9 @@ const SignUp: React.FC = () => {
   const [error, setError] = useState('');
   const [username, setUsername] = useState('');
 
+  // Add isLoading state
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     // Redirect to home if user is already authenticated
     if (sessionToken) {
@@ -26,6 +29,7 @@ const SignUp: React.FC = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
     try {
       const response = await signUp(formData);
       if (response.sessionToken) {
@@ -37,6 +41,8 @@ const SignUp: React.FC = () => {
     } catch (error) {
       console.error('Sign up failed:', error);
       setError('Sign up failed. Please try again.'); // Display error message
+    } finally {
+      setIsLoading(false); // End loading
     }
   };
 
@@ -70,7 +76,10 @@ const SignUp: React.FC = () => {
           <input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setFormData({ ...formData, username: e.target.value });
+            }}
             placeholder="Username"
             required
             maxLength={32}
@@ -84,7 +93,12 @@ const SignUp: React.FC = () => {
           placeholder="Password"
           required
         />
-        <button type="submit">Sign Up</button>
+        {isLoading ? (
+          // Display the spinner when loading
+          <div className="spinner"></div>
+        ) : (
+          <button type="submit">Sign Up</button>
+        )}
         <p>
           Already have an account? <Link to="/login">Sign In</Link>
         </p>

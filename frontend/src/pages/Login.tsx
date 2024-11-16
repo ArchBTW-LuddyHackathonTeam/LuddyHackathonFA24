@@ -9,6 +9,10 @@ const Login: React.FC = () => {
   const { sessionToken, setSessionToken } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Add isLoading state
+  const [isLoading, setIsLoading] = useState(false);
+
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -19,6 +23,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
     try {
       const response = await signIn(email, password);
       if (response.sessionToken) {
@@ -30,6 +35,8 @@ const Login: React.FC = () => {
     } catch (error) {
       console.error('Login failed:', error);
       setError('Invalid email or password');
+    } finally {
+      setIsLoading(false); // End loading
     }
   };
 
@@ -52,7 +59,12 @@ const Login: React.FC = () => {
           placeholder="Password"
           required
         />
-        <button type="submit">Sign In</button>
+        {isLoading ? (
+          // Display the spinner when loading
+          <div className="spinner"></div>
+        ) : (
+          <button type="submit">Sign In</button>
+        )}
         <p>
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>
