@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import * as personRouter from "./routes/person";
+import personRouter from "./routes/person";
 
 const app = express();
 
@@ -13,8 +13,7 @@ app.get('/api/test', (_req, res) => {
 });
 
 // Person endpoints
-app.use()
-app.use('/api/person', personRouter.default);
+app.use('/api/person', personRouter);
 
 // Start the server
 const port = 3000; // You can choose any available port
