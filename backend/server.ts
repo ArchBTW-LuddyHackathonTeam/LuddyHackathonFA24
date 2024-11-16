@@ -1,10 +1,18 @@
 import express from "express";
 import cors from "cors";
+import DBInterface from "./db-interface"
 
 const app = express();
 
 // Enable CORS for all routes
 app.use(cors());
+
+//Initializing Database
+const _db: DBInterface = new DBInterface();
+
+if(_db){
+  console.log("Database initialized correctly");
+}
 
 // Test route
 app.get('/api/test', (_req, res) => {

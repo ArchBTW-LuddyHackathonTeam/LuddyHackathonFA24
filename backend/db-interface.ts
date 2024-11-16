@@ -1,7 +1,7 @@
 import pg from 'pg';
 import config from './resources/pg-config.json'
 
-class DBInterface {
+export default class DBInterface {
     private client: pg.Client;
 
     constructor(){
@@ -21,5 +21,3 @@ class DBInterface {
         });
     }
 }
-
-module.exports = DBInterface;
