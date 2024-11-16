@@ -32,3 +32,9 @@ export interface Repository {
     description ?: string;
     contactPersonId: number;
 }
+
+export interface PersonSearchResult {
+    person: Person;
+    location: Location;
+    projects: (Product | Repository)[];
+}
