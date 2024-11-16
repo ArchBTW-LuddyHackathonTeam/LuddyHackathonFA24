@@ -4,6 +4,7 @@ export interface Person {
     lastName: string;
     email: string;
     username: string;
+    phoneNumber ?: string;
     locationId ?: number;
     title ?: string;
 }

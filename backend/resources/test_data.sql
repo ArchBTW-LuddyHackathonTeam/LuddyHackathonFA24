@@ -8,13 +8,13 @@ VALUES
     ('567 Birch Ln', NULL, 'Vancouver', 'British Columbia', 'V6E 1B6', 'Canada');
 
 -- Insert persons
-INSERT INTO person (person_first_name, person_last_name, person_email, person_username, location_id, person_title, person_password_hash)
+INSERT INTO person (person_first_name, person_last_name, person_email, person_username, location_id, person_title, person_phone_number, person_password_hash)
 VALUES
-    ('John', 'Doe', 'john.doe@example.com', 'johndoe', 1, 'Software Engineer', 'passwordhash1234'),
-    ('Jane', 'Smith', 'jane.smith@example.com', 'janesmith', 2, 'Product Manager', 'passwordhash5678'),
-    ('Alice', 'Johnson', 'alice.j@example.com', 'alicej', 3, 'UI/UX Designer', 'passwordhash91011'),
-    ('Bob', 'Brown', 'bob.b@example.com', 'bobbrown', 4, 'DevOps Engineer', 'passwordhash121314'),
-    ('Charlie', 'Davis', 'charlie.d@example.com', 'charlied', 5, 'Project Manager', 'passwordhash151617');
+    ('John', 'Doe', 'john.doe@example.com', 'johndoe', 1, 'Software Engineer', '+1 (123) 456-7890', 'passwordhash1234'),
+    ('Jane', 'Smith', 'jane.smith@example.com', 'janesmith', 2, 'Product Manager', '+1 (213) 456-7890', 'passwordhash5678'),
+    ('Alice', 'Johnson', 'alice.j@example.com', 'alicej', 3, 'UI/UX Designer', '+1 (647) 123-4567', 'passwordhash91011'),
+    ('Bob', 'Brown', 'bob.b@example.com', 'bobbrown', 4, 'DevOps Engineer', NULL, 'passwordhash121314'),
+    ('Charlie', 'Davis', 'charlie.d@example.com', 'charlied', 5, 'Project Manager', '+1 (604) 987-6543', 'passwordhash151617');
 
 -- Insert products
 INSERT INTO product (product_name, product_description, contact_person_id)
