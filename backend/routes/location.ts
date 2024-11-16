@@ -13,9 +13,9 @@ router.use(cors());
 const _db = new DBInterface();
 
 router.get("/", (req, res) => getAllLocations(req, res));
-router.get("/location-city/:city", (req, res) => getLocationByCity(req, res));
-router.get("/location-region/:region", (req, res) => getLocationByRegion(req, res));
-router.get("/location-country/:country", (req, res) => getLocationByCountry(req, res));
+router.get("/city/:city", (req, res) => getLocationByCity(req, res));
+router.get("/region/:region", (req, res) => getLocationByRegion(req, res));
+router.get("/country/:country", (req, res) => getLocationByCountry(req, res));
 router.get("/:id", (req, res) => getLocationById(req, res));
 
 async function getAllLocations(_req: Request, res: Response){

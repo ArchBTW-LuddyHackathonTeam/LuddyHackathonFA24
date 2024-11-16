@@ -156,7 +156,7 @@ export default class DBInterface {
     }
 
     public async getProductByName(_name: string): Promise<Array<Product>> {
-        const _query: string = "SELECT * FROM product WHERE product_id = $1";
+        const _query: string = "SELECT * FROM product WHERE product_name = $1";
         const _values: Array<string> = [_name];
 
         const res: QueryResult = await this.client.query(_query, _values);
