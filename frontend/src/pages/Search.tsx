@@ -1,61 +1,49 @@
 import React, { useState } from 'react';
-import { useApi } from '../services/api';
-
-interface SearchResult {
-  firstName: string;
-  lastName: string;
-  email: string;
-  chatUserName: string;
-  location: string;
-  titleOrRole: string;
-}
+import { search, User } from '../services/api';
 
 const Search: React.FC = () => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchResult | null>(null);
-  const api = useApi();
+  const [productName, setProductName] = useState('');
+  const [repositoryName, setRepositoryName] = useState('');
+  const [results, setResults] = useState<User[]>([]);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSearch = async () => {
     try {
-      const response = await api.get('/search', {
-        params: { query },
-      });
-
-      setResults(response.data);
+      const users = await search({ productName, repositoryName });
+      setResults(users);
     } catch (error) {
-      // Handle error (e.g., display error message)
-      console.error(error);
+      console.error('Search failed:', error);
     }
   };
 
   return (
     <div>
-      <h1>Search for Point of Contact</h1>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Product name or repository name"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          required
-        />
-        <button type="submit">Search</button>
-      </form>
+      {/* Search fields for productName and repositoryName */}
+      <input
+        type="text"
+        value={productName}
+        onChange={(e) => setProductName(e.target.value)}
+        placeholder="Product Name"
+      />
+      <input
+        type="text"
+        value={repositoryName}
+        onChange={(e) => setRepositoryName(e.target.value)}
+        placeholder="Repository Name"
+      />
+      <button onClick={handleSearch}>Search</button>
 
-      {results && (
-        <div>
-          <h2>Result:</h2>
-          <p>
-            Name: {results.firstName} {results.lastName}
-          </p>
-          <p>Email: {results.email}</p>
-          <p>Chat Username: {results.chatUserName}</p>
-          <p>Location: {results.location}</p>
-          <p>Title/Role: {results.titleOrRole}</p>
-        </div>
-      )}
+      {/* Display search results */}
+      <ul>
+        {results.map((user, index) => (
+          <li key={index}>
+            {user.firstName} {user.lastName} - {user.title} ({user.location})
+            <br />
+            Email: {user.email}
+            <br />
+            Chat: {user.chatUserName}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

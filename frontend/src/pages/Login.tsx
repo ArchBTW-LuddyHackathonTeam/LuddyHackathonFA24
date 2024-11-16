@@ -1,64 +1,62 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { signIn } from '../services/api';
 import { useAuth } from '../providers/AuthProvider';
-import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import './Login.css'; // Import the CSS file
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const { sessionToken, setSessionToken } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setSessionToken } = useAuth();
-  const navigate = useNavigate();
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (sessionToken) {
+      navigate('/');
+    }
+  }, [sessionToken, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post('localhost:login', {
-        email,
-        password,
-      });
-
-      // Assuming the response contains a session token
-      setSessionToken(response.data.sessionToken);
-      navigate('/');
+      const response = await signIn(email, password);
+      if (response.sessionToken) {
+        setSessionToken(response.sessionToken);
+        navigate('/');
+      } else {
+        setError('Invalid email or password');
+      }
     } catch (error) {
-      // Handle error (e.g., display error message)
-      console.error(error);
+      console.error('Login failed:', error);
+      setError('Invalid email or password');
     }
   };
 
-  // Add this function for handling dev login
-  const handleDevLogin = () => {
-    // Set a dev session token
-    const devToken = 'DEV_SESSION_TOKEN';
-    setSessionToken(devToken);
-    navigate('/');
-  };
-
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        {/* Existing login form */}
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleLogin}>
+        <h1>Sign In</h1>
+        {error && <p className="error">{error}</p>}
         <input
           type="email"
-          placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
           required
         />
         <input
           type="password"
-          placeholder="Password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit">Sign In</button>
+        <p>
+          Don't have an account? <Link to="/signup">Sign Up</Link>
+        </p>
       </form>
-
-      {/* Add a dev login button */}
-      <button onClick={handleDevLogin}>Dev Login</button>
     </div>
   );
 };

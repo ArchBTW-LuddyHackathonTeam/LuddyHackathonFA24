@@ -1,68 +1,90 @@
+/* Root styles for consistent typography and color scheme */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+  color: #333;
+  background-color: #f0f2f5;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global box-sizing rule */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Body styles for layout and spacing */
+body {
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
+  padding: 20px;
+  background-color: #f0f2f5;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Headings for consistent typography */
+h1, h2, h3, h4, h5, h6 {
+  color: #333;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
 }
 
+/* Paragraphs for readability */
+p {
+  margin: 0 0 1rem 0;
+  color: #555;
+}
+
+/* Anchor links for navigation */
+a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #0056b3;
+}
+
+/* Button styles for consistency */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
+  border-radius: 4px;
+  border: none;
   padding: 0.6em 1.2em;
-  font-size: 1em;
+  font-size: 1rem;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #007bff;
+  color: #fff;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.3s;
 }
+
 button:hover {
-  border-color: #646cff;
+  background-color: #0056b3;
 }
+
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+/* Input fields for forms */
+input, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Responsive media queries */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
   }
 }
