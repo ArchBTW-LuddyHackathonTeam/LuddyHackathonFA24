@@ -3,6 +3,7 @@ import { search } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import './Search.css';
 import { PersonSearchResult } from '@backend/db-types';
+import { useAuth } from '../providers/AuthProvider';
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -10,6 +11,7 @@ const Search: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const navigate = useNavigate();
+  const { setSessionToken } = useAuth();
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -32,7 +34,9 @@ const Search: React.FC = () => {
   };
 
   const handleLogout = () => {
-    navigate('/login');
+    // Clear the session token and redirect to the login page
+    setSessionToken(null);
+    navigate('/Login');
   };
 
   return (
