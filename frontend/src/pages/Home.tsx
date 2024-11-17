@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { useAuth } from '../providers/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './Home.css';
+import NavBar from '../components/Navbar'; // Adjust the import path based on your project structure
 
 const Home: React.FC = () => {
-  const { setSessionToken } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,26 +15,11 @@ const Home: React.FC = () => {
     });
   }, []);
 
-  const handleLogout = () => {
-    setSessionToken(null);
-    navigate('/login');
-  };
-
   return (
     <div className="home-container">
+      <NavBar />
       <header className="home-header">
-        <nav className="navbar">
-          <div className="navbar-content">
-            <div className="logo" onClick={() => navigate('/')}>
-              <span>SC</span> 1701-D
-            </div>
-            <ul className="nav-links">
-              <li onClick={() => navigate('/')}>Home</li>
-              <li onClick={() => navigate('/search')}>Search</li>
-              <li onClick={handleLogout}>Logout</li>
-            </ul>
-          </div>
-        </nav>
+        
         <div className="header-content" data-aos="fade-in">
           <h1 data-aos="fade-up">Connect. Collaborate. Create.</h1>
           <p data-aos="fade-up" data-aos-delay="200">

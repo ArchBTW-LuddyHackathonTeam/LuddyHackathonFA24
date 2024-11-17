@@ -1,0 +1,122 @@
+/* Reset Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Remove background color from body */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Ensure html and body have no margins */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Search Page Styles */
+.search-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  
+}
+
+/* Search Section Styles */
+.search-section {
+  background: linear-gradient(to bottom, #ff9a9e 0%, #fad0c4 70%, #f0f2f5 100%);
+  padding: 8rem 0 5rem; /* Removed side padding */
+  text-align: center;
+  color: #333;
+  width: 100vw; /* Ensure it spans full viewport width */
+  position: relative;
+  left: 50%; /* Center the element */
+  right: 50%;
+  margin-left: -50vw; /* Adjust margins to fill the viewport */
+  margin-right: -50vw;
+}
+
+/* Adjust the h1 inside the search section if needed */
+.search-section h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.search-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+
+}
+
+.search-input-container input[type='text'] {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  border-radius: 50px 0 0 50px;
+  border: none;
+  outline: none;
+  margin-top: 1rem;
+}
+
+.search-input-container button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: #ff6363;
+  border: none;
+  border-radius: 0 50px 50px 0;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+
+.search-input-container button:hover {
+  background-color: #e94e4e;
+}
+
+.search-input-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.results-section {
+  flex: 1;
+  padding: 4rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .results-section {
+    padding: 2rem 2rem;
+  }
+}
+
+.no-results {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Results Grid */
+.results-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* Spinner Styles */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Adjust as needed */
+}

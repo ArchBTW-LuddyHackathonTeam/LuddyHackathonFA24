@@ -16,58 +16,12 @@ html, body {
   min-height: 100vh;
 }
 
-/* Navbar Styles */
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  backdrop-filter: blur(20px);
-  background-color: rgba(237, 237, 237, 0.6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.navbar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 5%;
-}
-
-.navbar .logo {
-  font-size: 1.6rem;
-  cursor: pointer;
-  font-weight: 600;
-  color: #333;
-}
-
-.navbar .logo span {
-  color: #ff6363;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-}
-
-.nav-links li {
-  cursor: pointer;
-  transition: color 0.3s;
-  font-weight: 400;
-  color: #333;
-}
-
-.nav-links li:hover {
-  color: #ff6363;
-}
-
 /* Header Styles */
 .home-header {
   position: relative;
   width: 100%;
   height: calc(100vh + 70px);
-  margin-top: -70px;
+  margin-top: -70px; /* Adjusted to compensate for the fixed navbar height */
   background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
   display: flex;
   align-items: center;
@@ -79,8 +33,8 @@ html, body {
   content: '';
   position: absolute;
   top: -50px;
-  left: 0; /* Adjusted */
-  width: 100%; /* Adjusted */
+  left: 0;
+  width: 100%;
   height: 150%;
   background: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.2" d="M0,192L34.3,176C68.6,160,137,128,206,112C274.3,96,343,96,411,112C480,128,549,160,617,186.7C685.7,213,754,235,823,213.3C891.4,192,960,128,1029,128C1097.1,128,1166,192,1234,197.3C1302.9,203,1371,149,1406,122.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"/></svg>') no-repeat center;
   background-size: cover;
@@ -118,14 +72,14 @@ html, body {
   border-radius: 50px;
   color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
   box-shadow: 0 4px 14px rgba(255, 99, 99, 0.4);
 }
 
 .cta-button:hover {
   background-color: #e94e4e;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 99, 99, 0.5);
+  transform: translateY(-5px); /* Enhanced hover effect */
+  box-shadow: 0 8px 20px rgba(255, 99, 99, 0.6);
 }
 
 /* Main Content Styles */
@@ -201,45 +155,13 @@ html, body {
   font-size: 0.9rem;
 }
 
-/* Add hover effects to navigation links */
-.nav-links li {
-  cursor: pointer;
-  transition: color 0.3s, transform 0.3s;
-  font-weight: 400;
-  color: #333;
-}
-
-.nav-links li:hover {
-  color: #ff6363;
-  transform: translateY(-2px);
-}
-
-/* Enhance Button Hover Effects */
-.cta-button {
-  padding: 0.75rem 2.5rem;
-  font-size: 1.2rem;
-  background-color: #ff6363;
-  border: none;
-  border-radius: 50px;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 4px 14px rgba(255, 99, 99, 0.4);
-}
-
-.cta-button:hover {
-  background-color: #e94e4e;
-  transform: translateY(-5px); /* Enhanced hover effect */
-  box-shadow: 0 8px 20px rgba(255, 99, 99, 0.6);
-}
-
 /* Add a smooth scroll behavior */
 html {
   scroll-behavior: smooth;
 }
 
+/* Animated Header Background */
 .home-header {
-  /* Existing styles remain the same */
   background: linear-gradient(135deg, #ff9a9e, #fad0c4, #ff9a9e);
   background-size: 200% 200%;
   animation: gradientAnimation 10s ease infinite;

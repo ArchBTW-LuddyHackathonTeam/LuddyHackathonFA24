@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { search } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import './Search.css';
 import { PersonSearchResult } from '@backend/db-types';
-import { useAuth } from '../providers/AuthProvider';
+import NavBar from '../components/Navbar';
+import ResultCard from '../components/ResultCard';
+import Spinner from '../components/Spinner';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -11,13 +15,22 @@ const Search: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const navigate = useNavigate();
-  const { setSessionToken } = useAuth();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
     setIsLoading(true);
     try {
-      const searchResults = await search({ productName: query, repositoryName: query });
+      const searchResults = await search({
+        productName: query,
+        repositoryName: query,
+      });
       setResults(searchResults);
     } catch (error) {
       console.error('Search failed:', error);
@@ -33,28 +46,16 @@ const Search: React.FC = () => {
     }
   };
 
-  const handleLogout = () => {
-    // Clear the session token and redirect to the login page
-    setSessionToken(null);
-    navigate('/Login');
-  };
-
   return (
-    <div className="search-container">
-      <nav className="navbar">
-        <div className="logo" onClick={() => navigate('/')}>
-          SC 1701-D Collaboration Finder
-        </div>
-        <ul className="nav-links">
-          <li onClick={() => navigate('/')}>Home</li>
-          <li onClick={() => navigate('/search')}>Search</li>
-          <li onClick={handleLogout}>Logout</li>
-        </ul>
-      </nav>
-
-      <div className="search-bar">
-        <h1>Find a Point of Contact</h1>
-        <div className="search-input-container">
+    <div className="search-page">
+      <NavBar />
+      <div className="search-section">
+        <h1 data-aos="fade-down">Find a Point of Contact</h1>
+        <div
+          className="search-input-container"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
           <input
             type="text"
             value={query}
@@ -71,106 +72,24 @@ const Search: React.FC = () => {
         </div>
       </div>
 
-      <div className="results">
-        {results.length > 0 ? (
-          results.map((result, index) => (
-            <div className="result-card" key={index}>
-              <h2>
-                {result.person.firstName} {result.person.lastName}
-              </h2>
-
-              {/* Conditionally render the optional fields if they exist */}
-              {result.person.title && (
-                <p>
-                  <strong>Title:</strong> {result.person.title}
-                </p>
-              )}
-
-              {/* Display the location as a single block address */}
-              {(() => {
-                const addressLines: string[] = [];
-
-                if (result.location.streetAddress) {
-                  addressLines.push(result.location.streetAddress);
-                }
-
-                if (result.location.secondaryAddress) {
-                  addressLines.push(result.location.secondaryAddress);
-                }
-
-                let cityRegionZip = '';
-
-                if (result.location.city) {
-                  cityRegionZip += result.location.city;
-                }
-
-                if (result.location.region) {
-                  cityRegionZip += cityRegionZip ? `, ${result.location.region}` : result.location.region;
-                }
-
-                if (result.location.zipCode) {
-                  cityRegionZip += cityRegionZip ? ` ${result.location.zipCode}` : result.location.zipCode;
-                }
-
-                if (cityRegionZip) {
-                  addressLines.push(cityRegionZip);
-                }
-
-                if (result.location.country) {
-                  addressLines.push(result.location.country);
-                }
-
-                return (
-                  addressLines.length > 0 && (
-                    <p>
-                      <strong>Location:</strong>
-                      <br />
-                      {addressLines.map((line, idx) => (
-                        <React.Fragment key={idx}>
-                          {line}
-                          <br />
-                        </React.Fragment>
-                      ))}
-                    </p>
-                  )
-                );
-              })()}
-
-              <p>
-                <strong>Email:</strong>{' '}
-                <a href={`mailto:${result.person.email}`}>{result.person.email}</a>
-              </p>
-
-              {/* Display phone number if available */}
-              {result.person.phoneNumber && (
-                <p>
-                  <strong>Phone Number:</strong> {result.person.phoneNumber}
-                </p>
-              )}
-
-              <p>
-                <strong>Username:</strong> {result.person.username}
-              </p>
-
-              {/* Display projects if available */}
-              {result.projects && result.projects.length > 0 && (
-                <div className="projects">
-                  <strong>Projects:</strong>
-                  <ul>
-                    {result.projects.map((project) => (
-                      <li key={project.id}>
-                        {project.name}
-                        {project.description && ` - ${project.description}`}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))
+      <div className="results-section">
+        {isLoading ? (
+          <div className="spinner-container">
+            <Spinner />
+          </div>
+        ) : results.length > 0 ? (
+          <div className="results-grid">
+            {results.map((result, index) => (
+              <ResultCard result={result} key={index} />
+            ))}
+          </div>
         ) : (
           hasSearched &&
-          !isLoading && <p className="no-results">No results found for "{query}".</p>
+          !isLoading && (
+            <p className="no-results">
+              No results found for "<strong>{query}</strong>".
+            </p>
+          )
         )}
       </div>
     </div>
