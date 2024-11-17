@@ -15,8 +15,7 @@ router.get("/", async (req, res) => {
     // #swagger.description = 'Get all people in the database'
 });
 router.post("/", async (req, res) => {
-    const personObj: Person = {
-        id: -1,
+    signup.validateAsync({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -24,8 +23,7 @@ router.post("/", async (req, res) => {
         phoneNumber: req.body.phoneNumber,
         locationId: req.body.locationId,
         title: req.body.title
-    }
-    signup.validateAsync(personObj)
+    })
     .then(body => {
       return _db.addPerson(body as Person);
     })
