@@ -26,7 +26,7 @@ html, body {
 
 /* Search Section Styles */
 .search-section {
-  background: linear-gradient(to bottom, #ff9a9e 0%, #fad0c4 70%, #f0f2f5 100%);
+  background: linear-gradient(to bottom right, #ff9a9e 0%, #fad0c4 70%, #f0f2f5 100%);
   padding: 8rem 0 5rem; /* Removed side padding */
   text-align: center;
   color: #333;
@@ -36,6 +36,7 @@ html, body {
   right: 50%;
   margin-left: -50vw; /* Adjust margins to fill the viewport */
   margin-right: -50vw;
+  box-shadow: #c5c5c5 0px 0px 32px;
 }
 
 /* Adjust the h1 inside the search section if needed */
@@ -109,8 +110,22 @@ html, body {
 .results-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* Limit to 3 columns */
   gap: 2rem;
+}
+
+/* Adjust for medium screens */
+@media (max-width: 992px) {
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+/* Adjust for small screens */
+@media (max-width: 600px) {
+  .results-grid {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
 }
 
 /* Spinner Styles */
