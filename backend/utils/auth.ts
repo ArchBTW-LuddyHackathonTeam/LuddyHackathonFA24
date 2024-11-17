@@ -1,5 +1,5 @@
 import { SignJWT, JWTPayload, jwtVerify } from "jose"
-import { Person } from './db-types'
+import { Person } from '../db-types'
 import { Request, Response, NextFunction } from "express"
 
 const jwtSecret = new TextEncoder().encode(process.env.JWTSECRET)

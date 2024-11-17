@@ -1,7 +1,7 @@
 import express from "express"
-import { forgeJWT } from "../auth"
+import { forgeJWT } from "../utils/auth"
 import { Person } from "../db-types"
-import sessionCreate from "../schemas/sessionCreate"
+import login from "../utils/loginSchema"
 import DBInterface from "../db-interface"
 
 const router = express()
@@ -10,7 +10,7 @@ const _db = new DBInterface()
 
 
 router.post("/", (req, res) => {
-  sessionCreate.validateAsync(req.body)
+  login.validateAsync(req.body)
   .then(body => _db.getUserByEmailAndPasswordHash(body.email, body.password))
   .then(dbResults => {
     if (dbResults.length == 0) return Promise.reject({ message: "Invalid E-Mail or Password" })
