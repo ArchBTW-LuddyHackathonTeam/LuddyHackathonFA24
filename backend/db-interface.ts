@@ -26,7 +26,7 @@ export default class DBInterface {
         const res: QueryResult = await this.client.query("SELECT person_id, person_first_name, person_last_name," +
             " person_email, person_username, person_phone_number, location_id, person_title FROM person;")
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     public async getPeopleById(_id: number): Promise<Array<Person>> {
@@ -36,7 +36,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     public async getPeopleByFirstName(_firstName: string): Promise<Array<Person>> {
@@ -46,7 +46,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     public async getPeopleByLastName(_lastName: string): Promise<Array<Person>> {
@@ -56,7 +56,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     public async getPeopleByEmail(_email: string): Promise<Array<Person>> {
@@ -66,7 +66,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     public async getPeopleByUsername(_username: string): Promise<Array<Person>> {
@@ -76,7 +76,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     public async getPeopleByPhoneNumber(_phoneNumber: string): Promise<Array<Person>> {
@@ -86,7 +86,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     // Location Functions
@@ -221,5 +221,27 @@ export default class DBInterface {
         const res: QueryResult = await this.client.query(_query, _values);
 
         return res.rows as Array<Person>;
+    }
+
+    public toPerson(_rows: Array<any>): Array<Person> {
+        let people: Array<Person> = [];
+
+        for(let row of _rows){
+            console.log(row);
+            let person: Person = {
+                id: row.person_id,
+                firstName: row.person_last_name,
+                lastName: row.person_last_name,
+                email: row.person_email,
+                username: row.person_username,
+                phoneNumber: row.person_phone_number,
+                locationId: row.person_location_id,
+                title: row.person_title
+            }
+
+            people.push(person);
+        }
+
+        return people;
     }
 }
