@@ -22,3 +22,12 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
   .then(next)
   .catch(_ => res.clearCookie("tk").status(401).json({ error: "Unauthorized" }))
 }
+
+export function generateSalt(): string {
+  return randomBytes(32).toString("hex")
+}
+
+export function hashPassword(): Promise<string> {
+  return new Promise((_resolve, _reject) => {
+  })
+}
