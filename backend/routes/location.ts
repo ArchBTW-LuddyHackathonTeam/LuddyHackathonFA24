@@ -16,10 +16,60 @@ router.get("/", async (req, res) => {
     await getAllLocations(req, res)
     // #swagger.description = 'Get all locations in the database'
 });
+router.get("/stringify", async (req, res) => {
+    await stringifyAllLocations(req, res);
+});
+router.get("/stringify/city/:city", async (req, res) => {
+    await stringifyLocation(req, res, getLocationByCity);
+});
+router.get("/stringify/region/:region", async (req, res) => {
+    await stringifyLocation(req, res, getLocationByRegion);
+});
+router.get("/stringify/country/:country", async (req, res) => {
+    await stringifyLocation(req, res, getLocationByCountry);
+});
+router.get("/stringify/:id", async (req, res) => {
+    await stringifyLocation(req, res, getLocationById);
+});
 router.get("/city/:city", (req, res) => getLocationByCity(req, res));
 router.get("/region/:region", (req, res) => getLocationByRegion(req, res));
 router.get("/country/:country", (req, res) => getLocationByCountry(req, res));
 router.get("/:id", (req, res) => getLocationById(req, res));
+
+
+function formatLocation(location: Location): string {
+    const { streetAddress, secondaryAddress, city, region, zipCode, country } = location;
+    const firstLine = [streetAddress, secondaryAddress].filter(Boolean).join(" ");
+    const secondLine = [
+        city,
+        region,
+        zipCode,
+    ]
+        .filter(Boolean)
+        .join(", ");
+    const thirdLine = country || "";
+
+    return [firstLine, secondLine, thirdLine].filter(Boolean).join("\n");
+}
+
+function stringifyResponse(data: Array<Location> | Location): Array<{ address: string }> {
+    if (Array.isArray(data)) {
+        return data.map(location => ({ address: formatLocation(location) }));
+    }
+    return [{ address: formatLocation(data) }];
+}
+
+async function stringifyAllLocations(_req: Request, res: Response){
+    const _rows: Array<Location> = await _db.getAllLocations()
+
+    res.json(stringifyResponse(_rows));
+}
+
+async function stringifyLocation(req: Request, res: Response, handler: Function) {
+    const originalJson = res.json.bind(res);
+    res.json = (data: any) => originalJson(stringifyResponse(data));
+    await handler(req, res);
+}
 
 async function getAllLocations(_req: Request, res: Response){
     const _rows: Array<Location> = await _db.getAllLocations()
@@ -78,5 +128,7 @@ async function getLocationByCountry(_req: Request, res: Response){
 
     res.send(_rows);
 }
+
+
 
 export default router;
