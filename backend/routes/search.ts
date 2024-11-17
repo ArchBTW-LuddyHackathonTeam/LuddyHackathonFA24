@@ -4,6 +4,7 @@ import {Person, Location, Product, Repository, PersonSearchResult} from '../db-t
 import { Request, Response } from "express-serve-static-core";
 import FuzzySearch from "fuzzy-search";
 import Joi from "joi";
+import {Haystack} from "../db-types";
 
 const router = express();
 
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
     await search(req, res);
 })
 
-async function collectResult() {
+async function collectPeople() {
     let result: Array<PersonSearchResult> = [];
 
     let people: Array<Person> = await _db.getAllPeople();
@@ -52,25 +53,26 @@ async function search(_req: Request, res: Response) {
         throw validate.error;
     }
 
+    console.log(validate);
+
+    const options: Joi.ValidationResult = validate.value.options;
+
     const query: string = body.searchQuery;
 
-    let result = await collectResult();
+    let people = await collectPeople();
 
-    let haystack: {
-        projects: (Product | Repository)[];
-        person: Person;
-        location?: Location;
-        searchableText: string
-    }[] = result.map(x => ({
-        ...x,
-        searchableText: [
-            x.person.firstName,
-            x.person.lastName,
-            x.person.title,
-            ...x.projects.map(project => project.name || ""),
-            ...x.projects.map(project => project.description || "")
-        ].join(" ")
-    }));
+    // let haystack: Haystack[] = people.map(x => ({
+    //     ...x,
+    //     searchableText: [
+    //         x.person.firstName,
+    //         x.person.lastName,
+    //         x.person.title,
+    //         ...x.projects.map(project => project.name || ""),
+    //         ...x.projects.map(project => project.description || "")
+    //     ].join(" ")
+    // }));
+
+    let haystack = createHaystack(options, people);
 
     const searcher = new FuzzySearch(haystack, ["searchableText"], {
         caseSensitive: false,
@@ -91,6 +93,25 @@ function validateBody(_body: any): Joi.ValidationResult {
     })
 
     return schema.validate(_body);
+}
+
+function createHaystack(_options: Joi.ValidationResult, people: Array<PersonSearchResult>): Array<Haystack> {
+    let haystack: Array<Haystack> = [];
+
+    console.log(_options);
+
+    for(let person of people){
+        let searchableText: string = "";
+
+        let item: Haystack = {
+            ...person,
+            searchableText: searchableText
+        }
+
+        haystack.push(item);
+    }
+
+    return haystack;
 }
 
 export default router;
