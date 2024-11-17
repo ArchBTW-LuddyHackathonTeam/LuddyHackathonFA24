@@ -1,5 +1,5 @@
 import express from "express"
-import { forgeJWT } from "../utils/auth"
+import { createToken } from "../utils/auth"
 import { Person } from "../db-types"
 import login from "../utils/loginSchema"
 import DBInterface from "../db-interface"
@@ -16,7 +16,7 @@ router.post("/", (req, res) => {
     if (dbResults.length == 0) return Promise.reject({ message: "Invalid E-Mail or Password" })
     else return dbResults[0]
   })
-  .then(body => forgeJWT({ id: body.id, firstName: body.firstName, lastName: body.lastName } as Person))
+  .then(body => createToken({ id: body.id, firstName: body.firstName, lastName: body.lastName } as Person))
   .then(token => res.status(200).cookie("tk", token, { maxAge: 604800000, httpOnly: true }).json({ success: true }))
   .catch(message => {
     res.status(401).json({ error: message.message })

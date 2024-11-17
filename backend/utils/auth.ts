@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const jwtSecret = new TextEncoder().encode(process.env.JWTSECRET)
 
-export function forgeJWT(person: Person): Promise<String> {
+export function createToken(person: Person): Promise<String> {
   return new SignJWT({id: person.id, firstName: person.firstName, lastName: person.lastName} as JWTPayload)
   .setProtectedHeader({ alg: "HS256" })
   .setIssuedAt()
