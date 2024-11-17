@@ -1,5 +1,4 @@
 import pg, {QueryResult} from 'pg';
-import config from './resources/pg-config.json'
 import {Person, Location, Product, Repository} from "./db-types";
 import dotenv from "dotenv"
 
