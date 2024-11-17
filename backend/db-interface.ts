@@ -229,7 +229,7 @@ export default class DBInterface {
         for(let row of _rows){
             let person: Person = {
                 id: row.person_id,
-                firstName: row.person_last_name,
+                firstName: row.person_first_name,
                 lastName: row.person_last_name,
                 email: row.person_email,
                 username: row.person_username,
