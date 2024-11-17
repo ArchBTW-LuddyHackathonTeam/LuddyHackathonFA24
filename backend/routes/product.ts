@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import DBInterface from "../db-interface";
 import {Product} from '../db-types'
 import { Request, Response } from "express-serve-static-core";
