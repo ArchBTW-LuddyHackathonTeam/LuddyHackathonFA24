@@ -141,7 +141,7 @@
     },
     "/api/location/": {
       "get": {
-        "description": "",
+        "description": "Get all locations in the database",
         "responses": {
           "200": {
             "description": "OK"
@@ -149,7 +149,7 @@
         }
       }
     },
-    "/api/location/location-city/{city}": {
+    "/api/location/city/{city}": {
       "get": {
         "description": "",
         "parameters": [
@@ -167,7 +167,7 @@
         }
       }
     },
-    "/api/location/location-region/{region}": {
+    "/api/location/region/{region}": {
       "get": {
         "description": "",
         "parameters": [
@@ -185,7 +185,7 @@
         }
       }
     },
-    "/api/location/location-country/{country}": {
+    "/api/location/country/{country}": {
       "get": {
         "description": "",
         "parameters": [
@@ -223,7 +223,43 @@
     },
     "/api/product/": {
       "get": {
+        "description": "Get all products in the database",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/product/name/{name}": {
+      "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/product/cp-id/{contactPersonId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "contactPersonId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -251,7 +287,43 @@
     },
     "/api/repository/": {
       "get": {
+        "description": "Get all repositories in the database",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/repository/name/{name}": {
+      "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/repository/cp-id/{contactPersonId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "contactPersonId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -260,6 +332,70 @@
       }
     },
     "/api/repository/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/sessions/": {
+      "get": {
+        "description": "Get all repositories in the database",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/sessions/name/{name}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/sessions/cp-id/{contactPersonId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "contactPersonId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/sessions/{id}": {
       "get": {
         "description": "",
         "parameters": [
