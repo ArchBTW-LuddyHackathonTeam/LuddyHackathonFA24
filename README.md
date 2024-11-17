@@ -20,6 +20,9 @@ integrate and extend its functionality.
 # Link to OpenAPI Documentation
 https://pizza.lill1e.sh/docs
 
+# Demo Video
+For a demonstration of the Point of Contact service, please watch the [demo video](https://youtu.be/wphANwJc7E4?si=XIf9CFRwDr5HpTLW).
+
 ## Usage (Web App) Front End
 1. **Install the required NPM packages for this to work properly**
    ```sh
