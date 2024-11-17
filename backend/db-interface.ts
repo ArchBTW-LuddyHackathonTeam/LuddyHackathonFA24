@@ -266,6 +266,22 @@ export default class DBInterface {
         return this.toRepository(res.rows);
     }
 
+    public async addRepository(repository: Repository): Promise<Repository> {
+        return new Promise(async (resolve, reject) => {
+            const query = "INSERT INTO repository (repository_name, repository_description, contact_person_id) VALUES ($1, $2, $3) RETURNING *;";
+            const values = [repository.name, repository.description, repository.contactPersonId];
+
+            const res: QueryResult = await this.client.query(query, values);
+            const rows = res.rows;
+        
+            if (rows.length === 0) {
+                reject({ message: "Duplicate Field" });
+            }
+        
+            resolve(this.toRepository(rows)[0]);
+        })
+    }
+
     //User Functions
 
     public async getUserByUsernameAndPasswordHash(_username: string, _passwordHash: string){
