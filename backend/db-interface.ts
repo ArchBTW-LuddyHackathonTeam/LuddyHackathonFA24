@@ -164,6 +164,22 @@ export default class DBInterface {
         return this.toLocation(res.rows);
     }
 
+    public addLocation(location: Location): Promise<Location> {
+        return new Promise(async (resolve, reject) => {
+            const query = "INSERT INTO location (location_street_address, location_secondary_address, location_city, location_region, location_zip_code, location_country) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;";
+            const values = [location.streetAddress, location.secondaryAddress, location.city, location.region, location.zipCode, location.country];
+
+            const res: QueryResult = await this.client.query(query, values);
+            const rows = res.rows;
+        
+            if (rows.length === 0) {
+                reject({ message: "Duplicate Field" });
+            }
+        
+            resolve(this.toLocation(rows)[0]);
+        })
+    }
+
     //Product Functions
 
     public async getAllProducts(): Promise<Array<Product>> {
