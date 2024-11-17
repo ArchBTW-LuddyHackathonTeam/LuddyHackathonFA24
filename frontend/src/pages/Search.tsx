@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { search } from '../services/api';
-import { useNavigate } from 'react-router-dom';
 import './Search.css';
 import { PersonSearchResult } from '@backend/db-types';
 import NavBar from '../components/Navbar';
@@ -14,7 +13,6 @@ const Search: React.FC = () => {
   const [results, setResults] = useState<PersonSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     AOS.init({
