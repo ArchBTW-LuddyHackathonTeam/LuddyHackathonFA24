@@ -37,7 +37,7 @@ export function generateSalt(): string {
 export function hashPassword(password: string, salt: string): Promise<string> {
   return new Promise((resolve, reject) => {
     pbkdf2(password, salt, 100000, 64, "sha256", (err, derivedKey) => {
-      if (err) reject(err)
+      if (err) reject({ message: err })
       else resolve(derivedKey.toString('hex'));  // '3745e48...08d59ae'
     });
   })
