@@ -53,7 +53,7 @@ async function search(_req: Request, res: Response) {
     let validate: Joi.ValidationResult = validateBody(body);
 
     if(validate.error){
-        throw validate.error;
+        throw validate.error; //todo: better error handling for common mistakes
     }
 
     const options: Joi.ValidationResult = validate.value.options;
