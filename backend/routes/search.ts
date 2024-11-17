@@ -47,6 +47,8 @@ async function collectPeople() {
 }
 
 async function search(_req: Request, res: Response) {
+    console.log("Search");
+
     let body = _req.body;
 
     let validate: Joi.ValidationResult = validateBody(body);
