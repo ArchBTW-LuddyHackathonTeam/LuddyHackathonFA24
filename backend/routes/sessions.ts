@@ -23,4 +23,9 @@ router.post("/", (req, res) => {
   })
 })
 
+router.delete("/", (req, res) => {
+  if (req.cookies.tk) res.clearCookie("tk").status(200).json({ success: true })
+  else res.status(400).json({ success: false })
+})
+
 export default router
