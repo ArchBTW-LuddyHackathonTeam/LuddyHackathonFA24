@@ -6,9 +6,6 @@ import { Request, Response } from "express-serve-static-core";
 
 const router = express();
 
-//enable CORS for all routes
-router.use(cors());
-
 //Initialize db interface
 const _db = new DBInterface();
 

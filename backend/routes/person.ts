@@ -7,9 +7,6 @@ import { decodeToken, verifyToken } from "../utils/auth"
 
 const router = express();
 
-//enable CORS for all routes
-router.use(cors());
-
 //Initialize db interface
 const _db = new DBInterface();
 
