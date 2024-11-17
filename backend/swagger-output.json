@@ -27,13 +27,27 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
     "/api/person/first-name/{firstName}": {
       "get": {
-        "description": "",
+        "description": "Get people with a specific first name from the database",
         "parameters": [
           {
             "name": "firstName",
@@ -43,15 +57,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/person/last-name/{lastName}": {
       "get": {
-        "description": "",
+        "description": "Get people with a specific last name from the database",
         "parameters": [
           {
             "name": "lastName",
@@ -61,15 +75,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/person/email/{email}": {
       "get": {
-        "description": "",
+        "description": "Get people with a specific email address from the database",
         "parameters": [
           {
             "name": "email",
@@ -79,15 +93,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/person/username/{username}": {
       "get": {
-        "description": "",
+        "description": "Get people with a specific username from the database",
         "parameters": [
           {
             "name": "username",
@@ -97,15 +111,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/person/phone-number/{phoneNumber}": {
       "get": {
-        "description": "",
+        "description": "Get people with a specific phone number from the database",
         "parameters": [
           {
             "name": "phoneNumber",
@@ -117,13 +131,29 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/person/me": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     },
     "/api/person/{id}": {
       "get": {
-        "description": "",
+        "description": "Get a person by their unique ID from the database",
         "parameters": [
           {
             "name": "id",
@@ -133,8 +163,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -143,15 +173,25 @@
       "get": {
         "description": "Get all locations in the database",
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/api/location/city/{city}": {
+    "/api/location/stringify": {
       "get": {
-        "description": "",
+        "description": "Get all stringified locations",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/location/stringify/city/{city}": {
+      "get": {
+        "description": "Get stringified locations filtered by city",
         "parameters": [
           {
             "name": "city",
@@ -161,15 +201,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/api/location/region/{region}": {
+    "/api/location/stringify/region/{region}": {
       "get": {
-        "description": "",
+        "description": "Get stringified locations filtered by region",
         "parameters": [
           {
             "name": "region",
@@ -179,15 +219,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/api/location/country/{country}": {
+    "/api/location/stringify/country/{country}": {
       "get": {
-        "description": "",
+        "description": "Get stringified locations filtered by country",
         "parameters": [
           {
             "name": "country",
@@ -197,15 +237,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/api/location/{id}": {
+    "/api/location/stringify/{id}": {
       "get": {
-        "description": "",
+        "description": "Get stringified locations filtered by id",
         "parameters": [
           {
             "name": "id",
@@ -215,8 +255,80 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/location/city/{city}": {
+      "get": {
+        "description": "Get locations filtered by city",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/location/region/{region}": {
+      "get": {
+        "description": "Get locations filtered by region",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/location/country/{country}": {
+      "get": {
+        "description": "Get locations filtered by country",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/location/{id}": {
+      "get": {
+        "description": "Get locations filtered by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
           }
         }
       }
@@ -225,15 +337,15 @@
       "get": {
         "description": "Get all products in the database",
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/product/name/{name}": {
       "get": {
-        "description": "",
+        "description": "Get a product by its name from the database",
         "parameters": [
           {
             "name": "name",
@@ -243,15 +355,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/product/cp-id/{contactPersonId}": {
       "get": {
-        "description": "",
+        "description": "Get products associated with a specific contact person ID in the database",
         "parameters": [
           {
             "name": "contactPersonId",
@@ -261,15 +373,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/product/{id}": {
       "get": {
-        "description": "",
+        "description": "Get a product by its ID from the database",
         "parameters": [
           {
             "name": "id",
@@ -289,15 +401,15 @@
       "get": {
         "description": "Get all repositories in the database",
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/repository/name/{name}": {
       "get": {
-        "description": "",
+        "description": "Get repository by its name in the database",
         "parameters": [
           {
             "name": "name",
@@ -307,15 +419,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/repository/cp-id/{contactPersonId}": {
       "get": {
-        "description": "",
+        "description": "Get repositories affiliated associated with a contact person ID in the database",
         "parameters": [
           {
             "name": "contactPersonId",
@@ -325,15 +437,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/repository/{id}": {
       "get": {
-        "description": "",
+        "description": "Get repository by id in the database",
         "parameters": [
           {
             "name": "id",
@@ -350,65 +462,32 @@
       }
     },
     "/api/sessions/": {
-      "get": {
-        "description": "Get all repositories in the database",
+      "post": {
+        "description": "",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "responses": {
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     },
-    "/api/sessions/name/{name}": {
-      "get": {
+    "/api/search/": {
+      "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/sessions/cp-id/{contactPersonId}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "contactPersonId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/sessions/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
