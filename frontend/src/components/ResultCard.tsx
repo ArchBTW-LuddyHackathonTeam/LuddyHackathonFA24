@@ -15,34 +15,36 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
 
   const addressLines: string[] = [];
 
-  if (location.streetAddress) {
-    addressLines.push(location.streetAddress);
-  }
+  if (location) {
+    if (location.streetAddress) {
+      addressLines.push(location.streetAddress);
+    }
 
-  if (location.secondaryAddress) {
-    addressLines.push(location.secondaryAddress);
-  }
+    if (location.secondaryAddress) {
+      addressLines.push(location.secondaryAddress);
+    }
 
-  let cityRegionZip = '';
+    let cityRegionZip = '';
 
-  if (location.city) {
-    cityRegionZip += location.city;
-  }
+    if (location.city) {
+      cityRegionZip += location.city;
+    }
 
-  if (location.region) {
-    cityRegionZip += cityRegionZip ? `, ${location.region}` : location.region;
-  }
+    if (location.region) {
+      cityRegionZip += cityRegionZip ? `, ${location.region}` : location.region;
+    }
 
-  if (location.zipCode) {
-    cityRegionZip += cityRegionZip ? ` ${location.zipCode}` : location.zipCode;
-  }
+    if (location.zipCode) {
+      cityRegionZip += cityRegionZip ? ` ${location.zipCode}` : location.zipCode;
+    }
 
-  if (cityRegionZip) {
-    addressLines.push(cityRegionZip);
-  }
+    if (cityRegionZip) {
+      addressLines.push(cityRegionZip);
+    }
 
-  if (location.country) {
-    addressLines.push(location.country);
+    if (location.country) {
+      addressLines.push(location.country);
+    }
   }
 
   return (
