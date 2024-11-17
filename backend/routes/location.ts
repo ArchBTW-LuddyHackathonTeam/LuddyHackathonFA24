@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import DBInterface from "../db-interface";
-import Location from '../db-interface'
+import {Location} from '../db-types'
 import { Request, Response } from "express-serve-static-core";
 
 const router = express();
@@ -12,7 +12,10 @@ router.use(cors());
 //Initialize db interface
 const _db = new DBInterface();
 
-router.get("/", (req, res) => getAllLocations(req, res));
+router.get("/", async (req, res) => {
+    await getAllLocations(req, res)
+    // #swagger.description = 'Get all locations in the database'
+});
 router.get("/city/:city", (req, res) => getLocationByCity(req, res));
 router.get("/region/:region", (req, res) => getLocationByRegion(req, res));
 router.get("/country/:country", (req, res) => getLocationByCountry(req, res));

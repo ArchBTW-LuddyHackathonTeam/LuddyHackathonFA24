@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "declaration": true,
     "sourceMap": true,
-    "allowUnreachableCode": false,
+    "allowUnreachableCode": true,
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
     "noImplicitAny": true,

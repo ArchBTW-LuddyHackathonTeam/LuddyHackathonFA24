@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import DBInterface from "../db-interface";
-import Product from '../db-interface'
+import {Product} from '../db-types'
 import { Request, Response } from "express-serve-static-core";
 
 const router = express();
@@ -12,7 +12,10 @@ router.use(cors());
 //Initialize db interface
 const _db = new DBInterface();
 
-router.get("/", (req, res) => getAllProducts(req, res));
+router.get("/", async (req, res) => {
+    await getAllProducts(req, res)
+    // #swagger.description = 'Get all products in the database'
+});
 router.get("/name/:name", (req, res) => getProductByName(req, res));
 router.get("/cp-id/:contactPersonId", (req, res) => getProductByContactPersonId(req, res));
 router.get("/:id", (req, res) => getProductById(req, res));

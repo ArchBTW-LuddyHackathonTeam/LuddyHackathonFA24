@@ -25,6 +25,11 @@ body {
   background-color: #f0f2f5;
 }
 
+.vsc-initialized {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 /* Headings for consistent typography */
 h1, h2, h3, h4, h5, h6 {
   color: #333;
