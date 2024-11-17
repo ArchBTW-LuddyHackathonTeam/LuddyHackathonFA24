@@ -52,11 +52,14 @@ function formatLocation(location: Location): string {
     return [firstLine, secondLine, thirdLine].filter(Boolean).join("\n");
 }
 
-function stringifyResponse(data: Array<Location> | Location): Array<{ address: string }> {
+function stringifyResponse(data: Array<Location> | Location): Array<{ address: string }> | { address: string } {
     if (Array.isArray(data)) {
+        if (data.length === 1) {
+            return { address: formatLocation(data[0]) };
+        }
         return data.map(location => ({ address: formatLocation(location) }));
     }
-    return [{ address: formatLocation(data) }];
+    return { address: formatLocation(data) };
 }
 
 async function stringifyAllLocations(_req: Request, res: Response){
