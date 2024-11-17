@@ -11,7 +11,12 @@ import sessionsRouter from "./routes/sessions";
 const app = express();
 
 // Enable various express middlewares for abstracting more complex features
-app.use(cors());
+
+// Configure CORS
+app.use(cors({
+  origin: 'http://localhost:5173', // Your frontend origin
+  credentials: true,               // Allow credentials (cookies, authorization headers, TLS client certificates)
+}));
 app.use(express.json())
 app.use(cookieParser())
 

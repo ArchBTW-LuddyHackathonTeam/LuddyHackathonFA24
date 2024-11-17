@@ -1,53 +1,61 @@
 import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import { PersonSearchResult } from '@backend/db-types';
-import allResults from './mockdata'; // Importing the dummy data
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'http://localhost:3000/api',
+  withCredentials: true, // Include cookies in requests
 });
 
-// Set up the mock adapter
-const mock = new MockAdapter(api, { delayResponse: 500 }); // Simulated delay
-
-// Mock the sign in endpoint
-mock.onPost('/signin').reply((config) => {
-  const { email, password } = JSON.parse(config.data);
-  if (email === 'test@test.com' && password === 'password') {
-    return [200, { sessionToken: 'valid-session-token' }];
-  } else {
-    return [401, { error: 'Invalid email or password' }];
+/**
+ * Sign In - Authenticate the user and establish a session.
+ * @param email - User's email.
+ * @param password - User's password.
+ * @returns Response data from the server.
+ */
+export const signIn = async (email: string, password: string) => {
+  try {
+    const response = await api.post('/sessions', { email, password });
+    return response.data;
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      // Handle specific errors from the server
+      throw new Error(error.response.data.error || 'Sign in failed.');
+    }
+    throw error;
   }
-});
-
-// Mock the sign up endpoint
-mock.onPost('/signup').reply(200, { sessionToken: 'dummy-session-token' });
-
-// Simulated filtering based on query
-mock.onGet('/search').reply((config) => {
-  const { productName, repositoryName } = config.params;
-
-  // Convert query to lowercase for case-insensitive search
-  const query = (productName || repositoryName || '').toLowerCase();
-
-  const filteredResults = allResults.filter((result) => {
-    const projectNames = result.projects.map((project) => project.name.toLowerCase());
-    return projectNames.some((name) => name.includes(query));
-  });
-
-  return [200, filteredResults];
-});
-
-export const signIn = (email: string, password: string) => {
-  return api.post('/signin', { email, password }).then((response) => response.data);
 };
 
-export const signUp = (userData: { email: string; password: string; firstName: string; lastName: string }) => {
-  return api.post('/signup', userData).then((response) => response.data);
+/**
+ * Sign Up - Register a new user.
+ * @param userData - Object containing user details.
+ * @returns Response data from the server.
+ */
+export const signUp = async (userData: { email: string; password: string; firstName: string; lastName: string }) => {
+  try {
+    const response = await api.post('/person', userData);
+    return response.data;
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.error || 'Sign up failed.');
+    }
+    throw error;
+  }
 };
 
-export const search = (query: { productName?: string; repositoryName?: string }) => {
-  return api
-    .get('/search', { params: query })
-    .then((response) => response.data as PersonSearchResult[]);
+/**
+ * Search - Perform a search query.
+ * @param searchQuery - The search string.
+ * @param options - Optional array of search options.
+ * @returns Array of search results.
+ */
+export const search = async (searchQuery: string, options?: string[]) => {
+  try {
+    const response = await api.post('/search', { searchQuery, options });
+    return response.data as PersonSearchResult[];
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.error || 'Search failed.');
+    }
+    throw error;
+  }
 };
