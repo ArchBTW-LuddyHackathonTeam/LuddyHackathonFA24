@@ -95,6 +95,20 @@ export default class DBInterface {
         return this.toPerson(res.rows);
     }
 
+    public async addPerson(person: Person) {
+        const query = "INSERT INTO person (person_first_name, person_last_name, person_email, person_username, person_phone_number, location_id, person_title) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;";
+        const values = [person.firstName, person.lastName, person.email, person.username, person.phoneNumber, person.locationId, person.title];
+
+        const res: QueryResult = await this.client.query(query, values);
+        const rows = res.rows;
+    
+        if (rows.length === 0) {
+            throw new Error("Failed to insert person.");
+        }
+    
+        return this.toPerson(rows)[0];
+    }
+
     // Location Functions
 
     public async getAllLocations(): Promise<Array<Location>> {
