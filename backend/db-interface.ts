@@ -1,21 +1,27 @@
-import pg, {QueryResult} from 'pg';
-import {Person, Location, Product, Repository} from "./db-types";
-import dotenv from "dotenv"
+import pg from 'pg';
+import dotenv from 'dotenv';
+import { QueryResult } from 'pg';
+import { Person, Product, Repository, Location } from './db-types';
 
-dotenv.config()
+dotenv.config();
 
 export default class DBInterface {
     private client: pg.Client;
 
-    constructor(){
-        this.client = new pg.Client();
+    constructor() {
+        this.client = new pg.Client({
+            host: process.env.DATABASE_HOST || 'localhost',
+            port: Number(process.env.DATABASE_PORT) || 5432,
+            user: process.env.DATABASE_USER || 'postgres',
+            password: process.env.DATABASE_PASSWORD || 'postgres',
+            database: process.env.DATABASE_NAME || 'mydatabase',
+        });
 
-        this.client.connect(function (err : Error | null) {
-            if(err) {
-                throw err; //TODO: error handling when pg connection fails
-            }
-            else{
-                console.log("Database Connected");
+        this.client.connect((err: Error | null) => {
+            if (err) {
+                console.error('Database connection error:', err.stack);
+            } else {
+                console.log('Database Connected');
             }
         });
     }
