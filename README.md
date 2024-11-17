@@ -17,6 +17,9 @@ integrate and extend its functionality.
 - NodeJS & NPM (Node Package Manager)
 - Docker & Docker Compose
 
+# Link to OpenAPI Documentation
+https://pizza.lill1e.sh/docs
+
 ## Usage (Web App) Front End
 1. **Install the required NPM packages for this to work properly**
    ```sh
