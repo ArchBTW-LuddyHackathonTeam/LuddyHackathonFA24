@@ -322,7 +322,7 @@ export default class DBInterface {
                 email: row.person_email,
                 username: row.person_username,
                 phoneNumber: row.person_phone_number,
-                locationId: row.person_location_id,
+                locationId: row.location_id,
                 title: row.person_title
             }
 
