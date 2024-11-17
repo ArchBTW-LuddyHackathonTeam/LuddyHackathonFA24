@@ -16,12 +16,18 @@ export function createToken(person: Person): Promise<String> {
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
   const tokenCookie: string | undefined = req.cookies.tk
   if (!tokenCookie) {
-    res.clearCookie("tk").sendStatus(401)
+    res.clearCookie("tk").status(401).json({ error: "Unauthorized" })
     return
   }
   jwtVerify(tokenCookie, jwtSecret)
-  .then(next)
+  .then(_ => next())
   .catch(_ => res.clearCookie("tk").status(401).json({ error: "Unauthorized" }))
+}
+
+export function decodeToken(token: string): Promise<Person> {
+  return jwtVerify(token, jwtSecret)
+  .then(res => res.payload as object as Person)
+  .catch(Promise.reject)
 }
 
 export function generateSalt(): string {

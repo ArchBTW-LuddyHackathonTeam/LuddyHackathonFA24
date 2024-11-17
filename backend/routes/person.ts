@@ -3,6 +3,7 @@ import cors from "cors";
 import DBInterface from "../db-interface";
 import {Person} from "../db-types";
 import { Request, Response } from "express-serve-static-core";
+import { decodeToken, verifyToken } from "../utils/auth"
 
 const router = express();
 
@@ -21,6 +22,15 @@ router.get("/last-name/:lastName", (req, res) => getPeopleByLastName(req, res));
 router.get("/email/:email", (req, res) => getPeopleByEmail(req, res));
 router.get("/username/:username", (req, res) => getPeopleByUsername(req, res));
 router.get("/phone-number/:phoneNumber", (req, res) => getPeopleByPhoneNumber(req, res));
+router.get("/me", verifyToken, (req, res) => {
+  decodeToken(req.cookies.tk)
+  .then(person => _db.getPeopleById(person.id))
+  .then(people => {
+    if (people.length == 0) return Promise.reject({ error: "An unexpected error occurred" })
+    else return res.status(200).json(people[0])
+  })
+  .catch(res.status(400).json)
+})
 router.get("/:id", (req, res) => getPeopleById(req, res));
 
 async function getAllPeople(_req: Request, res: Response) {
