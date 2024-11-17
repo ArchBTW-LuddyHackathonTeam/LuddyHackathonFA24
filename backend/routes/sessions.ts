@@ -17,10 +17,7 @@ router.post("/", (req, res) => {
     else return dbResults[0]
   })
   .then(body => forgeJWT({ id: body.id, firstName: body.firstName, lastName: body.lastName } as Person))
-  .then(token => {
-    res.cookie("tk", token, { maxAge: 604800000, httpOnly: true })
-    res.status(200).json({ success: true })
-  })
+  .then(token => res.status(200).cookie("tk", token, { maxAge: 604800000, httpOnly: true }).json({ success: true }))
   .catch(message => {
     res.status(401).json({ error: message.message })
   })
