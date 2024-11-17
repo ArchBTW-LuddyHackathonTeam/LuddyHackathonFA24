@@ -10,7 +10,8 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
   const {
     person: { firstName, lastName, title, email, phoneNumber, username },
     location,
-    projects,
+    products,
+    repositories,
   } = result;
 
   const addressLines: string[] = [];
@@ -87,14 +88,28 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
         <strong>Username:</strong> {username}
       </p>
 
-      {projects && projects.length > 0 && (
-        <div className="projects">
-          <strong>Projects:</strong>
+      {products && products.length > 0 && (
+        <div className="products">
+          <strong>Products:</strong>
           <ul>
-            {projects.map((project) => (
-              <li key={project.id}>
-                {project.name}
-                {project.description && ` - ${project.description}`}
+            {products.map((product) => (
+              <li key={product.id}>
+                {product.name}
+                {product.description && ` - ${product.description}`}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {repositories && repositories.length > 0 && (
+        <div className="repositories">
+          <strong>Repositories:</strong>
+          <ul>
+            {repositories.map((repository) => (
+              <li key={repository.id}>
+                {repository.name}
+                {repository.description && ` - ${repository.description}`}
               </li>
             ))}
           </ul>
