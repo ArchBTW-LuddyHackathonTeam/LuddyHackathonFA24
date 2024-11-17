@@ -2,49 +2,50 @@ import express from "express";
 import DBInterface from "../db-interface";
 import {Location} from '../db-types'
 import { Request, Response } from "express-serve-static-core";
+import { verifyToken } from "../utils/auth"
 
 const router = express();
 
 //Initialize db interface
 const _db = new DBInterface();
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     await getAllLocations(req, res)
     // #swagger.description = 'Get all locations in the database'
 });
-router.get("/stringify", async (req, res) => {
+router.get("/stringify", verifyToken, async (req, res) => {
     await stringifyAllLocations(req, res);
     // #swagger.description = 'Get all stringified locations'
 });
-router.get("/stringify/city/:city", async (req, res) => {
+router.get("/stringify/city/:city", verifyToken, async (req, res) => {
     await stringifyLocation(req, res, getLocationByCity);
     // #swagger.description = 'Get stringified locations filtered by city'
 });
-router.get("/stringify/region/:region", async (req, res) => {
+router.get("/stringify/region/:region", verifyToken, async (req, res) => {
     await stringifyLocation(req, res, getLocationByRegion);
     // #swagger.description = 'Get stringified locations filtered by region'
 });
-router.get("/stringify/country/:country", async (req, res) => {
+router.get("/stringify/country/:country", verifyToken, async (req, res) => {
     await stringifyLocation(req, res, getLocationByCountry);
     // #swagger.description = 'Get stringified locations filtered by country'
 });
-router.get("/stringify/:id", async (req, res) => {
+router.get("/stringify/:id", verifyToken, async (req, res) => {
     await stringifyLocation(req, res, getLocationById);
     // #swagger.description = 'Get stringified locations filtered by id'
 });
-router.get("/city/:city", async (req, res) => {
+router.get("/city/:city", verifyToken, async (req, res) => {
     await getLocationByCity(req, res)
     // #swagger.description = 'Get locations filtered by city'
 });
-router.get("/region/:region", async (req, res) => {
+router.get("/region/:region", verifyToken, async (req, res) => {
     await getLocationByRegion(req, res)
     // #swagger.description = 'Get locations filtered by region'
 });
-router.get("/country/:country", async (req, res) => {
+router.get("/country/:country", verifyToken, async (req, res) => {
     await getLocationByCountry(req, res)
     // #swagger.description = 'Get locations filtered by country'
 });
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
     await getLocationById(req, res)
     // #swagger.description = 'Get locations filtered by id'
 });

@@ -10,11 +10,11 @@ const router = express();
 //Initialize db interface
 const _db = new DBInterface();
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     await getAllPeople(req, res)
     // #swagger.description = 'Get all people in the database'
 });
-router.post("/", async (req, res) => {
+router.post("/", (req, res) => {
     const salt = generateSalt()
     signup.validateAsync({
         firstName: req.body.firstName,
@@ -33,23 +33,23 @@ router.post("/", async (req, res) => {
       res.status(401).json({ error: message.message })
     })
 })
-router.get("/first-name/:firstName", async (req, res) => {
+router.get("/first-name/:firstName", verifyToken, async (req, res) => {
     await getPeopleByFirstName(req, res)
     // #swagger.description = 'Get people with a specific first name from the database'
 });
-router.get("/last-name/:lastName", async (req, res) => {
+router.get("/last-name/:lastName", verifyToken, async (req, res) => {
     await getPeopleByLastName(req, res)
     // #swagger.description = 'Get people with a specific last name from the database'
 });
-router.get("/email/:email", async (req, res) => {
+router.get("/email/:email", verifyToken, async (req, res) => {
     await getPeopleByEmail(req, res)
     // #swagger.description = 'Get people with a specific email address from the database'
 });
-router.get("/username/:username", async (req, res) => {
+router.get("/username/:username", verifyToken, async (req, res) => {
     await getPeopleByUsername(req, res)
     // #swagger.description = 'Get people with a specific username from the database'
 });
-router.get("/phone-number/:phoneNumber", async (req, res) => {
+router.get("/phone-number/:phoneNumber", verifyToken, async (req, res) => {
     await getPeopleByPhoneNumber(req, res)
     // #swagger.description = 'Get people with a specific phone number from the database'
 });
@@ -62,7 +62,7 @@ router.get("/me", verifyToken, (req, res) => {
   })
   .catch(res.status(400).json)
 })
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
     await getPeopleById(req, res)
     // #swagger.description = 'Get a person by their unique ID from the database'
 });

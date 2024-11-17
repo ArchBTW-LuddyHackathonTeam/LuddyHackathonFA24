@@ -2,25 +2,26 @@ import express from "express";
 import DBInterface from "../db-interface";
 import {Product} from '../db-types'
 import { Request, Response } from "express-serve-static-core";
+import { verifyToken } from "../utils/auth"
 
 const router = express();
 
 //Initialize db interface
 const _db = new DBInterface();
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     await getAllProducts(req, res)
     // #swagger.description = 'Get all products in the database'
 });
-router.get("/name/:name", async (req, res) => {
+router.get("/name/:name", verifyToken, async (req, res) => {
     await getProductByName(req, res)
     // #swagger.description = 'Get a product by its name from the database'
 });
-router.get("/cp-id/:contactPersonId", async (req, res) => {
+router.get("/cp-id/:contactPersonId", verifyToken, async (req, res) => {
     await getProductByContactPersonId(req, res)
     // #swagger.description = 'Get products associated with a specific contact person ID in the database'
 });
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
     await getProductById(req, res)
     // #swagger.description = 'Get a product by its ID from the database'
 });

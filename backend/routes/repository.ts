@@ -2,25 +2,26 @@ import express from "express";
 import DBInterface from "../db-interface";
 import {Repository} from '../db-types'
 import { Request, Response } from "express-serve-static-core";
+import { verifyToken } from "../utils/auth"
 
 const router = express();
 
 //Initialize db interface
 const _db = new DBInterface();
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     await getAllRepositories(req, res)
     // #swagger.description = 'Get all repositories in the database'
 });
-router.get("/name/:name", async (req, res) => {
+router.get("/name/:name", verifyToken, async (req, res) => {
     await getRepositoryByName(req, res)
     // #swagger.description = 'Get repository by its name in the database'
 });
-router.get("/cp-id/:contactPersonId", async (req, res) => {
+router.get("/cp-id/:contactPersonId", verifyToken, async (req, res) => {
     getRepositoryByContactPersonId(req, res)
     // #swagger.description = 'Get repositories affiliated associated with a contact person ID in the database'
 });
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
     getRepositoryById(req, res)
     // #swagger.description = 'Get repository by id in the database'
 });
