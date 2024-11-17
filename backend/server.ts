@@ -26,12 +26,34 @@ app.get('/api/test', (_req, res) => {
 });
 
 // Person endpoints
-app.use('/api/person', personRouter);
-app.use('/api/location', locationRouter);
-app.use('/api/product', productRouter);
-app.use('/api/repository', repositoryRouter);
-app.use('/api/sessions', sessionsRouter);
-app.use('/api/search', searchRouter);
+app.use('/api/person', personRouter
+/*
+#swagger.tags = ['person']
+*/);
+app.use('/api/location', locationRouter
+/*
+#swagger.tags = ['location']
+*/);
+app.use('/api/product', productRouter
+/*
+#swagger.tags = ['product']
+ */
+);
+app.use('/api/repository', repositoryRouter
+/*
+#swagger.tags = ['repository']
+ */
+);
+app.use('/api/sessions', sessionsRouter
+/*
+#swagger.tags = ['sessions']
+ */
+);
+app.use('/api/search', searchRouter
+/*
+#swagger.tags['search']
+ */
+);
 
 // Start the server
 const port = 3000; // You can choose any available port

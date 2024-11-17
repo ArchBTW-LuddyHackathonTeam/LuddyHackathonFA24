@@ -12,7 +12,34 @@ const _db = new DBInterface();
 
 router.get("/", verifyToken, async (req, res) => {
     await getAllPeople(req, res)
-    // #swagger.description = 'Get all people in the database'
+    /*
+  #swagger.summary = 'Retrieve all people from the database'
+  #swagger.description = 'This endpoint fetches a list of all people in the database.'
+
+  #swagger.responses[200] = {
+    description: 'List of all people.',
+    schema: [
+      {
+        id: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'johndoe@example.com',
+        username: 'johndoe123',
+        phoneNumber: '+1234567890',
+        locationId: 1,
+        title: 'Software Engineer'
+      }
+    ]
+  }
+
+  #swagger.responses[500] = {
+    description: 'Internal server error.',
+    schema: {
+      error: 'Error message describing the issue.'
+    }
+  }
+*/
+
 });
 router.post("/", (req, res) => {
     const salt = generateSalt()
@@ -32,26 +59,231 @@ router.post("/", (req, res) => {
     .catch(message => {
       res.status(401).json({ error: message.message })
     })
+    /*
+  #swagger.summary = 'Add a person to the database'
+  #swagger.description = 'This endpoint adds a new person to the database. The request body must comply with the validation schema.'
+
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'The details of the person to add.',
+    required: true,
+    schema: {
+      $firstName: 'John',
+      $lastName: 'Doe',
+      $email: 'johndoe@example.com',
+      $username: 'johndoe123',
+      $phoneNumber: '+1234567890',
+      $locationId: 1,
+      $title: 'Software Engineer'
+    }
+  }
+
+  #swagger.responses[200] = {
+    description: 'Person successfully added and token generated.',
+    schema: {
+      success: true,
+      token: '<jwt-token>'
+    }
+  }
+
+  #swagger.responses[400] = {
+    description: 'Validation or database error occurred.',
+    schema: {
+      error: 'Error message describing the issue.'
+    }
+  }
+
+  #swagger.responses[401] = {
+    description: 'Unauthorized. Validation failed or a required field is missing.',
+    schema: {
+      error: 'Error message describing the issue.'
+    }
+  }
+*/
 })
 router.get("/first-name/:firstName", verifyToken, async (req, res) => {
     await getPeopleByFirstName(req, res)
-    // #swagger.description = 'Get people with a specific first name from the database'
+    /*
+  #swagger.summary = 'Get people by first name'
+  #swagger.description = 'This endpoint retrieves all people with the specified first name.'
+
+  #swagger.parameters['firstName'] = {
+    in: 'path',
+    description: 'The first name to search for.',
+    required: true,
+    type: 'string'
+  }
+
+  #swagger.responses[200] = {
+    description: 'List of people with the specified first name.',
+    schema: [
+      {
+        id: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'johndoe@example.com',
+        username: 'johndoe123',
+        phoneNumber: '+1234567890',
+        locationId: 1,
+        title: 'Software Engineer'
+      }
+    ]
+  }
+
+  #swagger.responses[404] = {
+    description: 'No people found with the specified first name.',
+    schema: {
+      error: 'No such person with first name: John'
+    }
+  }
+*/
+
 });
 router.get("/last-name/:lastName", verifyToken, async (req, res) => {
     await getPeopleByLastName(req, res)
-    // #swagger.description = 'Get people with a specific last name from the database'
+    /*
+  #swagger.summary = 'Get people by last name'
+  #swagger.description = 'This endpoint retrieves all people with the specified last name.'
+
+  #swagger.parameters['lastName'] = {
+    in: 'path',
+    description: 'The last name to search for.',
+    required: true,
+    type: 'string'
+  }
+
+  #swagger.responses[200] = {
+    description: 'List of people with the specified last name.',
+    schema: [
+      {
+        id: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'johndoe@example.com',
+        username: 'johndoe123',
+        phoneNumber: '+1234567890',
+        locationId: 1,
+        title: 'Software Engineer'
+      }
+    ]
+  }
+
+  #swagger.responses[404] = {
+    description: 'No people found with the specified last name.',
+    schema: {
+      error: 'No such person with last name: Doe'
+    }
+  }
+*/
+
 });
 router.get("/email/:email", verifyToken, async (req, res) => {
     await getPeopleByEmail(req, res)
-    // #swagger.description = 'Get people with a specific email address from the database'
+    /*
+  #swagger.summary = 'Get a person by email'
+  #swagger.description = 'This endpoint retrieves a person with the specified email address.'
+
+  #swagger.parameters['email'] = {
+    in: 'path',
+    description: 'The email address to search for.',
+    required: true,
+    type: 'string'
+  }
+
+  #swagger.responses[200] = {
+    description: 'Person with the specified email address.',
+    schema: {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'johndoe@example.com',
+      username: 'johndoe123',
+      phoneNumber: '+1234567890',
+      locationId: 1,
+      title: 'Software Engineer'
+    }
+  }
+
+  #swagger.responses[404] = {
+    description: 'No person found with the specified email address.',
+    schema: {
+      error: 'No such person with email: johndoe@example.com'
+    }
+  }
+*/
+
 });
 router.get("/username/:username", verifyToken, async (req, res) => {
     await getPeopleByUsername(req, res)
-    // #swagger.description = 'Get people with a specific username from the database'
+    /*
+  #swagger.summary = 'Get a person by username'
+  #swagger.description = 'This endpoint retrieves a person with the specified username.'
+
+  #swagger.parameters['username'] = {
+    in: 'path',
+    description: 'The username to search for.',
+    required: true,
+    type: 'string'
+  }
+
+  #swagger.responses[200] = {
+    description: 'Person with the specified username.',
+    schema: {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'johndoe@example.com',
+      username: 'johndoe123',
+      phoneNumber: '+1234567890',
+      locationId: 1,
+      title: 'Software Engineer'
+    }
+  }
+
+  #swagger.responses[404] = {
+    description: 'No person found with the specified username.',
+    schema: {
+      error: 'No such person with username: johndoe123'
+    }
+  }
+*/
+
 });
 router.get("/phone-number/:phoneNumber", verifyToken, async (req, res) => {
     await getPeopleByPhoneNumber(req, res)
-    // #swagger.description = 'Get people with a specific phone number from the database'
+    /*
+  #swagger.summary = 'Get a person by phone number'
+  #swagger.description = 'This endpoint retrieves a person with the specified phone number.'
+
+  #swagger.parameters['phoneNumber'] = {
+    in: 'path',
+    description: 'The phone number to search for.',
+    required: true,
+    type: 'string'
+  }
+
+  #swagger.responses[200] = {
+    description: 'Person with the specified phone number.',
+    schema: {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'johndoe@example.com',
+      username: 'johndoe123',
+      phoneNumber: '+1234567890',
+      locationId: 1,
+      title: 'Software Engineer'
+    }
+  }
+
+  #swagger.responses[404] = {
+    description: 'No person found with the specified phone number.',
+    schema: {
+      error: 'No such person with phone number: +1234567890'
+    }
+  }
+*/
+
 });
 router.get("/me", verifyToken, (req, res) => {
   decodeToken(req.cookies.tk)
@@ -61,10 +293,68 @@ router.get("/me", verifyToken, (req, res) => {
     else return res.status(200).json(people[0])
   })
   .catch(res.status(400).json)
+    /*
+  #swagger.summary = 'Get details of the authenticated user'
+  #swagger.description = 'This endpoint retrieves the details of the user associated with the provided token.'
+
+  #swagger.responses[200] = {
+    description: 'Authenticated user details.',
+    schema: {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'johndoe@example.com',
+      username: 'johndoe123',
+      phoneNumber: '+1234567890',
+      locationId: 1,
+      title: 'Software Engineer'
+    }
+  }
+
+  #swagger.responses[400] = {
+    description: 'Error in token decoding or database lookup.',
+    schema: {
+      error: 'Error message describing the issue.'
+    }
+  }
+*/
+
 })
 router.get("/:id", verifyToken, async (req, res) => {
     await getPeopleById(req, res)
-    // #swagger.description = 'Get a person by their unique ID from the database'
+    /*
+  #swagger.summary = 'Get a person by their unique ID'
+  #swagger.description = 'This endpoint retrieves a person with the specified unique ID.'
+
+  #swagger.parameters['id'] = {
+    in: 'path',
+    description: 'The unique ID of the person to retrieve.',
+    required: true,
+    type: 'integer'
+  }
+
+  #swagger.responses[200] = {
+    description: 'Person with the specified unique ID.',
+    schema: {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'johndoe@example.com',
+      username: 'johndoe123',
+      phoneNumber: '+1234567890',
+      locationId: 1,
+      title: 'Software Engineer'
+    }
+  }
+
+  #swagger.responses[404] = {
+    description: 'No person found with the specified unique ID.',
+    schema: {
+      error: 'No such person with id: 1'
+    }
+  }
+*/
+
 });
 
 async function getAllPeople(_req: Request, res: Response) {

@@ -1,0 +1,1477 @@
+openapi: 3.0.1
+info:
+  description: Description
+  title: My API
+  version: 1.0.0
+servers:
+- url: http://localhost:3000/
+paths:
+  /api/test:
+    get:
+      responses:
+        "200":
+          content: {}
+          description: OK
+  /api/person/:
+    get:
+      description: This endpoint fetches a list of all people in the database.
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_person__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of all people.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve all people from the database
+      tags:
+      - person
+    post:
+      description: This endpoint adds a new person to the database. The request body
+        must comply with the validation schema.
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/_api_person__post_request'
+        description: The details of the person to add.
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__post_200_response'
+          description: Person successfully added and token generated.
+        "400":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Validation or database error occurred.
+        "401":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Unauthorized. Validation failed or a required field is missing.
+      summary: Add a person to the database
+      tags:
+      - person
+      x-codegen-request-body-name: body
+  /api/person/first-name/{firstName}:
+    get:
+      description: This endpoint retrieves all people with the specified first name.
+      parameters:
+      - description: The first name to search for.
+        in: path
+        name: firstName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_person__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of people with the specified first name.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_first_name__firstName__get_404_response'
+          description: No people found with the specified first name.
+      summary: Get people by first name
+      tags:
+      - person
+  /api/person/last-name/{lastName}:
+    get:
+      description: This endpoint retrieves all people with the specified last name.
+      parameters:
+      - description: The last name to search for.
+        in: path
+        name: lastName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_person__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of people with the specified last name.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_last_name__lastName__get_404_response'
+          description: No people found with the specified last name.
+      summary: Get people by last name
+      tags:
+      - person
+  /api/person/email/{email}:
+    get:
+      description: This endpoint retrieves a person with the specified email address.
+      parameters:
+      - description: The email address to search for.
+        in: path
+        name: email
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_email__email__get_200_response'
+          description: Person with the specified email address.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_email__email__get_404_response'
+          description: No person found with the specified email address.
+      summary: Get a person by email
+      tags:
+      - person
+  /api/person/username/{username}:
+    get:
+      description: This endpoint retrieves a person with the specified username.
+      parameters:
+      - description: The username to search for.
+        in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_email__email__get_200_response'
+          description: Person with the specified username.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_username__username__get_404_response'
+          description: No person found with the specified username.
+      summary: Get a person by username
+      tags:
+      - person
+  /api/person/phone-number/{phoneNumber}:
+    get:
+      description: This endpoint retrieves a person with the specified phone number.
+      parameters:
+      - description: The phone number to search for.
+        in: path
+        name: phoneNumber
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_email__email__get_200_response'
+          description: Person with the specified phone number.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_phone_number__phoneNumber__get_404_response'
+          description: No person found with the specified phone number.
+      summary: Get a person by phone number
+      tags:
+      - person
+  /api/person/me:
+    get:
+      description: This endpoint retrieves the details of the user associated with
+        the provided token.
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_email__email__get_200_response'
+          description: Authenticated user details.
+        "400":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Error in token decoding or database lookup.
+      summary: Get details of the authenticated user
+      tags:
+      - person
+  /api/person/{id}:
+    get:
+      description: This endpoint retrieves a person with the specified unique ID.
+      parameters:
+      - description: The unique ID of the person to retrieve.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person_email__email__get_200_response'
+          description: Person with the specified unique ID.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__id__get_404_response'
+          description: No person found with the specified unique ID.
+      summary: Get a person by their unique ID
+      tags:
+      - person
+  /api/location/:
+    get:
+      description: This endpoint fetches a list of all locations in the database.
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_location__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of all locations.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve all locations from the database
+      tags:
+      - location
+  /api/location/stringify:
+    get:
+      description: This endpoint fetches a list of all locations and returns them
+        as formatted addresses.
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_location_stringify_get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of stringified addresses.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve all locations as stringified addresses
+      tags:
+      - location
+  /api/location/stringify/city/{city}:
+    get:
+      description: This endpoint fetches all locations in a given city and returns
+        them as formatted addresses.
+      parameters:
+      - description: City name to filter locations
+        in: path
+        name: city
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_location_stringify_city__city__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of stringified addresses for the specified city.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify_city__city__get_404_response'
+          description: No locations found for the given city.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve stringified locations filtered by city
+      tags:
+      - location
+  /api/location/stringify/region/{region}:
+    get:
+      description: This endpoint fetches all locations in a given region and returns
+        them as formatted addresses.
+      parameters:
+      - description: Region name to filter locations
+        in: path
+        name: region
+        required: true
+        schema:
+          type: string
+      - description: City name to filter locations
+        in: path
+        name: city
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_location_stringify_city__city__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of stringified addresses for the specified region.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify_region__region__get_404_response'
+          description: No locations found for the given region.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve stringified locations filtered by region
+      tags:
+      - location
+  /api/location/stringify/country/{country}:
+    get:
+      description: This endpoint fetches all locations in a given country and returns
+        them as formatted addresses.
+      parameters:
+      - description: Country name to filter locations
+        in: path
+        name: country
+        required: true
+        schema:
+          type: string
+      - description: City name to filter locations
+        in: path
+        name: city
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_location_stringify_city__city__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of stringified addresses for the specified country.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify_country__country__get_404_response'
+          description: No locations found for the given country.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve stringified locations filtered by country
+      tags:
+      - location
+  /api/location/stringify/{id}:
+    get:
+      description: This endpoint fetches a location by ID and returns it as a formatted
+        address.
+      parameters:
+      - description: Location ID to retrieve the location
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      - description: City name to filter locations
+        in: path
+        name: city
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify__id__get_200_response'
+          description: Stringified address for the specified location.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify__id__get_404_response'
+          description: No location found for the given ID.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve a stringified location filtered by ID
+      tags:
+      - location
+  /api/location/city/{city}:
+    get:
+      description: This endpoint fetches all locations in a given city.
+      parameters:
+      - description: City name to filter locations
+        in: path
+        name: city
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_location__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of locations in the specified city.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify_city__city__get_404_response'
+          description: No locations found for the given city.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve locations filtered by city
+      tags:
+      - location
+  /api/location/region/{region}:
+    get:
+      description: This endpoint fetches all locations in a given region.
+      parameters:
+      - description: Region name to filter locations
+        in: path
+        name: region
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_location__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of locations in the specified region.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify_region__region__get_404_response'
+          description: No locations found for the given region.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve locations filtered by region
+      tags:
+      - location
+  /api/location/country/{country}:
+    get:
+      description: This endpoint fetches all locations in a given country.
+      parameters:
+      - description: Country name to filter locations
+        in: path
+        name: country
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_location__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of locations in the specified country.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify_country__country__get_404_response'
+          description: No locations found for the given country.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve locations filtered by country
+      tags:
+      - location
+  /api/location/{id}:
+    get:
+      description: This endpoint fetches a location by its ID.
+      parameters:
+      - description: Location ID to retrieve the location
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location__id__get_200_response'
+          description: Location with the specified ID.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_location_stringify__id__get_404_response'
+          description: No location found for the given ID.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve location filtered by ID
+      tags:
+      - location
+  /api/product/:
+    get:
+      description: This endpoint fetches a list of all products stored in the database.
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_product__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of all products.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve all products from the database
+      tags:
+      - product
+  /api/product/name/{name}:
+    get:
+      description: This endpoint fetches a list of products that match the specified
+        name in the database.
+      parameters:
+      - description: The name of the product to search for.
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_product__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of products with the specified name.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_product_name__name__get_404_response'
+          description: Product not found with the specified name.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve a product by its name
+      tags:
+      - product
+  /api/product/cp-id/{contactPersonId}:
+    get:
+      description: This endpoint fetches a list of products associated with a specific
+        contact person ID.
+      parameters:
+      - description: The contact person ID to filter products.
+        in: path
+        name: contactPersonId
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_product__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of products associated with the specified contact person
+            ID.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_product_cp_id__contactPersonId__get_404_response'
+          description: No products found for the specified contact person ID.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve products by contact person ID
+      tags:
+      - product
+  /api/product/{id}:
+    get:
+      description: This endpoint fetches a product by its unique ID from the database.
+      parameters:
+      - description: The ID of the product to fetch.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_product__id__get_200_response'
+          description: Product details by ID.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_product__id__get_404_response'
+          description: Product not found with the specified ID.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve a product by its ID
+      tags:
+      - product
+  /api/repository/:
+    get:
+      description: This endpoint fetches a list of all repositories in the database.
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_repository__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of all repositories.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve all repositories from the database
+      tags:
+      - repository
+  /api/repository/name/{name}:
+    get:
+      description: This endpoint fetches repositories matching the given name.
+      parameters:
+      - description: Name of the repository to search for
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_repository_name__name__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of repositories matching the name.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_repository_name__name__get_404_response'
+          description: No repository found with the specified name.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve repository by name
+      tags:
+      - repository
+  /api/repository/cp-id/{contactPersonId}:
+    get:
+      description: This endpoint fetches repositories associated with the given contact
+        person ID.
+      parameters:
+      - description: Contact person ID to filter repositories by.
+        in: path
+        name: contactPersonId
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/_api_repository_name__name__get_200_response_inner'
+                type: array
+                xml:
+                  name: main
+          description: List of repositories associated with the contact person ID.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_repository_cp_id__contactPersonId__get_404_response'
+          description: No repositories found with the specified contact person ID.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve repositories by contact person ID
+      tags:
+      - repository
+  /api/repository/{id}:
+    get:
+      description: This endpoint fetches a repository based on its ID.
+      parameters:
+      - description: ID of the repository to retrieve.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_repository__id__get_200_response'
+          description: Repository found by ID.
+        "404":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_repository__id__get_404_response'
+          description: No repository found with the specified ID.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_person__get_500_response'
+          description: Internal server error.
+      summary: Retrieve repository by ID
+      tags:
+      - repository
+  /api/sessions/:
+    delete:
+      description: This endpoint logs out the user by clearing the authentication
+        token cookie from the browser.
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_sessions__post_200_response'
+          description: "Logout successful, token cleared."
+        "400":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_sessions__delete_400_response'
+          description: No authentication token found.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_sessions__post_500_response'
+          description: Internal server error.
+      summary: Logout user by clearing the token
+      tags:
+      - sessions
+    post:
+      description: "This endpoint handles user authentication by validating the provided\
+        \ email and password. If successful, a JWT token is returned and stored in\
+        \ a secure cookie for further requests."
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/_api_sessions__post_request'
+        description: User login credentials
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_sessions__post_200_response'
+          description: "Authentication successful, token set in cookie."
+        "401":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_sessions__post_401_response'
+          description: Invalid email or password.
+        "500":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_api_sessions__post_500_response'
+          description: Internal server error.
+      summary: Authenticate user and return token
+      tags:
+      - sessions
+      x-codegen-request-body-name: "0"
+  /api/search/:
+    post:
+      description: This endpoint performs a fuzzy search for people based on a query
+        string and specified options.
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Search for people based on a query.
+      tags: []
+components:
+  schemas:
+    _api_location__id__get_200_response:
+      example:
+        zipCode: "62701"
+        country: USA
+        secondaryAddress: Apt 4B
+        streetAddress: 123 Main St
+        city: Springfield
+        id: 1.0
+        region: Illinois
+      properties:
+        id:
+          example: 1.0
+          type: number
+        streetAddress:
+          example: 123 Main St
+          type: string
+        secondaryAddress:
+          example: Apt 4B
+          type: string
+        city:
+          example: Springfield
+          type: string
+        region:
+          example: Illinois
+          type: string
+        zipCode:
+          example: "62701"
+          type: string
+        country:
+          example: USA
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_repository__id__get_404_response:
+      example:
+        error: "No such repository with id: {id}"
+      properties:
+        error:
+          example: "No such repository with id: {id}"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_sessions__post_401_response:
+      example:
+        error: Invalid E-Mail or Password
+      properties:
+        error:
+          example: Invalid E-Mail or Password
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_product_name__name__get_404_response:
+      example:
+        error: "No such product name: {name}"
+      properties:
+        error:
+          example: "No such product name: {name}"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_person_email__email__get_200_response:
+      example:
+        firstName: John
+        lastName: Doe
+        phoneNumber: "+1234567890"
+        locationId: 1.0
+        id: 1.0
+        title: Software Engineer
+        email: johndoe@example.com
+        username: johndoe123
+      properties:
+        id:
+          example: 1.0
+          type: number
+        firstName:
+          example: John
+          type: string
+        lastName:
+          example: Doe
+          type: string
+        email:
+          example: johndoe@example.com
+          type: string
+        username:
+          example: johndoe123
+          type: string
+        phoneNumber:
+          example: "+1234567890"
+          type: string
+        locationId:
+          example: 1.0
+          type: number
+        title:
+          example: Software Engineer
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_location_stringify__id__get_404_response:
+      example:
+        error: "No such location with id: 1"
+      properties:
+        error:
+          example: "No such location with id: 1"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_person_last_name__lastName__get_404_response:
+      example:
+        error: "No such person with last name: Doe"
+      properties:
+        error:
+          example: "No such person with last name: Doe"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_person_first_name__firstName__get_404_response:
+      example:
+        error: "No such person with first name: John"
+      properties:
+        error:
+          example: "No such person with first name: John"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_location_stringify_get_200_response_inner:
+      example:
+        address: "123 Main St, Apt 4B, Springfield, Illinois, 62701, USA"
+      properties:
+        address:
+          example: "123 Main St, Apt 4B, Springfield, Illinois, 62701, USA"
+          type: string
+      type: object
+    _api_person__post_request:
+      properties:
+        firstName:
+          example: John
+          type: string
+        lastName:
+          example: Doe
+          type: string
+        email:
+          example: johndoe@example.com
+          type: string
+        username:
+          example: johndoe123
+          type: string
+        phoneNumber:
+          example: "+1234567890"
+          type: string
+        locationId:
+          example: 1.0
+          type: number
+        title:
+          example: Software Engineer
+          type: string
+      required:
+      - email
+      - firstName
+      - lastName
+      - locationId
+      - phoneNumber
+      - title
+      - username
+      type: object
+    _api_location_stringify__id__get_200_response:
+      example:
+        address: "123 Main St, Apt 4B, Springfield, Illinois, 62701, USA"
+      properties:
+        address:
+          example: "123 Main St, Apt 4B, Springfield, Illinois, 62701, USA"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_product_cp_id__contactPersonId__get_404_response:
+      example:
+        error: "No such product contact person id: {contactPersonId}"
+      properties:
+        error:
+          example: "No such product contact person id: {contactPersonId}"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_product__id__get_200_response:
+      example:
+        contactPersonId: 1.0
+        price: 99.99
+        name: Product Name
+        description: Product Description
+        id: 1.0
+      properties:
+        id:
+          example: 1.0
+          type: number
+        name:
+          example: Product Name
+          type: string
+        description:
+          example: Product Description
+          type: string
+        price:
+          example: 99.99
+          type: number
+        contactPersonId:
+          example: 1.0
+          type: number
+      type: object
+      xml:
+        name: main
+    _api_repository_cp_id__contactPersonId__get_404_response:
+      example:
+        error: "No such repository with contact person ID: {contactPersonId}"
+      properties:
+        error:
+          example: "No such repository with contact person ID: {contactPersonId}"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_person_phone_number__phoneNumber__get_404_response:
+      example:
+        error: "No such person with phone number: +1234567890"
+      properties:
+        error:
+          example: "No such person with phone number: +1234567890"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_product__id__get_404_response:
+      example:
+        error: "No such product with id: {id}"
+      properties:
+        error:
+          example: "No such product with id: {id}"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_repository__get_200_response_inner:
+      example:
+        contactPersonId: 3.0
+        name: Repo 2
+        description: Repository 2 description
+        id: 2.0
+      properties:
+        id:
+          example: 2.0
+          type: number
+        name:
+          example: Repo 2
+          type: string
+        description:
+          example: Repository 2 description
+          type: string
+        contactPersonId:
+          example: 3.0
+          type: number
+      type: object
+    _api_repository_name__name__get_404_response:
+      example:
+        error: "No such repository with name: {name}"
+      properties:
+        error:
+          example: "No such repository with name: {name}"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_person_username__username__get_404_response:
+      example:
+        error: "No such person with username: johndoe123"
+      properties:
+        error:
+          example: "No such person with username: johndoe123"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_location__get_200_response_inner:
+      example:
+        zipCode: "62701"
+        country: USA
+        secondaryAddress: Apt 4B
+        streetAddress: 123 Main St
+        city: Springfield
+        id: 1.0
+        region: Illinois
+      properties:
+        id:
+          example: 1.0
+          type: number
+        streetAddress:
+          example: 123 Main St
+          type: string
+        secondaryAddress:
+          example: Apt 4B
+          type: string
+        city:
+          example: Springfield
+          type: string
+        region:
+          example: Illinois
+          type: string
+        zipCode:
+          example: "62701"
+          type: string
+        country:
+          example: USA
+          type: string
+      type: object
+    _api_repository_name__name__get_200_response_inner:
+      example:
+        contactPersonId: 2.0
+        name: Repo 1
+        description: Repository 1 description
+        id: 1.0
+      properties:
+        id:
+          example: 1.0
+          type: number
+        name:
+          example: Repo 1
+          type: string
+        description:
+          example: Repository 1 description
+          type: string
+        contactPersonId:
+          example: 2.0
+          type: number
+      type: object
+    _api_person__id__get_404_response:
+      example:
+        error: "No such person with id: 1"
+      properties:
+        error:
+          example: "No such person with id: 1"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_person__get_200_response_inner:
+      example:
+        firstName: John
+        lastName: Doe
+        phoneNumber: "+1234567890"
+        locationId: 1.0
+        id: 1.0
+        title: Software Engineer
+        email: johndoe@example.com
+        username: johndoe123
+      properties:
+        id:
+          example: 1.0
+          type: number
+        firstName:
+          example: John
+          type: string
+        lastName:
+          example: Doe
+          type: string
+        email:
+          example: johndoe@example.com
+          type: string
+        username:
+          example: johndoe123
+          type: string
+        phoneNumber:
+          example: "+1234567890"
+          type: string
+        locationId:
+          example: 1.0
+          type: number
+        title:
+          example: Software Engineer
+          type: string
+      type: object
+    _api_product__get_200_response_inner:
+      example:
+        contactPersonId: 1.0
+        price: 99.99
+        name: Product Name
+        description: Product Description
+        id: 1.0
+      properties:
+        id:
+          example: 1.0
+          type: number
+        name:
+          example: Product Name
+          type: string
+        description:
+          example: Product Description
+          type: string
+        price:
+          example: 99.99
+          type: number
+        contactPersonId:
+          example: 1.0
+          type: number
+      type: object
+    _api_repository__id__get_200_response:
+      example:
+        contactPersonId: 2.0
+        name: Repo 1
+        description: Repository 1 description
+        id: 1.0
+      properties:
+        id:
+          example: 1.0
+          type: number
+        name:
+          example: Repo 1
+          type: string
+        description:
+          example: Repository 1 description
+          type: string
+        contactPersonId:
+          example: 2.0
+          type: number
+      type: object
+      xml:
+        name: main
+    _api_person__get_500_response:
+      example:
+        error: Error message describing the issue.
+      properties:
+        error:
+          example: Error message describing the issue.
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_sessions__post_200_response:
+      example:
+        success: true
+      properties:
+        success:
+          example: true
+          type: boolean
+      type: object
+      xml:
+        name: main
+    _api_location_stringify_region__region__get_404_response:
+      example:
+        error: "No such location with region: Illinois"
+      properties:
+        error:
+          example: "No such location with region: Illinois"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_person_email__email__get_404_response:
+      example:
+        error: "No such person with email: johndoe@example.com"
+      properties:
+        error:
+          example: "No such person with email: johndoe@example.com"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_location_stringify_city__city__get_404_response:
+      example:
+        error: "No such location with city: Springfield"
+      properties:
+        error:
+          example: "No such location with city: Springfield"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_sessions__post_500_response:
+      example:
+        error: Error message describing the issue
+      properties:
+        error:
+          example: Error message describing the issue
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_location_stringify_city__city__get_200_response_inner:
+      example:
+        address: "123 Main St, Springfield, Illinois, 62701, USA"
+      properties:
+        address:
+          example: "123 Main St, Springfield, Illinois, 62701, USA"
+          type: string
+      type: object
+    _api_person__post_200_response:
+      example:
+        success: true
+        token: <jwt-token>
+      properties:
+        success:
+          example: true
+          type: boolean
+        token:
+          example: <jwt-token>
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_location_stringify_country__country__get_404_response:
+      example:
+        error: "No such location with country: USA"
+      properties:
+        error:
+          example: "No such location with country: USA"
+          type: string
+      type: object
+      xml:
+        name: main
+    _api_sessions__post_request:
+      properties:
+        email:
+          example: johndoe@example.com
+          type: string
+        password:
+          example: password123
+          type: string
+      type: object
+    _api_sessions__delete_400_response:
+      example:
+        success: false
+      properties:
+        success:
+          example: false
+          type: boolean
+      type: object
+      xml:
+        name: main
+x-original-swagger-version: "2.0"

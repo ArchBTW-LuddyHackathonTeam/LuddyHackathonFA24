@@ -23,471 +23,2235 @@
     },
     "/api/person/": {
       "get": {
-        "description": "Get all people in the database",
+        "tags": [
+          "person"
+        ],
+        "summary": "Retrieve all people from the database",
+        "description": "This endpoint fetches a list of all people in the database.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of all people.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@example.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "johndoe123"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+1234567890"
+                  },
+                  "locationId": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Software Engineer"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
-          "401": {
-            "description": "Unauthorized"
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "person"
+        ],
+        "summary": "Add a person to the database",
+        "description": "This endpoint adds a new person to the database. The request body must comply with the validation schema.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The details of the person to add.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe123"
+                },
+                "phoneNumber": {
+                  "type": "string",
+                  "example": "+1234567890"
+                },
+                "locationId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Software Engineer"
+                }
+              },
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "username",
+                "phoneNumber",
+                "locationId",
+                "title"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Person successfully added and token generated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "token": {
+                  "type": "string",
+                  "example": "<jwt-token>"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or database error occurred.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized. Validation failed or a required field is missing.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/person/first-name/{firstName}": {
       "get": {
-        "description": "Get people with a specific first name from the database",
+        "tags": [
+          "person"
+        ],
+        "summary": "Get people by first name",
+        "description": "This endpoint retrieves all people with the specified first name.",
         "parameters": [
           {
             "name": "firstName",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The first name to search for."
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of people with the specified first name.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@example.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "johndoe123"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+1234567890"
+                  },
+                  "locationId": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Software Engineer"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No people found with the specified first name.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such person with first name: John"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/person/last-name/{lastName}": {
       "get": {
-        "description": "Get people with a specific last name from the database",
+        "tags": [
+          "person"
+        ],
+        "summary": "Get people by last name",
+        "description": "This endpoint retrieves all people with the specified last name.",
         "parameters": [
           {
             "name": "lastName",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The last name to search for."
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of people with the specified last name.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@example.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "johndoe123"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+1234567890"
+                  },
+                  "locationId": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Software Engineer"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No people found with the specified last name.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such person with last name: Doe"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/person/email/{email}": {
       "get": {
-        "description": "Get people with a specific email address from the database",
+        "tags": [
+          "person"
+        ],
+        "summary": "Get a person by email",
+        "description": "This endpoint retrieves a person with the specified email address.",
         "parameters": [
           {
             "name": "email",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The email address to search for."
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Person with the specified email address.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe123"
+                },
+                "phoneNumber": {
+                  "type": "string",
+                  "example": "+1234567890"
+                },
+                "locationId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Software Engineer"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No person found with the specified email address.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such person with email: johndoe@example.com"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/person/username/{username}": {
       "get": {
-        "description": "Get people with a specific username from the database",
+        "tags": [
+          "person"
+        ],
+        "summary": "Get a person by username",
+        "description": "This endpoint retrieves a person with the specified username.",
         "parameters": [
           {
             "name": "username",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The username to search for."
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Person with the specified username.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe123"
+                },
+                "phoneNumber": {
+                  "type": "string",
+                  "example": "+1234567890"
+                },
+                "locationId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Software Engineer"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No person found with the specified username.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such person with username: johndoe123"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/person/phone-number/{phoneNumber}": {
       "get": {
-        "description": "Get people with a specific phone number from the database",
+        "tags": [
+          "person"
+        ],
+        "summary": "Get a person by phone number",
+        "description": "This endpoint retrieves a person with the specified phone number.",
         "parameters": [
           {
             "name": "phoneNumber",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The phone number to search for."
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Person with the specified phone number.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe123"
+                },
+                "phoneNumber": {
+                  "type": "string",
+                  "example": "+1234567890"
+                },
+                "locationId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Software Engineer"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
-          "400": {
-            "description": "Bad Request"
+          "404": {
+            "description": "No person found with the specified phone number.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such person with phone number: +1234567890"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/person/me": {
       "get": {
-        "description": "",
+        "tags": [
+          "person"
+        ],
+        "summary": "Get details of the authenticated user",
+        "description": "This endpoint retrieves the details of the user associated with the provided token.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Authenticated user details.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe123"
+                },
+                "phoneNumber": {
+                  "type": "string",
+                  "example": "+1234567890"
+                },
+                "locationId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Software Engineer"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Error in token decoding or database lookup.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/person/{id}": {
       "get": {
-        "description": "Get a person by their unique ID from the database",
+        "tags": [
+          "person"
+        ],
+        "summary": "Get a person by their unique ID",
+        "description": "This endpoint retrieves a person with the specified unique ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "description": "The unique ID of the person to retrieve."
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Person with the specified unique ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe123"
+                },
+                "phoneNumber": {
+                  "type": "string",
+                  "example": "+1234567890"
+                },
+                "locationId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Software Engineer"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No person found with the specified unique ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such person with id: 1"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/": {
       "get": {
-        "description": "Get all locations in the database",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve all locations from the database",
+        "description": "This endpoint fetches a list of all locations in the database.",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of all locations.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "streetAddress": {
+                    "type": "string",
+                    "example": "123 Main St"
+                  },
+                  "secondaryAddress": {
+                    "type": "string",
+                    "example": "Apt 4B"
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": "Springfield"
+                  },
+                  "region": {
+                    "type": "string",
+                    "example": "Illinois"
+                  },
+                  "zipCode": {
+                    "type": "string",
+                    "example": "62701"
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": "USA"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/stringify": {
       "get": {
-        "description": "Get all stringified locations",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve all locations as stringified addresses",
+        "description": "This endpoint fetches a list of all locations and returns them as formatted addresses.",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of stringified addresses.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "example": "123 Main St, Apt 4B, Springfield, Illinois, 62701, USA"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/stringify/city/{city}": {
       "get": {
-        "description": "Get stringified locations filtered by city",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve stringified locations filtered by city",
+        "description": "This endpoint fetches all locations in a given city and returns them as formatted addresses.",
         "parameters": [
           {
             "name": "city",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "City name to filter locations"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of stringified addresses for the specified city.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "example": "123 Main St, Springfield, Illinois, 62701, USA"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No locations found for the given city.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such location with city: Springfield"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/stringify/region/{region}": {
       "get": {
-        "description": "Get stringified locations filtered by region",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve stringified locations filtered by region",
+        "description": "This endpoint fetches all locations in a given region and returns them as formatted addresses.",
         "parameters": [
           {
             "name": "region",
             "in": "path",
             "required": true,
+            "type": "string",
+            "description": "Region name to filter locations"
+          },
+          {
+            "name": "city",
+            "in": "path",
+            "description": "City name to filter locations",
+            "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of stringified addresses for the specified region.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "example": "123 Main St, Springfield, Illinois, 62701, USA"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No locations found for the given region.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such location with region: Illinois"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/stringify/country/{country}": {
       "get": {
-        "description": "Get stringified locations filtered by country",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve stringified locations filtered by country",
+        "description": "This endpoint fetches all locations in a given country and returns them as formatted addresses.",
         "parameters": [
           {
             "name": "country",
             "in": "path",
             "required": true,
+            "type": "string",
+            "description": "Country name to filter locations"
+          },
+          {
+            "name": "city",
+            "in": "path",
+            "description": "City name to filter locations",
+            "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of stringified addresses for the specified country.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "example": "123 Main St, Springfield, Illinois, 62701, USA"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No locations found for the given country.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such location with country: USA"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/stringify/{id}": {
       "get": {
-        "description": "Get stringified locations filtered by id",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve a stringified location filtered by ID",
+        "description": "This endpoint fetches a location by ID and returns it as a formatted address.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "integer",
+            "description": "Location ID to retrieve the location"
+          },
+          {
+            "name": "city",
+            "in": "path",
+            "description": "City name to filter locations",
+            "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Stringified address for the specified location.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "example": "123 Main St, Apt 4B, Springfield, Illinois, 62701, USA"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No location found for the given ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such location with id: 1"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/city/{city}": {
       "get": {
-        "description": "Get locations filtered by city",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve locations filtered by city",
+        "description": "This endpoint fetches all locations in a given city.",
         "parameters": [
           {
             "name": "city",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "City name to filter locations"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of locations in the specified city.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "streetAddress": {
+                    "type": "string",
+                    "example": "123 Main St"
+                  },
+                  "secondaryAddress": {
+                    "type": "string",
+                    "example": "Apt 4B"
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": "Springfield"
+                  },
+                  "region": {
+                    "type": "string",
+                    "example": "Illinois"
+                  },
+                  "zipCode": {
+                    "type": "string",
+                    "example": "62701"
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": "USA"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No locations found for the given city.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such location with city: Springfield"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/region/{region}": {
       "get": {
-        "description": "Get locations filtered by region",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve locations filtered by region",
+        "description": "This endpoint fetches all locations in a given region.",
         "parameters": [
           {
             "name": "region",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Region name to filter locations"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of locations in the specified region.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "streetAddress": {
+                    "type": "string",
+                    "example": "123 Main St"
+                  },
+                  "secondaryAddress": {
+                    "type": "string",
+                    "example": "Apt 4B"
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": "Springfield"
+                  },
+                  "region": {
+                    "type": "string",
+                    "example": "Illinois"
+                  },
+                  "zipCode": {
+                    "type": "string",
+                    "example": "62701"
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": "USA"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No locations found for the given region.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such location with region: Illinois"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/country/{country}": {
       "get": {
-        "description": "Get locations filtered by country",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve locations filtered by country",
+        "description": "This endpoint fetches all locations in a given country.",
         "parameters": [
           {
             "name": "country",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Country name to filter locations"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of locations in the specified country.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "streetAddress": {
+                    "type": "string",
+                    "example": "123 Main St"
+                  },
+                  "secondaryAddress": {
+                    "type": "string",
+                    "example": "Apt 4B"
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": "Springfield"
+                  },
+                  "region": {
+                    "type": "string",
+                    "example": "Illinois"
+                  },
+                  "zipCode": {
+                    "type": "string",
+                    "example": "62701"
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": "USA"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No locations found for the given country.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such location with country: USA"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/location/{id}": {
       "get": {
-        "description": "Get locations filtered by id",
+        "tags": [
+          "location"
+        ],
+        "summary": "Retrieve location filtered by ID",
+        "description": "This endpoint fetches a location by its ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "description": "Location ID to retrieve the location"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Location with the specified ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "streetAddress": {
+                  "type": "string",
+                  "example": "123 Main St"
+                },
+                "secondaryAddress": {
+                  "type": "string",
+                  "example": "Apt 4B"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "Springfield"
+                },
+                "region": {
+                  "type": "string",
+                  "example": "Illinois"
+                },
+                "zipCode": {
+                  "type": "string",
+                  "example": "62701"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "USA"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No location found for the given ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such location with id: 1"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/product/": {
       "get": {
-        "description": "Get all products in the database",
+        "tags": [
+          "product"
+        ],
+        "summary": "Retrieve all products from the database",
+        "description": "This endpoint fetches a list of all products stored in the database.",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of all products.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Product Name"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Product Description"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 99.99
+                  },
+                  "contactPersonId": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/product/name/{name}": {
       "get": {
-        "description": "Get a product by its name from the database",
+        "tags": [
+          "product"
+        ],
+        "summary": "Retrieve a product by its name",
+        "description": "This endpoint fetches a list of products that match the specified name in the database.",
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The name of the product to search for."
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of products with the specified name.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Product Name"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Product Description"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 99.99
+                  },
+                  "contactPersonId": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found with the specified name.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such product name: {name}"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/product/cp-id/{contactPersonId}": {
       "get": {
-        "description": "Get products associated with a specific contact person ID in the database",
+        "tags": [
+          "product"
+        ],
+        "summary": "Retrieve products by contact person ID",
+        "description": "This endpoint fetches a list of products associated with a specific contact person ID.",
         "parameters": [
           {
             "name": "contactPersonId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "description": "The contact person ID to filter products."
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of products associated with the specified contact person ID.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Product Name"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Product Description"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 99.99
+                  },
+                  "contactPersonId": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No products found for the specified contact person ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such product contact person id: {contactPersonId}"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/product/{id}": {
       "get": {
-        "description": "Get a product by its ID from the database",
+        "tags": [
+          "product"
+        ],
+        "summary": "Retrieve a product by its ID",
+        "description": "This endpoint fetches a product by its unique ID from the database.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "description": "The ID of the product to fetch."
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Product details by ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Product Name"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Product Description"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 99.99
+                },
+                "contactPersonId": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found with the specified ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such product with id: {id}"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/repository/": {
       "get": {
-        "description": "Get all repositories in the database",
+        "tags": [
+          "repository"
+        ],
+        "summary": "Retrieve all repositories from the database",
+        "description": "This endpoint fetches a list of all repositories in the database.",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of all repositories.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Repo 2"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Repository 2 description"
+                  },
+                  "contactPersonId": {
+                    "type": "number",
+                    "example": 3
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/repository/name/{name}": {
       "get": {
-        "description": "Get repository by its name in the database",
+        "tags": [
+          "repository"
+        ],
+        "summary": "Retrieve repository by name",
+        "description": "This endpoint fetches repositories matching the given name.",
         "parameters": [
           {
             "name": "name",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Name of the repository to search for"
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of repositories matching the name.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Repo 1"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Repository 1 description"
+                  },
+                  "contactPersonId": {
+                    "type": "number",
+                    "example": 2
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No repository found with the specified name.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such repository with name: {name}"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/repository/cp-id/{contactPersonId}": {
       "get": {
-        "description": "Get repositories affiliated associated with a contact person ID in the database",
+        "tags": [
+          "repository"
+        ],
+        "summary": "Retrieve repositories by contact person ID",
+        "description": "This endpoint fetches repositories associated with the given contact person ID.",
         "parameters": [
           {
             "name": "contactPersonId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "description": "Contact person ID to filter repositories by."
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "List of repositories associated with the contact person ID.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Repo 1"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Repository 1 description"
+                  },
+                  "contactPersonId": {
+                    "type": "number",
+                    "example": 2
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No repositories found with the specified contact person ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such repository with contact person ID: {contactPersonId}"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/repository/{id}": {
       "get": {
-        "description": "Get repository by id in the database",
+        "tags": [
+          "repository"
+        ],
+        "summary": "Retrieve repository by ID",
+        "description": "This endpoint fetches a repository based on its ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "description": "ID of the repository to retrieve."
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Repository found by ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Repo 1"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Repository 1 description"
+                },
+                "contactPersonId": {
+                  "type": "number",
+                  "example": 2
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "No repository found with the specified ID.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "No such repository with id: {id}"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/sessions/": {
       "post": {
-        "description": "",
+        "tags": [
+          "sessions"
+        ],
+        "summary": "Authenticate user and return token",
+        "description": "This endpoint handles user authentication by validating the provided email and password. If successful, a JWT token is returned and stored in a secure cookie for further requests.",
+        "parameters": [
+          {
+            "name": "0",
+            "in": "body",
+            "description": "User login credentials",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "johndoe@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "password123"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Authentication successful, token set in cookie.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Invalid email or password.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Invalid E-Mail or Password"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "sessions"
+        ],
+        "summary": "Logout user by clearing the token",
+        "description": "This endpoint logs out the user by clearing the authentication token cookie from the browser.",
         "responses": {
+          "200": {
+            "description": "Logout successful, token cleared.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "400": {
-            "description": "Bad Request"
+            "description": "No authentication token found.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Error message describing the issue"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/search/": {
       "post": {
-        "description": "",
+        "tags": [],
+        "summary": "Search for people based on a query.",
+        "description": "This endpoint performs a fuzzy search for people based on a query string and specified options.",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         }
       }

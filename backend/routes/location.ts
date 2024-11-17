@@ -11,43 +11,371 @@ const _db = new DBInterface();
 
 router.get("/", verifyToken, async (req, res) => {
     await getAllLocations(req, res)
-    // #swagger.description = 'Get all locations in the database'
+    /*
+#swagger.summary = 'Retrieve all locations from the database'
+#swagger.description = 'This endpoint fetches a list of all locations in the database.'
+
+#swagger.responses[200] = {
+  description: 'List of all locations.',
+  schema: [
+    {
+      id: 1,
+      streetAddress: '123 Main St',
+      secondaryAddress: 'Apt 4B',
+      city: 'Springfield',
+      region: 'Illinois',
+      zipCode: '62701',
+      country: 'USA'
+    }
+  ]
+}
+
+#swagger.responses[500] = {
+  description: 'Internal server error.',
+  schema: {
+    error: 'Error message describing the issue.'
+  }
+}
+*/
 });
 router.get("/stringify", verifyToken, async (req, res) => {
     await stringifyAllLocations(req, res);
-    // #swagger.description = 'Get all stringified locations'
+    /*
+    #swagger.summary = 'Retrieve all locations as stringified addresses'
+    #swagger.description = 'This endpoint fetches a list of all locations and returns them as formatted addresses.'
+
+    #swagger.responses[200] = {
+      description: 'List of stringified addresses.',
+      schema: [
+        {
+          address: '123 Main St, Apt 4B, Springfield, Illinois, 62701, USA'
+        }
+      ]
+    }
+
+    #swagger.responses[500] = {
+      description: 'Internal server error.',
+      schema: {
+        error: 'Error message describing the issue.'
+      }
+    }
+    */
 });
 router.get("/stringify/city/:city", verifyToken, async (req, res) => {
     await stringifyLocation(req, res, getLocationByCity);
-    // #swagger.description = 'Get stringified locations filtered by city'
+    /*
+    #swagger.summary = 'Retrieve stringified locations filtered by city'
+    #swagger.description = 'This endpoint fetches all locations in a given city and returns them as formatted addresses.'
+
+    #swagger.parameters['city'] = {
+      in: 'path',
+      description: 'City name to filter locations',
+      required: true,
+      type: 'string'
+    }
+
+    #swagger.responses[200] = {
+      description: 'List of stringified addresses for the specified city.',
+      schema: [
+        {
+          address: '123 Main St, Springfield, Illinois, 62701, USA'
+        }
+      ]
+    }
+
+    #swagger.responses[404] = {
+      description: 'No locations found for the given city.',
+      schema: {
+        error: 'No such location with city: Springfield'
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: 'Internal server error.',
+      schema: {
+        error: 'Error message describing the issue.'
+      }
+    }
+    */
 });
 router.get("/stringify/region/:region", verifyToken, async (req, res) => {
     await stringifyLocation(req, res, getLocationByRegion);
-    // #swagger.description = 'Get stringified locations filtered by region'
+    /*
+    #swagger.summary = 'Retrieve stringified locations filtered by region'
+    #swagger.description = 'This endpoint fetches all locations in a given region and returns them as formatted addresses.'
+
+    #swagger.parameters['region'] = {
+      in: 'path',
+      description: 'Region name to filter locations',
+      required: true,
+      type: 'string'
+    }
+
+    #swagger.responses[200] = {
+      description: 'List of stringified addresses for the specified region.',
+      schema: [
+        {
+          address: '123 Main St, Springfield, Illinois, 62701, USA'
+        }
+      ]
+    }
+
+    #swagger.responses[404] = {
+      description: 'No locations found for the given region.',
+      schema: {
+        error: 'No such location with region: Illinois'
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: 'Internal server error.',
+      schema: {
+        error: 'Error message describing the issue.'
+      }
+    }
+    */
 });
 router.get("/stringify/country/:country", verifyToken, async (req, res) => {
     await stringifyLocation(req, res, getLocationByCountry);
-    // #swagger.description = 'Get stringified locations filtered by country'
+    /*
+    #swagger.summary = 'Retrieve stringified locations filtered by country'
+    #swagger.description = 'This endpoint fetches all locations in a given country and returns them as formatted addresses.'
+
+    #swagger.parameters['country'] = {
+      in: 'path',
+      description: 'Country name to filter locations',
+      required: true,
+      type: 'string'
+    }
+
+    #swagger.responses[200] = {
+      description: 'List of stringified addresses for the specified country.',
+      schema: [
+        {
+          address: '123 Main St, Springfield, Illinois, 62701, USA'
+        }
+      ]
+    }
+
+    #swagger.responses[404] = {
+      description: 'No locations found for the given country.',
+      schema: {
+        error: 'No such location with country: USA'
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: 'Internal server error.',
+      schema: {
+        error: 'Error message describing the issue.'
+      }
+    }
+    */
 });
 router.get("/stringify/:id", verifyToken, async (req, res) => {
     await stringifyLocation(req, res, getLocationById);
-    // #swagger.description = 'Get stringified locations filtered by id'
+    /*
+        #swagger.summary = 'Retrieve a stringified location filtered by ID'
+        #swagger.description = 'This endpoint fetches a location by ID and returns it as a formatted address.'
+
+        #swagger.parameters['id'] = {
+          in: 'path',
+          description: 'Location ID to retrieve the location',
+          required: true,
+          type: 'integer'
+        }
+
+        #swagger.responses[200] = {
+          description: 'Stringified address for the specified location.',
+          schema: {
+            address: '123 Main St, Apt 4B, Springfield, Illinois, 62701, USA'
+          }
+        }
+
+        #swagger.responses[404] = {
+          description: 'No location found for the given ID.',
+          schema: {
+            error: 'No such location with id: 1'
+          }
+        }
+
+        #swagger.responses[500] = {
+          description: 'Internal server error.',
+          schema: {
+            error: 'Error message describing the issue.'
+          }
+        }
+        */
 });
 router.get("/city/:city", verifyToken, async (req, res) => {
     await getLocationByCity(req, res)
-    // #swagger.description = 'Get locations filtered by city'
+    /*
+    #swagger.summary = 'Retrieve locations filtered by city'
+    #swagger.description = 'This endpoint fetches all locations in a given city.'
+
+    #swagger.parameters['city'] = {
+      in: 'path',
+      description: 'City name to filter locations',
+      required: true,
+      type: 'string'
+    }
+
+    #swagger.responses[200] = {
+      description: 'List of locations in the specified city.',
+      schema: [
+        {
+          id: 1,
+          streetAddress: '123 Main St',
+          secondaryAddress: 'Apt 4B',
+          city: 'Springfield',
+          region: 'Illinois',
+          zipCode: '62701',
+          country: 'USA'
+        }
+      ]
+    }
+
+    #swagger.responses[404] = {
+      description: 'No locations found for the given city.',
+      schema: {
+        error: 'No such location with city: Springfield'
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: 'Internal server error.',
+      schema: {
+        error: 'Error message describing the issue.'
+      }
+    }
+    */
 });
 router.get("/region/:region", verifyToken, async (req, res) => {
     await getLocationByRegion(req, res)
-    // #swagger.description = 'Get locations filtered by region'
+    /*
+    #swagger.summary = 'Retrieve locations filtered by region'
+    #swagger.description = 'This endpoint fetches all locations in a given region.'
+
+    #swagger.parameters['region'] = {
+      in: 'path',
+      description: 'Region name to filter locations',
+      required: true,
+      type: 'string'
+    }
+
+    #swagger.responses[200] = {
+      description: 'List of locations in the specified region.',
+      schema: [
+        {
+          id: 1,
+          streetAddress: '123 Main St',
+          secondaryAddress: 'Apt 4B',
+          city: 'Springfield',
+          region: 'Illinois',
+          zipCode: '62701',
+          country: 'USA'
+        }
+      ]
+    }
+
+    #swagger.responses[404] = {
+      description: 'No locations found for the given region.',
+      schema: {
+        error: 'No such location with region: Illinois'
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: 'Internal server error.',
+      schema: {
+        error: 'Error message describing the issue.'
+      }
+    }
+    */
 });
 router.get("/country/:country", verifyToken, async (req, res) => {
     await getLocationByCountry(req, res)
-    // #swagger.description = 'Get locations filtered by country'
+    /*
+    #swagger.summary = 'Retrieve locations filtered by country'
+    #swagger.description = 'This endpoint fetches all locations in a given country.'
+
+    #swagger.parameters['country'] = {
+      in: 'path',
+      description: 'Country name to filter locations',
+      required: true,
+      type: 'string'
+    }
+
+    #swagger.responses[200] = {
+      description: 'List of locations in the specified country.',
+      schema: [
+        {
+          id: 1,
+          streetAddress: '123 Main St',
+          secondaryAddress: 'Apt 4B',
+          city: 'Springfield',
+          region: 'Illinois',
+          zipCode: '62701',
+          country: 'USA'
+        }
+      ]
+    }
+
+    #swagger.responses[404] = {
+      description: 'No locations found for the given country.',
+      schema: {
+        error: 'No such location with country: USA'
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: 'Internal server error.',
+      schema: {
+        error: 'Error message describing the issue.'
+      }
+    }
+    */
 });
 router.get("/:id", verifyToken, async (req, res) => {
     await getLocationById(req, res)
-    // #swagger.description = 'Get locations filtered by id'
+    /*
+    #swagger.summary = 'Retrieve location filtered by ID'
+    #swagger.description = 'This endpoint fetches a location by its ID.'
+
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Location ID to retrieve the location',
+      required: true,
+      type: 'integer'
+    }
+
+    #swagger.responses[200] = {
+      description: 'Location with the specified ID.',
+      schema: {
+        id: 1,
+        streetAddress: '123 Main St',
+        secondaryAddress: 'Apt 4B',
+        city: 'Springfield',
+        region: 'Illinois',
+        zipCode: '62701',
+        country: 'USA'
+      }
+    }
+
+    #swagger.responses[404] = {
+      description: 'No location found for the given ID.',
+      schema: {
+        error: 'No such location with id: 1'
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: 'Internal server error.',
+      schema: {
+        error: 'Error message describing the issue.'
+      }
+    }
+    */
 });
 
 

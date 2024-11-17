@@ -13,8 +13,61 @@ const _db = new DBInterface();
 
 router.post("/", verifyToken, async (req, res) => {
     await search(req, res);
+    /*
+    #swagger.summary = 'Search for people based on a query.'
+    #swagger.description = 'This endpoint performs a fuzzy search for people based on a query string and specified options.'
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Request body containing search query and options.',
+        required: true,
+        schema: {
+            searchQuery: 'John Doe',  // Example search query
+            options: ['firstName', 'lastName']  // Example options
+        }
+    }
+    #swagger.responses[200] = {
+        description: 'Successful search result.',
+        schema: [
+            {
+                id: 1,
+                firstName: 'John',
+                lastName: 'Doe',
+                title: 'Software Engineer',
+                location: {
+                    id: 1,
+                    name: 'New York'
+                },
+                products: [
+                    {
+                        id: 1,
+                        name: 'Product 1',
+                        description: 'Description of product 1'
+                    }
+                ],
+                repositories: [
+                    {
+                        id: 1,
+                        name: 'Repository 1',
+                        description: 'Description of repository 1'
+                    }
+                ]
+            }
+        ]
+    }
+    #swagger.responses[400] = {
+        description: 'Bad request due to invalid search query or options.',
+        schema: {
+            error: 'Invalid input data or missing required fields.'
+        }
+    }
+    #swagger.responses[500] = {
+        description: 'Internal server error.',
+        schema: {
+            error: 'Error message describing the issue.'
+        }
+    }
+    */
 })
-
 async function collectPeople() {
     let result: Array<PersonSearchResult> = [];
 
