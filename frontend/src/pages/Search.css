@@ -21,20 +21,19 @@ html, body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  
 }
 
 /* Search Section Styles */
 .search-section {
   background: linear-gradient(to bottom right, #ff9a9e 0%, #fad0c4 70%, #f0f2f5 100%);
-  padding: 8rem 0 5rem; /* Removed side padding */
+  padding: 8rem 0 5rem;
   text-align: center;
   color: #333;
-  width: 100vw; /* Ensure it spans full viewport width */
+  width: 100vw;
   position: relative;
-  left: 50%; /* Center the element */
+  left: 50%;
   right: 50%;
-  margin-left: -50vw; /* Adjust margins to fill the viewport */
+  margin-left: -50vw;
   margin-right: -50vw;
   box-shadow: #c5c5c5 0px 0px 32px;
 }
@@ -46,6 +45,48 @@ html, body {
   font-weight: 600;
 }
 
+/* Chips container */
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  background-color: #e0e0e0;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.chip.selected {
+  background-color: #ff6363;
+  color: #fff;
+}
+
+.chip:hover {
+  background-color: #d5d5d5;
+}
+
+.chip:hover.selected {
+  background-color: #e94e4e;
+}
+
+.mode-warning {
+  color: #ff6363;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+/* Search input container */
 .search-input-container {
   display: flex;
   justify-content: center;
@@ -53,7 +94,6 @@ html, body {
   max-width: 600px;
   margin: 0 auto;
   padding: 0;
-
 }
 
 .search-input-container input[type='text'] {
@@ -86,6 +126,7 @@ html, body {
   cursor: not-allowed;
 }
 
+/* Results Section */
 .results-section {
   flex: 1;
   padding: 4rem 5rem;
@@ -110,21 +151,21 @@ html, body {
 .results-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Limit to 3 columns */
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
 /* Adjust for medium screens */
 @media (max-width: 992px) {
   .results-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* Adjust for small screens */
 @media (max-width: 600px) {
   .results-grid {
-    grid-template-columns: 1fr; /* 1 column on small screens */
+    grid-template-columns: 1fr;
   }
 }
 
@@ -133,5 +174,5 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px; /* Adjust as needed */
+  height: 200px;
 }
