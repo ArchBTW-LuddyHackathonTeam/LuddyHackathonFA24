@@ -30,7 +30,7 @@ export const signIn = async (email: string, password: string) => {
  * @param userData - Object containing user details.
  * @returns Response data from the server.
  */
-export const signUp = async (userData: { email: string; password: string; firstName: string; lastName: string }) => {
+export const signUp = async (userData: {username: string, email: string; password: string; firstName: string; lastName: string }) => {
   try {
     const response = await api.post('/person', userData);
     return response.data;
