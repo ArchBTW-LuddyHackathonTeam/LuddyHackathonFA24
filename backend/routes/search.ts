@@ -5,12 +5,13 @@ import { Request, Response } from "express-serve-static-core";
 import FuzzySearch from "fuzzy-search";
 import Joi from "joi";
 import {Haystack} from "../db-types";
+import { verifyToken } from "../utils/auth";
 
 const router = express();
 
 const _db = new DBInterface();
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     await search(req, res);
 })
 
