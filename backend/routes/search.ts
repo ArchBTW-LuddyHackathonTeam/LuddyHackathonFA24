@@ -3,7 +3,7 @@ import DBInterface from "../db-interface";
 import {Person, Location, Product, Repository, PersonSearchResult} from '../db-types';
 import { Request, Response } from "express-serve-static-core";
 import FuzzySearch from "fuzzy-search";
-// import Joi from "joi";
+import Joi from "joi";
 
 const router = express();
 
@@ -44,9 +44,24 @@ async function collectResult() {
 }
 
 async function search(_req: Request, res: Response) {
+    let body = _req.body;
+
+    let validate: Joi.ValidationResult = validateBody(body);
+
+    if(validate.error){
+        throw validate.error;
+    }
+
+    const query: string = body.searchQuery;
+
     let result = await collectResult();
 
-    let haystack: any = result.map(x => ({
+    let haystack: {
+        projects: (Product | Repository)[];
+        person: Person;
+        location?: Location;
+        searchableText: string
+    }[] = result.map(x => ({
         ...x,
         searchableText: [
             x.person.firstName,
@@ -58,15 +73,24 @@ async function search(_req: Request, res: Response) {
     }));
 
     const searcher = new FuzzySearch(haystack, ["searchableText"], {
-        caseSensitive: false
+        caseSensitive: false,
+        sort: true
     })
 
-    const query: string = "john";
     const searchResult = searcher.search(query);
 
     console.log(searchResult);
 
-    res.send(result);
+    res.send(searchResult.map(({searchableText, ...rest}) => rest))
+}
+
+function validateBody(_body: any): Joi.ValidationResult {
+    const schema = Joi.object({
+        searchQuery: Joi.string().required(),
+        options: Joi.array().items(Joi.string().valid("product", "repository", "firstName", "lastName", "title"))
+    })
+
+    return schema.validate(_body);
 }
 
 export default router;

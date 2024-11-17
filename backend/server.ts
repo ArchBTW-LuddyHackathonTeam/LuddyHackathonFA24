@@ -28,7 +28,6 @@ app.use('/api/repository', repositoryRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/api/search', searchRouter);
 
-
 // Start the server
 const port = 3000; // You can choose any available port
 app.listen(port, () => {
