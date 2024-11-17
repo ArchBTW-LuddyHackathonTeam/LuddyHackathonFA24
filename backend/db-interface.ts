@@ -111,6 +111,15 @@ export default class DBInterface {
       })
     }
 
+    public async addPersonPasswordHashById(personId: number, passwordHash: string, salt: string): Promise<Person> {
+        const query = "UPDATE person SET person_password_hash = $2, person_salt = $3 WHERE person_id = $1 RETURNING *;";
+        const values = [personId, passwordHash, salt];
+
+        const res: QueryResult = await this.client.query(query, values);
+
+        return res.rows[0];
+    }
+
     // Location Functions
 
     public async getAllLocations(): Promise<Array<Location>> {
