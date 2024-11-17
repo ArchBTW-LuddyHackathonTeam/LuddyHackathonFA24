@@ -286,7 +286,7 @@ export default class DBInterface {
         return this.toPerson(res.rows);
     }
 
-    public async getUserSaltById(personId: number){
+    public async getUserSaltById(personId: number): Promise<string> {
         const _query: string = "SELECT person_salt FROM person WHERE person_id = $1";
         const _values = [personId];
 
