@@ -47,8 +47,6 @@ async function collectPeople() {
 }
 
 async function search(_req: Request, res: Response) {
-    console.log("Search");
-
     let body = _req.body;
 
     let validate: Joi.ValidationResult = validateBody(body);
@@ -77,6 +75,7 @@ async function search(_req: Request, res: Response) {
     // }));
 
     let haystack = createHaystack(options, people);
+    console.log(haystack);
 
     const searcher = new FuzzySearch(haystack, ["searchableText"], {
         caseSensitive: false,
@@ -105,25 +104,36 @@ function createHaystack(_options: any, people: Array<PersonSearchResult>): Array
     for(let person of people){
         let searchableArr: Array<string> = [];
 
-        let optionsArr: Array<string> = _options.options;
-
-        if(optionsArr.includes("firstName")){
+        if(_options) {
+            if (_options.includes("firstName")) {
+                searchableArr.push(person.person.firstName);
+            }
+            if (_options.includes("lastName")) {
+                searchableArr.push(person.person.lastName);
+            }
+            if (_options.includes("title")) {
+                searchableArr.push(person.person.lastName || "");
+            }
+            if (_options.includes("product")) {
+                searchableArr.push(...person.products.map(product => product.name));
+                searchableArr.push(...person.products.map(product => product.description || ""));
+            }
+            if (_options.includes("repository")) {
+                searchableArr.push(...person.repositories.map(repository => repository.name));
+                searchableArr.push(...person.repositories.map(repository => repository.description || ""));
+            }
+        }
+        else{
             searchableArr.push(person.person.firstName);
-        }
-        if(optionsArr.includes("lastName")){
             searchableArr.push(person.person.lastName);
-        }
-        if(optionsArr.includes("title")){
             searchableArr.push(person.person.lastName || "");
-        }
-        if(optionsArr.includes("product")){
             searchableArr.push(...person.products.map(product => product.name));
             searchableArr.push(...person.products.map(product => product.description || ""));
-        }
-        if(optionsArr.includes("repository")){
             searchableArr.push(...person.repositories.map(repository => repository.name));
             searchableArr.push(...person.repositories.map(repository => repository.description || ""));
         }
+
+        console.log("Searchable Arr: ", searchableArr);
 
         let item: Haystack = {
             ...person,
