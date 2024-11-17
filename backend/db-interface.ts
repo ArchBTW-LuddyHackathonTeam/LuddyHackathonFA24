@@ -94,7 +94,7 @@ export default class DBInterface {
     public async getAllLocations(): Promise<Array<Location>> {
         const res: QueryResult = await this.client.query("SELECT * FROM location");
 
-        return res.rows as Array<Location>;
+        return this.toLocation(res.rows);
     }
 
     public async getLocationByCity(_city: string): Promise<Array<Location>> {
@@ -103,7 +103,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Location>
+        return this.toLocation(res.rows);
     }
 
     public async getLocationById(_id: number): Promise<Array<Location>> {
@@ -112,7 +112,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Location>;
+        return this.toLocation(res.rows);
     }
 
     public async getLocationByRegion(_region: string): Promise<Array<Location>> {
@@ -121,7 +121,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Location>
+        return this.toLocation(res.rows);
     }
 
     public async getLocationByCountry(_country: string): Promise<Array<Location>> {
@@ -130,7 +130,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Location>
+        return this.toLocation(res.rows);
     }
 
     //Product Functions
@@ -211,7 +211,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     public async getUserByEmailAndPasswordHash(_email: string, _passwordHash: string){
@@ -220,14 +220,13 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Person>;
+        return this.toPerson(res.rows);
     }
 
     public toPerson(_rows: Array<any>): Array<Person> {
         let people: Array<Person> = [];
 
         for(let row of _rows){
-            console.log(row);
             let person: Person = {
                 id: row.person_id,
                 firstName: row.person_last_name,
@@ -243,5 +242,25 @@ export default class DBInterface {
         }
 
         return people;
+    }
+
+    public toLocation(_rows: Array<any>): Array<Location> {
+        let locations: Array<Location> = [];
+
+        for(let row of _rows){
+           let location: Location = {
+               id: row.location_id,
+               streetAddress: row.location_street_address,
+               secondaryAddress: row.location_secondary_address,
+               city: row.location_city,
+               region: row.location_region,
+               zipCode: row.location_zip_code,
+               country: row.location_country
+           };
+
+           locations.push(location);
+        }
+
+        return locations;
     }
 }
