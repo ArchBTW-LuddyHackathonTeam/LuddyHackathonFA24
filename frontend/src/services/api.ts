@@ -14,8 +14,8 @@ const api = axios.create({
  */
 export const signIn = async (email: string, password: string) => {
   try {
-    const response = await api.post('/sessions', { email, password });
-    return response.data;
+    const response = await api.post('/sessions', { email, password }, { withCredentials: true });
+    return response.data; // Should be { success: true }
   } catch (error: any) {
     if (error.response && error.response.data) {
       // Handle specific errors from the server
@@ -56,6 +56,25 @@ export const search = async (searchQuery: string, options?: string[]) => {
     if (error.response && error.response.data) {
       throw new Error(error.response.data.error || 'Search failed.');
     }
+    throw error;
+  }
+};
+
+export const checkSession = async () => {
+  try {
+    const response = await api.get('/person/me', { withCredentials: true });
+    return { isValid: true, user: response.data };    
+  } catch (error: any) {
+    return { isValid: false };
+  }
+};
+
+// src/services/api.ts
+export const logout = async () => {
+  try {
+    await api.delete('/sessions');
+  } catch (error) {
+    console.error('Logout failed:', error);
     throw error;
   }
 };

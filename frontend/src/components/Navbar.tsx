@@ -5,10 +5,10 @@ import './Navbar.css';
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
-  const { setSessionToken } = useAuth();
+  const { setIsAuthenticated } = useAuth();
 
   const handleLogout = () => {
-    setSessionToken(null);
+    setIsAuthenticated(false);
     navigate('/login');
   };
 
