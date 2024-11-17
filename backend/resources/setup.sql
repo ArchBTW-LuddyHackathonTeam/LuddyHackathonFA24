@@ -18,7 +18,7 @@ CREATE TABLE person (
     person_title VARCHAR(50),
     person_phone_number VARCHAR(50),
     person_password_hash VARCHAR(32),
-    person_salt VARCHAR(32),
+    person_salt VARCHAR(64),
     CONSTRAINT valid_email CHECK (person_email ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),
     UNIQUE (person_email),
     UNIQUE (person_username)
