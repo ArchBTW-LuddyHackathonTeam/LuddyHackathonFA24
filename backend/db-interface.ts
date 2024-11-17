@@ -215,6 +215,22 @@ export default class DBInterface {
         return this.toProduct(res.rows);
     }
 
+    public addProduct(product: Product): Promise<Product> {
+        return new Promise(async (resolve, reject) => {
+            const query = "INSERT INTO product (product_name, product_description, contact_person_id) VALUES ($1, $2, $3) RETURNING *;";
+            const values = [product.name, product.description, product.contactPersonId];
+
+            const res: QueryResult = await this.client.query(query, values);
+            const rows = res.rows;
+        
+            if (rows.length === 0) {
+                reject({ message: "Duplicate Field" });
+            }
+        
+            resolve(this.toProduct(rows)[0]);
+        })
+    }
+
     //Repository Functions
 
     public async getAllRepositories(): Promise<Array<Repository>> {
