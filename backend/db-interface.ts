@@ -95,7 +95,7 @@ export default class DBInterface {
         return this.toPerson(res.rows);
     }
 
-    public addPerson(person: Person): Promise<Person> {
+    public async addPerson(person: Person): Promise<Person> {
       return new Promise(async (resolve, reject) => {
         const query = "INSERT INTO person (person_first_name, person_last_name, person_email, person_username, person_phone_number, location_id, person_title) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;";
         const values = [person.firstName, person.lastName, person.email, person.username, person.phoneNumber, person.locationId, person.title];
@@ -164,7 +164,7 @@ export default class DBInterface {
         return this.toLocation(res.rows);
     }
 
-    public addLocation(location: Location): Promise<Location> {
+    public async addLocation(location: Location): Promise<Location> {
         return new Promise(async (resolve, reject) => {
             const query = "INSERT INTO location (location_street_address, location_secondary_address, location_city, location_region, location_zip_code, location_country) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;";
             const values = [location.streetAddress, location.secondaryAddress, location.city, location.region, location.zipCode, location.country];
@@ -215,7 +215,7 @@ export default class DBInterface {
         return this.toProduct(res.rows);
     }
 
-    public addProduct(product: Product): Promise<Product> {
+    public async addProduct(product: Product): Promise<Product> {
         return new Promise(async (resolve, reject) => {
             const query = "INSERT INTO product (product_name, product_description, contact_person_id) VALUES ($1, $2, $3) RETURNING *;";
             const values = [product.name, product.description, product.contactPersonId];
