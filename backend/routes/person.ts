@@ -16,12 +16,30 @@ router.get("/", async (req, res) => {
     await getAllPeople(req, res)
     // #swagger.description = 'Get all people in the database'
 });
-router.get("/first-name/:firstName", (req, res) => getPeopleByFirstName(req, res));
-router.get("/last-name/:lastName", (req, res) => getPeopleByLastName(req, res));
-router.get("/email/:email", (req, res) => getPeopleByEmail(req, res));
-router.get("/username/:username", (req, res) => getPeopleByUsername(req, res));
-router.get("/phone-number/:phoneNumber", (req, res) => getPeopleByPhoneNumber(req, res));
-router.get("/:id", (req, res) => getPeopleById(req, res));
+router.get("/first-name/:firstName", async (req, res) => {
+    await getPeopleByFirstName(req, res)
+    // #swagger.description = 'Get people with a specific first name from the database'
+});
+router.get("/last-name/:lastName", async (req, res) => {
+    await getPeopleByLastName(req, res)
+    // #swagger.description = 'Get people with a specific last name from the database'
+});
+router.get("/email/:email", async (req, res) => {
+    await getPeopleByEmail(req, res)
+    // #swagger.description = 'Get people with a specific email address from the database'
+});
+router.get("/username/:username", async (req, res) => {
+    await getPeopleByUsername(req, res)
+    // #swagger.description = 'Get people with a specific username from the database'
+});
+router.get("/phone-number/:phoneNumber", async (req, res) => {
+    await getPeopleByPhoneNumber(req, res)
+    // #swagger.description = 'Get people with a specific phone number from the database'
+});
+router.get("/:id", async (req, res) => {
+    await getPeopleById(req, res)
+    // #swagger.description = 'Get a person by their unique ID from the database'
+});
 
 async function getAllPeople(_req: Request, res: Response) {
     const _rows: Array<Person> = await _db.getAllPeople()
