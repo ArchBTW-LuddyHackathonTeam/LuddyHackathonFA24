@@ -41,12 +41,6 @@ const Search: React.FC = () => {
       if (searchModes.includes('Last Name')) {
         searchParams.lastName = query;
       }
-      if (searchModes.includes('Email')) {
-        searchParams.email = query;
-      }
-      if (searchModes.includes('Location')) {
-        searchParams.location = query;
-      }
       if (searchModes.includes('Title')) {
         searchParams.title = query;
       }
@@ -89,7 +83,7 @@ const Search: React.FC = () => {
           data-aos-delay="100"
         >
           <div className="chips-container">
-            {['Product Name', 'Repository Name', 'First Name', 'Last Name', 'Email', 'Location', 'Title'].map((mode) => (
+            {['Product Name', 'Repository Name', 'First Name', 'Last Name', 'Title'].map((mode) => (
               <div
                 key={mode}
                 className={`chip ${searchModes.includes(mode) ? 'selected' : ''}`}
