@@ -138,7 +138,7 @@ export default class DBInterface {
     public async getAllProducts(): Promise<Array<Product>> {
         const res: QueryResult = await this.client.query("SELECT * FROM product");
 
-        return res.rows as Array<Product>;
+        return this.toProduct(res.rows);
     }
 
     public async getProductById(_id: number): Promise<Array<Product>> {
@@ -147,7 +147,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Product>;
+        return this.toProduct(res.rows);
     }
 
     public async getProductByName(_name: string): Promise<Array<Product>> {
@@ -156,7 +156,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Product>;
+        return this.toProduct(res.rows);
     }
 
     public async getProductByContactPersonId(_id: number): Promise<Array<Product>> {
@@ -165,7 +165,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Product>;
+        return this.toProduct(res.rows);
     }
 
     //Repository Functions
@@ -173,7 +173,7 @@ export default class DBInterface {
     public async getAllRepositories(): Promise<Array<Repository>> {
         const res: QueryResult = await this.client.query("SELECT * FROM repository");
 
-        return res.rows as Array<Repository>;
+        return this.toRepository(res.rows);
     }
 
     public async getRepositoryById(_id: number): Promise<Array<Repository>> {
@@ -182,7 +182,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Repository>;
+        return this.toRepository(res.rows);
     }
 
     public async getRepositoryByName(_name: string): Promise<Array<Repository>> {
@@ -191,7 +191,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Repository>;
+        return this.toRepository(res.rows);
     }
 
     public async getRepositoryByContactPersonId(_id: number): Promise<Array<Repository>> {
@@ -200,7 +200,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(_query, _values);
 
-        return res.rows as Array<Repository>;
+        return this.toRepository(res.rows);
     }
 
     //User Functions
@@ -262,5 +262,39 @@ export default class DBInterface {
         }
 
         return locations;
+    }
+
+    public toProduct(_rows: Array<any>): Array<Product> {
+        let products: Array<Product> = [];
+
+        for(let row of _rows){
+            let product: Product = {
+                id: row.product_number,
+                name: row.product_name,
+                description: row.product_description,
+                contactPersonId: row.contact_person_id
+            };
+
+            products.push(product);
+        }
+
+        return products;
+    }
+
+    public toRepository(_rows: Array<any>): Array<Repository> {
+        let repositories: Array<Repository> = [];
+
+        for(let row of _rows){
+            let repository: Repository = {
+                id: row.repository_id,
+                name: row.repository_name,
+                description: row.repository_description,
+                contactPersonId: row.contact_person_id
+            };
+
+            repositories.push(repository);
+        }
+
+        return repositories;
     }
 }
