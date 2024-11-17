@@ -5,6 +5,8 @@ import personRouter from "./routes/person";
 import locationRouter from "./routes/location";
 import productRouter from "./routes/product";
 import repositoryRouter from "./routes/repository";
+import sessionsRouter from "./routes/repository";
+import searchRouter from "./routes/search";
 import sessionsRouter from "./routes/sessions";
 
 const app = express();
@@ -25,6 +27,8 @@ app.use('/api/location', locationRouter);
 app.use('/api/product', productRouter);
 app.use('/api/repository', repositoryRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/search', searchRouter);
+
 
 // Start the server
 const port = 3000; // You can choose any available port
