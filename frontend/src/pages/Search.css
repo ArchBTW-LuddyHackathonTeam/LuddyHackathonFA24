@@ -70,7 +70,41 @@ html, body {
 .chip.selected {
   background-color: #ff6363;
   color: #fff;
+  box-shadow: #00000020 0px 5px 8px;
+  transform: translate(0px, -5px);
+  /* make background of chip a gradient */
+  /* background: linear-gradient(145deg, #ff6363, #ff7363); */
+
+  /* make background animated gradient where the direction of gradient changes */
+  background: linear-gradient(145deg, #ff6363, #ff7863);
+  background-size: 200% 200%;
+  animation: gradientAnimation 3s linear infinite; 
+
+
 }
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(0deg);
+  }
+  25% {
+    background-position: 50% 50%;
+    transform: rotate(1deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: rotate(0deg);
+  }
+  75% {
+    background-position: 50% 50%;
+    transform: rotate(-1deg);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(0deg);
+  }
+}
+
 
 .chip:hover {
   background-color: #d5d5d5;
