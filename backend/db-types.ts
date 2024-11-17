@@ -35,6 +35,6 @@ export interface Repository {
 
 export interface PersonSearchResult {
     person: Person;
-    location: Location;
+    location ?: Location;
     projects: (Product | Repository)[];
 }

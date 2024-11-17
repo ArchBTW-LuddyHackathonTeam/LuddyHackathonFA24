@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import DBInterface from "../db-interface";
-import Person from '../db-interface'
+import {Person} from "../db-types";
 import { Request, Response } from "express-serve-static-core";
 
 const router = express();
