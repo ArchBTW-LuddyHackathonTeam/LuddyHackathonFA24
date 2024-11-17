@@ -117,7 +117,7 @@ export default class DBInterface {
 
         const res: QueryResult = await this.client.query(query, values);
 
-        return res.rows[0];
+        return this.toPerson(res.rows)[0];
     }
 
     // Location Functions
@@ -268,6 +268,15 @@ export default class DBInterface {
         const res: QueryResult = await this.client.query(_query, _values);
 
         return this.toPerson(res.rows);
+    }
+
+    public async getUserSaltById(personId: number){
+        const _query: string = "SELECT person_salt FROM person WHERE person_id = $1";
+        const _values = [personId];
+
+        const res: QueryResult = await this.client.query(_query, _values);
+
+        return res.rows[0].person_salt;
     }
 
     public toPerson(_rows: Array<any>): Array<Person> {
