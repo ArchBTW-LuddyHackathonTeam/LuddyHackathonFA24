@@ -15,18 +15,19 @@ router.get("/", async (req, res) => {
     // #swagger.description = 'Get all people in the database'
 });
 router.post("/", async (req, res) => {
-    signup.validateAsync(req.body)
+    const personObj: Person = {
+        id: -1,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        username: req.body.username,
+        phoneNumber: req.body.phoneNumber,
+        locationId: req.body.locationId,
+        title: req.body.title
+    }
+    signup.validateAsync(personObj)
     .then(body => {
-      return _db.addPerson({
-          id: -1,
-          firstName: body.firstName,
-          lastName: body.lastName,
-          email: body.email,
-          username: body.username,
-          phoneNumber: body.phoneNumber,
-          locationId: body.locationId,
-          title: body.title
-      } as Person);
+      return _db.addPerson(body as Person);
     })
     .then(body => createToken({ id: body.id, firstName: body.firstName, lastName: body.lastName } as Person))
     .then(token => res.status(200).cookie("tk", token, { maxAge: 604800000, httpOnly: true }).json({ success: true }))
