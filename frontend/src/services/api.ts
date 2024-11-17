@@ -72,7 +72,7 @@ export const checkSession = async () => {
 // src/services/api.ts
 export const logout = async () => {
   try {
-    await api.delete('/sessions');
+    await api.delete('/sessions', { withCredentials: true });
   } catch (error) {
     console.error('Logout failed:', error);
     throw error;

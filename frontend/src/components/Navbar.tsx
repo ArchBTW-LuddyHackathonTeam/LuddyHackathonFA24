@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
+import { logout } from '../services/api';
 import './Navbar.css';
 
 const NavBar: React.FC = () => {
@@ -9,6 +10,7 @@ const NavBar: React.FC = () => {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    logout();
     navigate('/login');
   };
 
