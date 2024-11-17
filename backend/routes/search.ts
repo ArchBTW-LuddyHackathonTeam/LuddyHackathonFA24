@@ -56,8 +56,6 @@ async function search(_req: Request, res: Response) {
         throw validate.error;
     }
 
-    console.log(validate);
-
     const options: Joi.ValidationResult = validate.value.options;
 
     const query: string = body.searchQuery;
@@ -76,7 +74,6 @@ async function search(_req: Request, res: Response) {
     // }));
 
     let haystack = createHaystack(options, people);
-    console.log(haystack);
 
     const searcher = new FuzzySearch(haystack, ["searchableText"], {
         caseSensitive: false,
@@ -84,8 +81,6 @@ async function search(_req: Request, res: Response) {
     })
 
     const searchResult = searcher.search(query);
-
-    console.log(searchResult);
 
     res.send(searchResult.map(({searchableText, ...rest}) => rest))
 }
@@ -133,8 +128,6 @@ function createHaystack(_options: any, people: Array<PersonSearchResult>): Array
             searchableArr.push(...person.repositories.map(repository => repository.name));
             searchableArr.push(...person.repositories.map(repository => repository.description || ""));
         }
-
-        console.log("Searchable Arr: ", searchableArr);
 
         let item: Haystack = {
             ...person,
