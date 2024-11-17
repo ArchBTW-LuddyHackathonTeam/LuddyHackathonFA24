@@ -2,7 +2,7 @@ import express from "express";
 import DBInterface from "../db-interface";
 import {Person} from "../db-types";
 import { Request, Response } from "express-serve-static-core";
-import { createToken, decodeToken, verifyToken } from "../utils/auth"
+import { createToken, decodeToken, generateSalt, hashPassword, verifyToken } from "../utils/auth"
 import signup from "../utils/signupSchema"
 
 const router = express();
@@ -15,6 +15,7 @@ router.get("/", async (req, res) => {
     // #swagger.description = 'Get all people in the database'
 });
 router.post("/", async (req, res) => {
+    const salt = generateSalt()
     signup.validateAsync({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -24,9 +25,8 @@ router.post("/", async (req, res) => {
         locationId: req.body.locationId,
         title: req.body.title
     })
-    .then(body => {
-      return _db.addPerson(body as Person);
-    })
+    .then(body => Promise.all([_db.addPerson(body as Person), hashPassword(req.body.password, salt)]))
+    .then(body => _db.addPersonPasswordHashById(body[0].id, body[1], salt))
     .then(body => createToken({ id: body.id, firstName: body.firstName, lastName: body.lastName } as Person))
     .then(token => res.status(200).cookie("tk", token, { maxAge: 604800000, httpOnly: true }).json({ success: true }))
     .catch(message => {
