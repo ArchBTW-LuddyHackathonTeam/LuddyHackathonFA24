@@ -36,11 +36,13 @@ export interface Repository {
 export interface PersonSearchResult {
     person: Person;
     location ?: Location;
-    projects: (Product | Repository)[];
+    products: Array<Product>,
+    repositories: Array<Repository>
 }
 
 export interface Haystack {
-    projects: (Product | Repository)[];
+    products: Array<Product>,
+    repositories: Array<Repository>,
     person: Person;
     location?: Location;
     searchableText: string
