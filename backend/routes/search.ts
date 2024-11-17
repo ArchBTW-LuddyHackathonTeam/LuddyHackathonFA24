@@ -11,7 +11,7 @@ const router = express();
 
 const _db = new DBInterface();
 
-router.get("/", verifyToken, async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
     await search(req, res);
 })
 
