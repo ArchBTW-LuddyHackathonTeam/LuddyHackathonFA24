@@ -14,7 +14,7 @@ const _db = new DBInterface();
 
 router.get("/", async (req, res) => {
     await getAllPeople(req, res)
-// #swagger.description = 'Get all people in the database'
+    // #swagger.description = 'Get all people in the database'
 });
 router.get("/first-name/:firstName", (req, res) => getPeopleByFirstName(req, res));
 router.get("/last-name/:lastName", (req, res) => getPeopleByLastName(req, res));

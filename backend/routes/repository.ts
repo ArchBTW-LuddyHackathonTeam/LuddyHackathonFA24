@@ -12,7 +12,10 @@ router.use(cors());
 //Initialize db interface
 const _db = new DBInterface();
 
-router.get("/", (req, res) => getAllRepositories(req, res));
+router.get("/", async (req, res) => {
+    await getAllRepositories(req, res)
+    // #swagger.description = 'Get all repositories in the database'
+});
 router.get("/name/:name", (req, res) => getRepositoryByName(req, res));
 router.get("/cp-id/:contactPersonId", (req, res) => getRepositoryByContactPersonId(req, res));
 router.get("/:id", (req, res) => getRepositoryById(req, res));
