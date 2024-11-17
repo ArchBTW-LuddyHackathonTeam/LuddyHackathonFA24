@@ -20,11 +20,6 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
-// Test route
-app.get('/api/test', (_req, res) => {
-  res.json({ message: 'Hello from the backend!' });
-});
-
 // Person endpoints
 app.use('/api/person', personRouter
 /*
