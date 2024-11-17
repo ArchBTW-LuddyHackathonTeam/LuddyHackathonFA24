@@ -2,8 +2,8 @@ import express from "express";
 import DBInterface from "../db-interface";
 import {Person} from "../db-types";
 import { Request, Response } from "express-serve-static-core";
-import { decodeToken, verifyToken } from "../utils/auth"
-import Joi from "joi";
+import { createToken, decodeToken, verifyToken } from "../utils/auth"
+import signup from "../utils/signupSchema"
 
 const router = express();
 
@@ -15,7 +15,24 @@ router.get("/", async (req, res) => {
     // #swagger.description = 'Get all people in the database'
 });
 router.post("/", async (req, res) => {
-    await addPerson(req, res);
+    signup.validateAsync(req.body)
+    .then(body => {
+      return _db.addPerson({
+          id: -1,
+          firstName: body.firstName,
+          lastName: body.lastName,
+          email: body.email,
+          username: body.username,
+          phoneNumber: body.phoneNumber,
+          locationId: body.locationId,
+          title: body.title
+      } as Person);
+    })
+    .then(body => createToken({ id: body.id, firstName: body.firstName, lastName: body.lastName } as Person))
+    .then(token => res.status(200).cookie("tk", token, { maxAge: 604800000, httpOnly: true }).json({ success: true }))
+    .catch(message => {
+      res.status(401).json({ error: message.message })
+    })
 })
 router.get("/first-name/:firstName", async (req, res) => {
     await getPeopleByFirstName(req, res)
@@ -135,43 +152,6 @@ async function getPeopleByPhoneNumber(_req: Request, res: Response){
     }
 
     res.send(_rows);
-}
-
-async function addPerson(_req: Request, res: Response){
-    const validate: Joi.ValidationResult = validatePerson(_req.body);
-
-    if(validate.error){
-        throw validate.error; //todo: better error handling for common mistakes
-    }
-
-    const person: Person = {
-        id: -1,
-        firstName: validate.value.firstName,
-        lastName: validate.value.lastName,
-        email: validate.value.email,
-        username: validate.value.username,
-        phoneNumber: validate.value.phoneNumber,
-        locationId: validate.value.locationId,
-        title: validate.value.title
-    }
-
-    const _row: Person = await _db.addPerson(person);
-
-    res.send(_row);
-}
-
-function validatePerson(_body: any){
-    const schema = Joi.object({
-        firstName: Joi.string().max(50).required(),
-        lastName: Joi.string().max(50).required(),
-        email: Joi.string().email().max(254).required(),
-        username: Joi.string().max(32).required(),
-        locationId: Joi.number().min(0),
-        title: Joi.string().max(50),
-        phoneNumber: Joi.string().max(50)
-    })
-
-    return schema.validate(_body);
 }
 
 export default router;
