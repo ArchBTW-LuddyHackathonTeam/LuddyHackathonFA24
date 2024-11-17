@@ -1,19 +1,17 @@
 import pg, {QueryResult} from 'pg';
-import config from './resources/pg-config.json'
 import Person from './db-interface'
 import Location from './db-interface'
 import Product from './db-interface'
 import Repository from './db-interface'
+import dotenv from "dotenv"
+
+dotenv.config()
 
 export default class DBInterface {
     private client: pg.Client;
 
     constructor(){
-        if(!config){
-            throw new Error("pg-config.json not found, aborting");
-        }
-
-        this.client = new pg.Client(config);
+        this.client = new pg.Client();
 
         this.client.connect(function (err : Error | null) {
             if(err) {
