@@ -1,33 +1,41 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { checkSession } from '../services/api'; // We'll implement this function.
 
 interface AuthContextType {
-  sessionToken: string | null;
-  setSessionToken: (token: string | null) => void;
+  isAuthenticated: boolean;
+  setIsAuthenticated: (auth: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
-  sessionToken: null,
-  setSessionToken: () => {},
+  isAuthenticated: false,
+  setIsAuthenticated: () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [sessionToken, setSessionToken] = useState<string | null>(
-    localStorage.getItem('sessionToken')
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  const handleSetSessionToken = (token: string | null) => {
-    if (token) {
-      localStorage.setItem('sessionToken', token);
-    } else {
-      localStorage.removeItem('sessionToken');
-    }
-    setSessionToken(token);
-  };
+  useEffect(() => {
+    // Check if the session is valid on app load
+    const verifySession = async () => {
+      try {
+        const response = await checkSession();
+        if (response.isValid) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
+
+    verifySession();
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ sessionToken, setSessionToken: handleSetSessionToken }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

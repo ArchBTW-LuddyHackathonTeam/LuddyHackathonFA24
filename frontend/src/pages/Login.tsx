@@ -6,7 +6,7 @@ import './Login.css'; // Import the CSS file
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { sessionToken, setSessionToken } = useAuth();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,25 +16,27 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (sessionToken) {
+    if (isAuthenticated) {
       navigate('/');
     }
-  }, [sessionToken, navigate]);
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true); // Start loading
+    setError(''); // Clear previous errors
     try {
       const response = await signIn(email, password);
-      if (response.sessionToken) {
-        setSessionToken(response.sessionToken);
+      if (response.success) {
+        // Login succeeded, set authentication status
+        setIsAuthenticated(true);
         navigate('/');
       } else {
         setError('Invalid email or password');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login failed:', error);
-      setError('Invalid email or password');
+      setError(error.message || 'Invalid email or password');
     } finally {
       setIsLoading(false); // End loading
     }
