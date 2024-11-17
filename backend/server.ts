@@ -4,7 +4,7 @@ import personRouter from "./routes/person";
 import locationRouter from "./routes/location";
 import productRouter from "./routes/product";
 import repositoryRouter from "./routes/repository";
-import sessionsRouter from "./routes/repository";
+import sessionsRouter from "./routes/sessions";
 
 const app = express();
 
