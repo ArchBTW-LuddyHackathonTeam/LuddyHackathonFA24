@@ -6,7 +6,7 @@ import './SignUp.css'; // Import the CSS file
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
-  const { sessionToken, setSessionToken } = useAuth();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -22,25 +22,27 @@ const SignUp: React.FC = () => {
 
   useEffect(() => {
     // Redirect to home if user is already authenticated
-    if (sessionToken) {
+    if (isAuthenticated) {
       navigate('/');
     }
-  }, [sessionToken, navigate]);
+  }, [isAuthenticated, navigate]);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true); // Start loading
+    setError(''); // Clear previous errors
     try {
       const response = await signUp(formData);
-      if (response.sessionToken) {
-        setSessionToken(response.sessionToken);
+      if (response.success) {
+        // Sign up succeeded, set authentication status
+        setIsAuthenticated(true);
         navigate('/'); // Redirect to home upon successful sign-up
       } else {
-        setError('Sign up failed. Please try again.'); // Set error if no session token received
+        setError('Sign up failed. Please try again.'); // Set error if sign-up failed
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Sign up failed:', error);
-      setError('Sign up failed. Please try again.'); // Display error message
+      setError(error.message || 'Sign up failed. Please try again.'); // Display error message
     } finally {
       setIsLoading(false); // End loading
     }
