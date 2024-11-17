@@ -10,6 +10,7 @@ const app = express();
 
 // Enable CORS for all routes
 app.use(cors());
+app.use(express.json())
 
 // Test route
 app.get('/api/test', (_req, res) => {
