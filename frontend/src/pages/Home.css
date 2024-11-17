@@ -53,6 +53,7 @@ body {
   padding: 2rem;
   text-align: center;
   position: relative;
+  padding-top: 4rem;
 }
 
 .home-header::after {

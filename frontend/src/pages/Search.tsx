@@ -78,26 +78,89 @@ const Search: React.FC = () => {
               <h2>
                 {result.person.firstName} {result.person.lastName}
               </h2>
-              <p>
-                <strong>Title:</strong> {result.person.title}
-              </p>
-              <p>
-                <strong>Location:</strong> {result.location.city}, {result.location.region}
-              </p>
+
+              {/* Conditionally render the optional fields if they exist */}
+              {result.person.title && (
+                <p>
+                  <strong>Title:</strong> {result.person.title}
+                </p>
+              )}
+
+              {/* Display the location as a single block address */}
+              {(() => {
+                const addressLines: string[] = [];
+
+                if (result.location.streetAddress) {
+                  addressLines.push(result.location.streetAddress);
+                }
+
+                if (result.location.secondaryAddress) {
+                  addressLines.push(result.location.secondaryAddress);
+                }
+
+                let cityRegionZip = '';
+
+                if (result.location.city) {
+                  cityRegionZip += result.location.city;
+                }
+
+                if (result.location.region) {
+                  cityRegionZip += cityRegionZip ? `, ${result.location.region}` : result.location.region;
+                }
+
+                if (result.location.zipCode) {
+                  cityRegionZip += cityRegionZip ? ` ${result.location.zipCode}` : result.location.zipCode;
+                }
+
+                if (cityRegionZip) {
+                  addressLines.push(cityRegionZip);
+                }
+
+                if (result.location.country) {
+                  addressLines.push(result.location.country);
+                }
+
+                return (
+                  addressLines.length > 0 && (
+                    <p>
+                      <strong>Location:</strong>
+                      <br />
+                      {addressLines.map((line, idx) => (
+                        <React.Fragment key={idx}>
+                          {line}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </p>
+                  )
+                );
+              })()}
+
               <p>
                 <strong>Email:</strong>{' '}
                 <a href={`mailto:${result.person.email}`}>{result.person.email}</a>
               </p>
+
+              {/* Display phone number if available */}
+              {result.person.phoneNumber && (
+                <p>
+                  <strong>Phone Number:</strong> {result.person.phoneNumber}
+                </p>
+              )}
+
               <p>
                 <strong>Username:</strong> {result.person.username}
               </p>
+
+              {/* Display projects if available */}
               {result.projects && result.projects.length > 0 && (
                 <div className="projects">
                   <strong>Projects:</strong>
                   <ul>
                     {result.projects.map((project) => (
                       <li key={project.id}>
-                        {project.name} - {project.description}
+                        {project.name}
+                        {project.description && ` - ${project.description}`}
                       </li>
                     ))}
                   </ul>
@@ -107,9 +170,7 @@ const Search: React.FC = () => {
           ))
         ) : (
           hasSearched &&
-          !isLoading && (
-            <p className="no-results">No results found for "{query}".</p>
-          )
+          !isLoading && <p className="no-results">No results found for "{query}".</p>
         )}
       </div>
     </div>
