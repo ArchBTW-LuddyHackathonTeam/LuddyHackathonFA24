@@ -27,31 +27,25 @@ const Search: React.FC = () => {
     if (searchModes.length === 0) return; // Ensure at least one mode is selected
     setIsLoading(true);
     try {
-      // Build the search parameters based on selected modes
-      const searchParams: any = {};
-      if (searchModes.includes('Product Name')) {
-        searchParams.productName = query;
-      }
-      if (searchModes.includes('Repository Name')) {
-        searchParams.repositoryName = query;
-      }
-      if (searchModes.includes('First Name')) {
-        searchParams.firstName = query;
-      }
-      if (searchModes.includes('Last Name')) {
-        searchParams.lastName = query;
-      }
-      if (searchModes.includes('Email')) {
-        searchParams.email = query;
-      }
-      if (searchModes.includes('Location')) {
-        searchParams.location = query;
-      }
-      if (searchModes.includes('Title')) {
-        searchParams.title = query;
-      }
+      // Map search modes to options expected by the API
+      const options: string[] = searchModes.map((mode) => {
+        switch (mode) {
+          case 'Product Name':
+            return 'product';
+          case 'Repository Name':
+            return 'repository';
+          case 'First Name':
+            return 'firstName';
+          case 'Last Name':
+            return 'lastName';
+          case 'Title':
+            return 'title';
+          default:
+            return '';
+        }
+      }).filter(Boolean); // Remove any empty strings
 
-      const searchResults = await search(searchParams);
+      const searchResults = await search(query, options);
       setResults(searchResults);
     } catch (error) {
       console.error('Search failed:', error);
@@ -89,7 +83,7 @@ const Search: React.FC = () => {
           data-aos-delay="100"
         >
           <div className="chips-container">
-            {['Product Name', 'Repository Name', 'First Name', 'Last Name', 'Email', 'Location', 'Title'].map((mode) => (
+            {['Product Name', 'Repository Name', 'First Name', 'Last Name', 'Title'].map((mode) => (
               <div
                 key={mode}
                 className={`chip ${searchModes.includes(mode) ? 'selected' : ''}`}

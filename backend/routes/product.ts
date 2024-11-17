@@ -16,9 +16,18 @@ router.get("/", async (req, res) => {
     await getAllProducts(req, res)
     // #swagger.description = 'Get all products in the database'
 });
-router.get("/name/:name", (req, res) => getProductByName(req, res));
-router.get("/cp-id/:contactPersonId", (req, res) => getProductByContactPersonId(req, res));
-router.get("/:id", (req, res) => getProductById(req, res));
+router.get("/name/:name", async (req, res) => {
+    await getProductByName(req, res)
+    // #swagger.description = 'Get a product by its name from the database'
+});
+router.get("/cp-id/:contactPersonId", async (req, res) => {
+    await getProductByContactPersonId(req, res)
+    // #swagger.description = 'Get products associated with a specific contact person ID in the database'
+});
+router.get("/:id", async (req, res) => {
+    await getProductById(req, res)
+    // #swagger.description = 'Get a product by its ID from the database'
+});
 
 async function getAllProducts(_req: Request, res: Response){
     const _rows: Array<Product> = await _db.getAllProducts()

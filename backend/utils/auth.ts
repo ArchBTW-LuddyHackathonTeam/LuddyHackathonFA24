@@ -1,7 +1,7 @@
 import { SignJWT, JWTPayload, jwtVerify } from "jose"
 import { Person } from '../db-types'
 import { Request, Response, NextFunction } from "express"
-import { randomBytes } from "crypto"
+import { randomBytes, pbkdf2 } from "crypto"
 
 const jwtSecret = new TextEncoder().encode(process.env.JWTSECRET)
 
@@ -34,7 +34,11 @@ export function generateSalt(): string {
   return randomBytes(32).toString("hex")
 }
 
-export function hashPassword(): Promise<string> {
-  return new Promise((_resolve, _reject) => {
+export function hashPassword(password: string, salt: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    pbkdf2(password, salt, 100000, 64, "sha256", (err, derivedKey) => {
+      if (err) reject(err)
+      else resolve(derivedKey.toString('hex'));  // '3745e48...08d59ae'
+    });
   })
 }
