@@ -16,9 +16,18 @@ router.get("/", async (req, res) => {
     await getAllRepositories(req, res)
     // #swagger.description = 'Get all repositories in the database'
 });
-router.get("/name/:name", (req, res) => getRepositoryByName(req, res));
-router.get("/cp-id/:contactPersonId", (req, res) => getRepositoryByContactPersonId(req, res));
-router.get("/:id", (req, res) => getRepositoryById(req, res));
+router.get("/name/:name", async (req, res) => {
+    await getRepositoryByName(req, res)
+    // #swagger.description = 'Get repository by its name in the database'
+});
+router.get("/cp-id/:contactPersonId", async (req, res) => {
+    getRepositoryByContactPersonId(req, res)
+    // #swagger.description = 'Get repositories affiliated associated with a contact person ID in the database'
+});
+router.get("/:id", async (req, res) => {
+    getRepositoryById(req, res)
+    // #swagger.description = 'Get repository by id in the database'
+});
 
 async function getAllRepositories(_req: Request, res: Response){
     const _rows: Array<Repository> = await _db.getAllRepositories()
