@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser"
 import personRouter from "./routes/person";
 import locationRouter from "./routes/location";
 import productRouter from "./routes/product";
@@ -8,9 +9,10 @@ import sessionsRouter from "./routes/sessions";
 
 const app = express();
 
-// Enable CORS for all routes
+// Enable various express middlewares for abstracting more complex features
 app.use(cors());
 app.use(express.json())
+app.use(cookieParser())
 
 // Test route
 app.get('/api/test', (_req, res) => {
