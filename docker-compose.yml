@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  my-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODE: ${MODE:-dev}
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=mydatabase
+    volumes:
+      - app_data:/usr/src/app
+    ports:
+      - 3000:3000
+      - 5173:5173
+
+  db:
+    image: postgres:14-alpine
+    container_name: postgres_db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./resources:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+volumes:
+  app_data:
+  postgres_data:
