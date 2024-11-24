@@ -21,7 +21,7 @@ ARG MODE=release
 RUN if [ "$MODE" = "dev" ]; then \ 
        echo "Cloning latest development version..."; \
        rm -rf ./* ./.*; \
-       git clone -b ian-docker-update --depth 1 "https://github.com/${REPO_OWNER}/${REPO_NAME}.git"; \
+       git clone --depth 1 "https://github.com/${REPO_OWNER}/${REPO_NAME}.git"; \
     elif [ "$MODE" = "release" ]; then \
         echo "Downloading latest release..."; \
         rm -rf ./* ./.*; \
