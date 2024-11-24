@@ -1,5 +1,5 @@
 # Use the official Node.js 16 LTS image
-FROM node:16-alpine
+FROM node:23-alpine
 
 # Set environment variables
 ENV APP_DIR=/usr/src/app \
