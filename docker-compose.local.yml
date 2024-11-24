@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        MODE: ${MODE:-release}
+        MODE: ${MODE:-local}
     depends_on:
       - db
     environment:
