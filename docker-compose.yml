@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        MODE: ${MODE:-dev}
+        MODE: ${MODE:-local}
     depends_on:
       - db
     environment:
@@ -32,7 +32,7 @@ services:
       POSTGRES_DB: mydatabase
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./resources:/docker-entrypoint-initdb.d
+      - ./backend/resources:/docker-entrypoint-initdb.d
     restart: unless-stopped
 
 volumes:

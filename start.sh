@@ -1,11 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd backend
 
-./wait-for-it.sh db:5432 -- npm run start
+echo "Starting backend..."
+
+./wait-for-it.sh db:5432 -- npm run start &
 
 cd ..
 cd frontend
+
+echo "Starting frontend..."
 
 npm run dev &
 
