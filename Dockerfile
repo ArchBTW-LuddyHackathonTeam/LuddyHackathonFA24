@@ -12,14 +12,19 @@ RUN apk update && apk add --no-cache bash github-cli curl unzip
 # Create and set the working directory inside the container
 WORKDIR $APP_DIR
 
+# Copy local files for local option
+COPY . ${REPO_NAME}/.
+
 # Defailt build mode argument
 ARG MODE=release
 
 RUN if [ "$MODE" = "dev" ]; then \ 
        echo "Cloning latest development version..."; \
+       rm -rf ./* ./.*; \
        git clone -b ian-docker-update --depth 1 "https://github.com/${REPO_OWNER}/${REPO_NAME}.git"; \
     elif [ "$MODE" = "release" ]; then \
         echo "Downloading latest release..."; \
+        rm -rf ./* ./.*; \
         release_url=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | grep "zipball_url" | cut -d '"' -f 4); \
         if [ -z "$release_url" ]; then \
             echo "Failed to fetch release URL"; \
@@ -28,6 +33,8 @@ RUN if [ "$MODE" = "dev" ]; then \
         curl -L -o release.zip "$release_url"; \
         unzip -d ${REPO_NAME} release.zip; \
         rm release.zip; \
+    elif [ "$MODE" = "local" ]; then \
+        echo "Using local repository files..."; \
     else \
         echo "Invalid MODE value: ${MODE}. Use 'dev' or 'release'."; \
         exit 1; \
@@ -59,10 +66,6 @@ RUN npm run build
 EXPOSE 5173
 
 WORKDIR ${APP_DIR}/${REPO_NAME}
-
-# TEMP copy start script
-COPY start.sh start.sh
-RUN chmod +x start.sh
 
 # Command to run your application
 CMD ["./start.sh"]
