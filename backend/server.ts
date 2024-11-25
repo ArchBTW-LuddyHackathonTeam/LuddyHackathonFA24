@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser"
+import logger from "morgan";
 import personRouter from "./routes/person";
 import locationRouter from "./routes/location";
 import productRouter from "./routes/product";
@@ -19,6 +20,7 @@ app.use(cors({
 }));
 app.use(express.json())
 app.use(cookieParser())
+app.use(logger('dev'));
 
 // Person endpoints
 app.use('/api/person', personRouter
