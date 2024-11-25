@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { PersonSearchResult } from '@backend/db-types';
 
+const ip = location.hostname;
+
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: `http://${ip}:3000/api`,
   withCredentials: true, // Include cookies in requests
 });
 
