@@ -1,7 +1,5 @@
-version: "3.9"
-
 services:
-  my-app:
+  contact-point:
     build:
       context: .
       dockerfile: Dockerfile
