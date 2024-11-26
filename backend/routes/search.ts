@@ -1,11 +1,11 @@
 import express from "express";
 import DBInterface from "../db-interface";
 import {Person, Location, Product, Repository, PersonSearchResult} from '../db-types';
-import { Request, Response } from "express-serve-static-core";
+import {Request, Response} from "express-serve-static-core";
 import FuzzySearch from "fuzzy-search";
 import Joi from "joi";
 import {Haystack} from "../db-types";
-import { verifyToken } from "../utils/auth";
+import {verifyToken} from "../utils/auth";
 
 const router = express();
 
@@ -67,7 +67,8 @@ router.post("/", verifyToken, async (req, res) => {
         }
     }
     */
-})
+});
+
 async function collectPeople() {
     let result: Array<PersonSearchResult> = [];
 
@@ -87,7 +88,7 @@ async function collectPeople() {
                 person: person,
                 products: productsArr,
                 repositories: repositoriesArr
-            })
+            });
         } else {
             result.push({
                 person: person,
@@ -105,7 +106,7 @@ async function search(_req: Request, res: Response) {
 
     let validate: Joi.ValidationResult = validateBody(body);
 
-    if(validate.error){
+    if (validate.error) {
         throw validate.error; //todo: better error handling for common mistakes
     }
 
@@ -131,18 +132,18 @@ async function search(_req: Request, res: Response) {
     const searcher = new FuzzySearch(haystack, ["searchableText"], {
         caseSensitive: false,
         sort: true
-    })
+    });
 
     const searchResult = searcher.search(query);
 
-    res.send(searchResult.map(({searchableText, ...rest}) => rest))
+    res.send(searchResult.map(({searchableText, ...rest}) => rest));
 }
 
 function validateBody(_body: any): Joi.ValidationResult {
     const schema = Joi.object({
         searchQuery: Joi.string().required(),
         options: Joi.array().items(Joi.string().valid("product", "repository", "firstName", "lastName", "title"))
-    })
+    });
 
     return schema.validate(_body);
 }
@@ -150,10 +151,10 @@ function validateBody(_body: any): Joi.ValidationResult {
 function createHaystack(_options: any, people: Array<PersonSearchResult>): Array<Haystack> {
     let haystack: Array<Haystack> = [];
 
-    for(let person of people){
+    for (let person of people) {
         let searchableArr: Array<string> = [];
 
-        if(_options) {
+        if (_options) {
             if (_options.includes("firstName")) {
                 searchableArr.push(person.person.firstName);
             }
@@ -171,8 +172,7 @@ function createHaystack(_options: any, people: Array<PersonSearchResult>): Array
                 searchableArr.push(...person.repositories.map(repository => repository.name));
                 searchableArr.push(...person.repositories.map(repository => repository.description || ""));
             }
-        }
-        else{
+        } else {
             searchableArr.push(person.person.firstName);
             searchableArr.push(person.person.lastName);
             searchableArr.push(person.person.lastName || "");
@@ -185,7 +185,7 @@ function createHaystack(_options: any, people: Array<PersonSearchResult>): Array
         let item: Haystack = {
             ...person,
             searchableText: searchableArr.join(" ")
-        }
+        };
 
         haystack.push(item);
     }

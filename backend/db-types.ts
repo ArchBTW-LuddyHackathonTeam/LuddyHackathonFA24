@@ -4,38 +4,38 @@ export interface Person {
     lastName: string;
     email: string;
     username: string;
-    phoneNumber ?: string;
-    locationId ?: number;
-    title ?: string;
+    phoneNumber?: string;
+    locationId?: number;
+    title?: string;
 }
 
 export interface Location {
     id: number;
     streetAddress: string;
-    secondaryAddress ?: string;
+    secondaryAddress?: string;
     city: string;
     region: string;
-    zipCode ?: string;
+    zipCode?: string;
     country: string;
 }
 
 export interface Product {
     id: number;
     name: string;
-    description ?: string;
+    description?: string;
     contactPersonId: number;
 }
 
 export interface Repository {
     id: number;
     name: string;
-    description ?: string;
+    description?: string;
     contactPersonId: number;
 }
 
 export interface PersonSearchResult {
     person: Person;
-    location ?: Location;
+    location?: Location;
     products: Array<Product>,
     repositories: Array<Repository>
 }

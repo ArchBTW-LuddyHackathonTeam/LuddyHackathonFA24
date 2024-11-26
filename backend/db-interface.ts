@@ -1,7 +1,7 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
-import { QueryResult } from 'pg';
-import { Person, Product, Repository, Location } from './db-types';
+import {QueryResult} from 'pg';
+import {Person, Product, Repository, Location} from './db-types';
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ export default class DBInterface {
             port: Number(process.env.DATABASE_PORT) || 5432,
             user: process.env.DATABASE_USER || 'postgres',
             password: process.env.DATABASE_PASSWORD || 'postgres',
-            database: process.env.DATABASE_NAME || 'mydatabase',
+            database: process.env.DATABASE_NAME || 'mydatabase'
         });
 
         this.client.connect((err: Error | null) => {
@@ -30,7 +30,7 @@ export default class DBInterface {
 
     public async getAllPeople(): Promise<Array<Person>> {
         const res: QueryResult = await this.client.query("SELECT person_id, person_first_name, person_last_name," +
-            " person_email, person_username, person_phone_number, location_id, person_title FROM person;")
+            " person_email, person_username, person_phone_number, location_id, person_title FROM person;");
 
         return this.toPerson(res.rows);
     }
@@ -96,19 +96,19 @@ export default class DBInterface {
     }
 
     public async addPerson(person: Person): Promise<Person> {
-      return new Promise(async (resolve, reject) => {
-        const query = "INSERT INTO person (person_first_name, person_last_name, person_email, person_username, person_phone_number, location_id, person_title) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;";
-        const values = [person.firstName, person.lastName, person.email, person.username, person.phoneNumber, person.locationId, person.title];
+        return new Promise(async (resolve, reject) => {
+            const query = "INSERT INTO person (person_first_name, person_last_name, person_email, person_username, person_phone_number, location_id, person_title) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;";
+            const values = [person.firstName, person.lastName, person.email, person.username, person.phoneNumber, person.locationId, person.title];
 
-        const res: QueryResult = await this.client.query(query, values);
-        const rows = res.rows;
-    
-        if (rows.length === 0) {
-            reject({ message: "Duplicate Field" });
-        }
-    
-        resolve(this.toPerson(rows)[0]);
-      })
+            const res: QueryResult = await this.client.query(query, values);
+            const rows = res.rows;
+
+            if (rows.length === 0) {
+                reject({message: "Duplicate Field"});
+            }
+
+            resolve(this.toPerson(rows)[0]);
+        });
     }
 
     public async addPersonPasswordHashById(personId: number, passwordHash: string, salt: string): Promise<Person> {
@@ -171,13 +171,13 @@ export default class DBInterface {
 
             const res: QueryResult = await this.client.query(query, values);
             const rows = res.rows;
-        
+
             if (rows.length === 0) {
-                reject({ message: "Duplicate Field" });
+                reject({message: "Duplicate Field"});
             }
-        
+
             resolve(this.toLocation(rows)[0]);
-        })
+        });
     }
 
     //Product Functions
@@ -222,13 +222,13 @@ export default class DBInterface {
 
             const res: QueryResult = await this.client.query(query, values);
             const rows = res.rows;
-        
+
             if (rows.length === 0) {
-                reject({ message: "Duplicate Field" });
+                reject({message: "Duplicate Field"});
             }
-        
+
             resolve(this.toProduct(rows)[0]);
-        })
+        });
     }
 
     //Repository Functions
@@ -273,18 +273,18 @@ export default class DBInterface {
 
             const res: QueryResult = await this.client.query(query, values);
             const rows = res.rows;
-        
+
             if (rows.length === 0) {
-                reject({ message: "Duplicate Field" });
+                reject({message: "Duplicate Field"});
             }
-        
+
             resolve(this.toRepository(rows)[0]);
-        })
+        });
     }
 
     //User Functions
 
-    public async getUserByUsernameAndPasswordHash(_username: string, _passwordHash: string){
+    public async getUserByUsernameAndPasswordHash(_username: string, _passwordHash: string) {
         const _query: string = "SELECT * FROM person WHERE person_username = $1 AND person_password_hash = $2";
         const _values: Array<string> = [_username, _passwordHash];
 
@@ -293,7 +293,7 @@ export default class DBInterface {
         return this.toPerson(res.rows);
     }
 
-    public async getUserByEmailAndPasswordHash(_email: string, _passwordHash: string){
+    public async getUserByEmailAndPasswordHash(_email: string, _passwordHash: string) {
         const _query: string = "SELECT * FROM person WHERE person_email = $1 AND person_password_hash = $2";
         const _values: Array<String> = [_email, _passwordHash];
 
@@ -314,7 +314,7 @@ export default class DBInterface {
     public toPerson(_rows: Array<any>): Array<Person> {
         let people: Array<Person> = [];
 
-        for(let row of _rows){
+        for (let row of _rows) {
             let person: Person = {
                 id: row.person_id,
                 firstName: row.person_first_name,
@@ -324,7 +324,7 @@ export default class DBInterface {
                 phoneNumber: row.person_phone_number,
                 locationId: row.location_id,
                 title: row.person_title
-            }
+            };
 
             people.push(person);
         }
@@ -335,18 +335,18 @@ export default class DBInterface {
     public toLocation(_rows: Array<any>): Array<Location> {
         let locations: Array<Location> = [];
 
-        for(let row of _rows){
-           let location: Location = {
-               id: row.location_id,
-               streetAddress: row.location_street_address,
-               secondaryAddress: row.location_secondary_address,
-               city: row.location_city,
-               region: row.location_region,
-               zipCode: row.location_zip_code,
-               country: row.location_country
-           };
+        for (let row of _rows) {
+            let location: Location = {
+                id: row.location_id,
+                streetAddress: row.location_street_address,
+                secondaryAddress: row.location_secondary_address,
+                city: row.location_city,
+                region: row.location_region,
+                zipCode: row.location_zip_code,
+                country: row.location_country
+            };
 
-           locations.push(location);
+            locations.push(location);
         }
 
         return locations;
@@ -355,7 +355,7 @@ export default class DBInterface {
     public toProduct(_rows: Array<any>): Array<Product> {
         let products: Array<Product> = [];
 
-        for(let row of _rows){
+        for (let row of _rows) {
             let product: Product = {
                 id: row.product_number,
                 name: row.product_name,
@@ -372,7 +372,7 @@ export default class DBInterface {
     public toRepository(_rows: Array<any>): Array<Repository> {
         let repositories: Array<Repository> = [];
 
-        for(let row of _rows){
+        for (let row of _rows) {
             let repository: Repository = {
                 id: row.repository_id,
                 name: row.repository_name,
