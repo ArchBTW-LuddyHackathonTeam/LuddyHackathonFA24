@@ -1,8 +1,8 @@
 import express from "express";
 import DBInterface from "../db-interface";
-import {Product} from '../db-types'
-import { Request, Response } from "express-serve-static-core";
-import { verifyToken } from "../utils/auth"
+import {Product} from '../db-types';
+import {Request, Response} from "express-serve-static-core";
+import {verifyToken} from "../utils/auth";
 
 const router = express();
 
@@ -10,7 +10,7 @@ const router = express();
 const _db = new DBInterface();
 
 router.get("/", verifyToken, async (req, res) => {
-    await getAllProducts(req, res)
+    await getAllProducts(req, res);
     /*
     #swagger.summary = 'Retrieve all products from the database'
     #swagger.description = 'This endpoint fetches a list of all products stored in the database.'
@@ -37,7 +37,7 @@ router.get("/", verifyToken, async (req, res) => {
     */
 });
 router.get("/name/:name", verifyToken, async (req, res) => {
-    await getProductByName(req, res)
+    await getProductByName(req, res);
     /*
     #swagger.summary = 'Retrieve a product by its name'
     #swagger.description = 'This endpoint fetches a list of products that match the specified name in the database.'
@@ -78,7 +78,7 @@ router.get("/name/:name", verifyToken, async (req, res) => {
     */
 });
 router.get("/cp-id/:contactPersonId", verifyToken, async (req, res) => {
-    await getProductByContactPersonId(req, res)
+    await getProductByContactPersonId(req, res);
     /*
     #swagger.summary = 'Retrieve products by contact person ID'
     #swagger.description = 'This endpoint fetches a list of products associated with a specific contact person ID.'
@@ -119,7 +119,7 @@ router.get("/cp-id/:contactPersonId", verifyToken, async (req, res) => {
     */
 });
 router.get("/:id", verifyToken, async (req, res) => {
-    await getProductById(req, res)
+    await getProductById(req, res);
     /*
     #swagger.summary = 'Retrieve a product by its ID'
     #swagger.description = 'This endpoint fetches a product by its unique ID from the database.'
@@ -158,45 +158,45 @@ router.get("/:id", verifyToken, async (req, res) => {
     */
 });
 
-async function getAllProducts(_req: Request, res: Response){
-    const _rows: Array<Product> = await _db.getAllProducts()
+async function getAllProducts(_req: Request, res: Response) {
+    const _rows: Array<Product> = await _db.getAllProducts();
 
     res.send(_rows);
 }
 
-async function getProductById(_req: Request, res: Response){
+async function getProductById(_req: Request, res: Response) {
     const _id: number = _req.params.id as any as number;
 
     const _rows: Array<Product> = await _db.getProductById(_id);
 
-    if(_rows.length == 0){
-        res.status(404).send(`No such product with id: ${_id}`)
+    if (_rows.length == 0) {
+        res.status(404).send(`No such product with id: ${_id}`);
         return;
     }
 
     res.send(_rows[0]);
 }
 
-async function getProductByName(_req: Request, res: Response){
+async function getProductByName(_req: Request, res: Response) {
     const _name: string = _req.params.name as any as string;
 
     const _rows: Array<Product> = await _db.getProductByName(_name);
 
-    if(_rows.length == 0){
-        res.status(404).send(`No such product name: ${_name}`)
+    if (_rows.length == 0) {
+        res.status(404).send(`No such product name: ${_name}`);
         return;
     }
 
     res.send(_rows);
 }
 
-async function getProductByContactPersonId(_req: Request, res: Response){
+async function getProductByContactPersonId(_req: Request, res: Response) {
     const _contactPersonId: number = _req.params.contactPersonId as any as number;
 
     const _rows: Array<Product> = await _db.getProductByContactPersonId(_contactPersonId);
 
-    if(_rows.length == 0){
-        res.status(404).send(`No such product contact person id: ${_contactPersonId}`)
+    if (_rows.length == 0) {
+        res.status(404).send(`No such product contact person id: ${_contactPersonId}`);
         return;
     }
 

@@ -1,8 +1,8 @@
 import express from "express";
 import DBInterface from "../db-interface";
-import {Repository} from '../db-types'
-import { Request, Response } from "express-serve-static-core";
-import { verifyToken } from "../utils/auth"
+import {Repository} from '../db-types';
+import {Request, Response} from "express-serve-static-core";
+import {verifyToken} from "../utils/auth";
 
 const router = express();
 
@@ -10,7 +10,7 @@ const router = express();
 const _db = new DBInterface();
 
 router.get("/", verifyToken, async (req, res) => {
-    await getAllRepositories(req, res)
+    await getAllRepositories(req, res);
     /*
     #swagger.summary = 'Retrieve all repositories from the database'
     #swagger.description = 'This endpoint fetches a list of all repositories in the database.'
@@ -42,7 +42,7 @@ router.get("/", verifyToken, async (req, res) => {
     */
 });
 router.get("/name/:name", verifyToken, async (req, res) => {
-    await getRepositoryByName(req, res)
+    await getRepositoryByName(req, res);
     /*
     #swagger.summary = 'Retrieve repository by name'
     #swagger.description = 'This endpoint fetches repositories matching the given name.'
@@ -82,7 +82,7 @@ router.get("/name/:name", verifyToken, async (req, res) => {
     */
 });
 router.get("/cp-id/:contactPersonId", verifyToken, async (req, res) => {
-    getRepositoryByContactPersonId(req, res)
+    getRepositoryByContactPersonId(req, res);
     /*
     #swagger.summary = 'Retrieve repositories by contact person ID'
     #swagger.description = 'This endpoint fetches repositories associated with the given contact person ID.'
@@ -122,7 +122,7 @@ router.get("/cp-id/:contactPersonId", verifyToken, async (req, res) => {
     */
 });
 router.get("/:id", verifyToken, async (req, res) => {
-    getRepositoryById(req, res)
+    getRepositoryById(req, res);
     /*
     #swagger.summary = 'Retrieve repository by ID'
     #swagger.description = 'This endpoint fetches a repository based on its ID.'
@@ -160,45 +160,45 @@ router.get("/:id", verifyToken, async (req, res) => {
     */
 });
 
-async function getAllRepositories(_req: Request, res: Response){
-    const _rows: Array<Repository> = await _db.getAllRepositories()
+async function getAllRepositories(_req: Request, res: Response) {
+    const _rows: Array<Repository> = await _db.getAllRepositories();
 
     res.send(_rows);
 }
 
-async function getRepositoryById(_req: Request, res: Response){
+async function getRepositoryById(_req: Request, res: Response) {
     const _id: number = _req.params.id as any as number;
 
     const _rows: Array<Repository> = await _db.getRepositoryById(_id);
 
-    if(_rows.length == 0){
-        res.status(404).send(`No such repository with id: ${_id}`)
+    if (_rows.length == 0) {
+        res.status(404).send(`No such repository with id: ${_id}`);
         return;
     }
 
     res.send(_rows[0]);
 }
 
-async function getRepositoryByName(_req: Request, res: Response){
+async function getRepositoryByName(_req: Request, res: Response) {
     const _name: string = _req.params.name as any as string;
 
     const _rows: Array<Repository> = await _db.getRepositoryByName(_name);
 
-    if(_rows.length == 0){
-        res.status(404).send(`No such repository with name: ${_name}`)
+    if (_rows.length == 0) {
+        res.status(404).send(`No such repository with name: ${_name}`);
         return;
     }
 
     res.send(_rows);
 }
 
-async function getRepositoryByContactPersonId(_req: Request, res: Response){
+async function getRepositoryByContactPersonId(_req: Request, res: Response) {
     const _contactPersonId: number = _req.params.contactPersonId as any as number;
 
     const _rows: Array<Repository> = await _db.getRepositoryByContactPersonId(_contactPersonId);
 
-    if(_rows.length == 0){
-        res.status(404).send(`No such repository with contact person id: ${_contactPersonId}`)
+    if (_rows.length == 0) {
+        res.status(404).send(`No such repository with contact person id: ${_contactPersonId}`);
         return;
     }
 

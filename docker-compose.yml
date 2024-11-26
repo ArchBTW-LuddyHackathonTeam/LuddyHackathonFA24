@@ -4,7 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        MODE: ${MODE:-release}
+        MODE: ${MODE:-local}
+        FRONTEND_ORIGIN: ${FRONTEND_ORIGIN}
     depends_on:
       - db
     environment:

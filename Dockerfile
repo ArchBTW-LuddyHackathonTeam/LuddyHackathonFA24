@@ -1,10 +1,14 @@
 # Use the official Node.js 16 LTS image
 FROM node:23-alpine
 
+# Frontend origin argument
+ARG FRONTEND_ORIGIN=
+
 # Set environment variables
 ENV APP_DIR=/usr/src/app \
     REPO_OWNER=ArchBTW-LuddyHackathonTeam\
-    REPO_NAME=LuddyHackathonFA24 
+    REPO_NAME=LuddyHackathonFA24 \
+    FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
 
 # Install bash and github cli
 RUN apk update && apk add --no-cache bash github-cli curl unzip

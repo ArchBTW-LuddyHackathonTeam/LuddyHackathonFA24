@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
       args:
         MODE: ${MODE:-local}
+        FRONTEND_ORIGIN: ${FRONTEND_ORIGIN}
     depends_on:
       - db
     environment:
