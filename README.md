@@ -1,3 +1,22 @@
+# Table of Contents
+
+1. [Contact Point](#contact-point)
+2. [Features](#features)
+3. [Prerequisites](#prerequisites)
+4. [Link to OpenAPI Documentation](#link-to-openapi-documentation)
+5. [Demo Video](#demo-video)
+6. [Installation](#installation)
+   1. [Docker-Compose (recommended)](#docker-compose-recommended)
+      1. [Default Installation](#default-installation)
+      2. [Development Installation](#development-installation)
+      2. [Local Installation](#local-installation)
+   3. [Manual Installation](#manual-installation)
+      1. [Prerequisites](#prerequisites-1)
+      2. [Download Source Code](#download-source-code)
+      3. [Install Dependencies and start the server](#install-dependencies-and-start-the-server)
+7. [Configuration](#configuration)
+   1. [Server Address](#server-address)
+
 # Contact Point
 **Point of Contact** is a RESTful API service designed to help the employees of SC 1701-D identify a primary point of
 contact for a specific product or repository. By simplifying cross-project collaboration, Point of Contact empowers
