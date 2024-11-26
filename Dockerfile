@@ -29,12 +29,7 @@ RUN if [ "$MODE" = "dev" ]; then \
     elif [ "$MODE" = "release" ]; then \
         echo "Downloading latest release..."; \
         rm -rf ./* ./.*; \
-        release_url=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | grep "zipball_url" | cut -d '"' -f 4); \
-        if [ -z "$release_url" ]; then \
-            echo "Failed to fetch release URL"; \
-            exit 1; \
-        fi; \
-        curl -L -o release.zip "$release_url"; \
+        curl -L -o release.zip "https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24/releases/latest/download/source-code.zip"; \
         unzip -d ${REPO_NAME} release.zip; \
         rm release.zip; \
     elif [ "$MODE" = "local" ]; then \
