@@ -31,6 +31,8 @@ RUN if [ "$MODE" = "dev" ]; then \
         rm -rf ./* ./.*; \
         curl -L -o release.zip "https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24/releases/latest/download/source-code.zip"; \
         unzip -d ${REPO_NAME} release.zip; \
+        mv ${REPO_NAME}/*/* ${REPO_NAME}/* \
+        rmdir ${REPO_NAME}/*/ \
         rm release.zip; \
     elif [ "$MODE" = "local" ]; then \
         echo "Using local repository files..."; \
