@@ -61,6 +61,8 @@ Instructions:
 1. Download `docker-compose.yml` and `Dockerfile` from [the GitHub page](https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24)
 
         $ wget -O docker-compose.yml https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24/releases/latest/download/docker-compose.yml
+        
+        $ wget -O Dockerfile https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24/releases/latest/download/Dockerfile
 
 1. Run the following command:
 
@@ -82,6 +84,8 @@ Instructions:
 1. Download `docker-compose.dev.yml` and `Dockerfile` from [the GitHub page](https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24)
 
         $ wget -O docker-compose.yml https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24/releases/latest/download/docker-compose.dev.yml
+
+        $ get -O Dockerfile https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24/releases/latest/download/Dockerfile
 
 2. Start docker-compose
 
