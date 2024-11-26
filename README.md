@@ -12,10 +12,10 @@ integrate and extend its functionality.
 - A intuitive frontend friendly to the user designed using ReactJS
 - Fuzzy Finding endpoing w/ filters for faster search
 - Autheticated users and protected routes
-- Containerized backend server using Docker
+- Containerized backend and frontend server using Docker
 
 ## Prerequisites
-- NodeJS & NPM (Node Package Manager)
+- NodeJS & NPM (Node Package Manager) (Optional)
 - Docker & Docker Compose
 
 # Link to OpenAPI Documentation
@@ -41,9 +41,11 @@ Instructions:
 
 1. Download `docker-compose.yml` and `Dockerfile` from [the GitHub page](https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24)
 
+        $ wget -O docker-compose.yml https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24/releases/latest/download/docker-compose.yml
+
 1. Run the following command:
 
-         $ docker-compose up
+        $ docker-compose up
 
 2. Ensure that the container was built and started without any errors
 
@@ -60,9 +62,7 @@ Instructions:
 
 1. Download `docker-compose.dev.yml` and `Dockerfile` from [the GitHub page](https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24)
 
-1. Rename `docker-compose.dev.yml` to `docker-compose.yml`
-
-        $ mv docker-compose.dev.yml docker-compose.yml
+        $ wget -O docker-compose.yml https://github.com/ArchBTW-LuddyHackathonTeam/LuddyHackathonFA24/releases/latest/download/docker-compose.dev.yml
 
 2. Start docker-compose
 
@@ -187,3 +187,14 @@ You can choose to download either the release or development version of the proj
         $ npm run dev
 
 Your server should now be up, the api is accesable via port 3000, and the web app is accessable via port 5173
+
+# Configuration
+
+## Server Address
+
+By defailt, the server will only be accessible from `localhost`, to change this, you may set the `FRONTEND_ORIGIN`
+environment variable.
+
+Example .env:
+
+        FRONTEND_ORIGIN=your-sub-domain.your-domain.com
